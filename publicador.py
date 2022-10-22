@@ -46,7 +46,7 @@ from time import time    #T0: para calcular tiempo de cada iteracion
 #Numero MIDI (abreviatura de Musical Instrument Digital Interface)
 NOTE_MIN = 40       # E2  6ta cuerda entre E2 y E4 hay 24 semitonos  PEND: hacer video sobre eso
 NOTE_MAX = 64       # E4  1
-FSAMP = 22050       # Sampling frequency in Hz  -- T=0,000045351
+FSAMP = 48000       # Sampling frequency in Hz  -- T=0,000045351
 FRAME_SIZE = 2048   # samples per frame         -- T=0,000488281
 FRAMES_PER_FFT = 16  # FFT takes average across how many frames?   -- cantidad de frames analizads por la FFT (transformada rapida de fourier)
 

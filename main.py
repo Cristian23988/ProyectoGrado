@@ -67,8 +67,11 @@ class Ventana(QMainWindow):  # 60Hz --> 100Hz
         print("Done. Exiting!")
 
     def showPartitura(self):
-        #s.show() #Abre el programa musescore
-        print("pdf")
+        from asyncio import subprocess
+        import subprocess
+        path='tareas.pdf'
+        subprocess.Popen([path], shell=True)
+        
 
     def sstop(self):
         #self.timer.stop()
