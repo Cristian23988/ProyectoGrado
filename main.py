@@ -11,7 +11,11 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5 import uic # llama al archivo disenofinal.ui
+import numpy as np
+import librosa
+import midiutil
 from music21 import note, stream
+from sound_to_midi.monophonic import wave_to_midi
 
 import time
 import publicador # publicador.py --> PublicaNota() --> numeroMIDI, frecHz, notaProxima, distNotaProxima
@@ -32,27 +36,39 @@ class Ventana(QMainWindow):  # 60Hz --> 100Hz
         uic.loadUi("disenofinal.ui", self)  #P1: mostraba la GUI  disenofinal.ui
         
         #Usamos multihilos Qt
-        self.hilo = QThread()
-        self.proceso = Proceso()
-        self.proceso.moveToThread(self.hilo)
+        #self.hilo = QThread()
+        #self.proceso = Proceso()
+        #self.proceso.moveToThread(self.hilo)
         
-        self.boton.clicked.connect(self.hilo.start)
+        #self.boton.clicked.connect(self.hilo.start)
         self.botonMidi.clicked.connect(self.xportMidi)
         self.botonShowPartitura.clicked.connect(self.showPartitura)
-        self.hilo.started.connect(self.proceso.procesoPub)  #P2: Comienza el programa principal "publicador.py"
-        self.botonStop.clicked.connect(self.sstop)
+        #self.hilo.started.connect(self.proceso.procesoPub)  #P2: Comienza el programa principal "publicador.py"
+        #self.botonStop.clicked.connect(self.sstop)
 
-        self.timer = QTimer()
-        self.timer.setInterval(10) # cada 10ms se actualiza la ventana (100Hz)
-        self.timer.timeout.connect(self.actualizaVentana)
-        self.timer.start()
+        #self.timer = QTimer()
+        #self.timer.setInterval(10) # cada 10ms se actualiza la ventana (100Hz)
+        #self.timer.timeout.connect(self.actualizaVentana)
+        #self.timer.start()
 
     def xportMidi(self):
         #n1 = note.Note(publicador.notaProxima, quarterLength = 1)
-        s.write('midi', fp='my_melody.mid')
+        #s.write('midi', fp='my_melody.mid')
+
+        print("Starting...")
+        file_in = "input_file_PruebaPiano.wav"
+        file_out = "output_file.mid"
+        audio_data, srate = librosa.load(file_in, sr=None)
+        print("Audio file loaded!")
+        midi = wave_to_midi(audio_data, srate=srate)
+        print("Conversion finished!")
+        with open (file_out, 'wb') as file:
+            midi.writeFile(file)
+        print("Done. Exiting!")
 
     def showPartitura(self):
-        s.show() #Abre el programa musescore
+        #s.show() #Abre el programa musescore
+        print("pdf")
 
     def sstop(self):
         #self.timer.stop()
