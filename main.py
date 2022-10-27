@@ -56,8 +56,8 @@ class Ventana(QMainWindow):  # 60Hz --> 100Hz
         #s.write('midi', fp='my_melody.mid')
 
         print("Starting...")
-        file_in = "input_file_PruebaPiano.wav"
-        file_out = "output_file.mid"
+        file_in = "input_file.wav"
+        file_out = "voiceMidi.mid"
         audio_data, srate = librosa.load(file_in, sr=None)
         print("Audio file loaded!")
         midi = wave_to_midi(audio_data, srate=srate)
