@@ -1,11 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Feb 26 11:40:26 2019
-
-@author: EDUCARTE
-"""
-
 import sys
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
@@ -17,66 +9,45 @@ import midiutil
 from music21 import note, stream
 from sound_to_midi.monophonic import wave_to_midi
 
-import time
 import publicador # publicador.py --> PublicaNota() --> numeroMIDI, frecHz, notaProxima, distNotaProxima
 
-#MIDI
 s = stream.Stream()
 
-class Proceso(QObject):   # frec 7Hz
+class Proceso(QObject):
     def __init__(self):
         super(Proceso, self).__init__()
         
     def procesoPub(self):
         publicador.PublicaNota()
         
-class Ventana(QMainWindow):  # 60Hz --> 100Hz
+class Ventana(QMainWindow):
     def __init__(self):
         super(Ventana, self).__init__()
-        uic.loadUi("disenofinal.ui", self)  #P1: mostraba la GUI  disenofinal.ui
+        uic.loadUi("ui/disenofinal.ui", self)  #P1: mostraba la GUI  disenofinal.ui
         
-        #Usamos multihilos Qt
-        #self.hilo = QThread()
-        #self.proceso = Proceso()
-        #self.proceso.moveToThread(self.hilo)
-        
-        #self.boton.clicked.connect(self.hilo.start)
         self.botonMidi.clicked.connect(self.xportMidi)
         self.botonShowPartitura.clicked.connect(self.showPartitura)
-        #self.hilo.started.connect(self.proceso.procesoPub)  #P2: Comienza el programa principal "publicador.py"
-        #self.botonStop.clicked.connect(self.sstop)
-
-        #self.timer = QTimer()
-        #self.timer.setInterval(10) # cada 10ms se actualiza la ventana (100Hz)
-        #self.timer.timeout.connect(self.actualizaVentana)
-        #self.timer.start()
+        self.botonStop.clicked.connect(self.stop)
 
     def xportMidi(self):
-        #n1 = note.Note(publicador.notaProxima, quarterLength = 1)
-        #s.write('midi', fp='my_melody.mid')
-
-        print("Starting...")
-        file_in = "input_file.wav"
-        file_out = "voiceMidi.mid"
+        file_in = "src/audio/audio_piano.wav"
+        file_out = "src/export_midi/audio_piano_midi.mid"
         audio_data, srate = librosa.load(file_in, sr=None)
-        print("Audio file loaded!")
         midi = wave_to_midi(audio_data, srate=srate)
-        print("Conversion finished!")
         with open (file_out, 'wb') as file:
             midi.writeFile(file)
-        print("Done. Exiting!")
+        print("Done export file MIDI")
 
     def showPartitura(self):
         from asyncio import subprocess
         import subprocess
-        path='tareas.pdf'
+        #path = 'src\pdf\tareas.pdf'
+        path = 'tareas.pdf'
         subprocess.Popen([path], shell=True)
-        
+        print("open partiture...")
 
-    def sstop(self):
-        #self.timer.stop()
+    def stop(self):
         quit()
-
 
     def actualizaVentana(self): #Recibe los datos: numeroMIDI, frecHz, notaProxima, distNotaProxima
        #el numero MIDI varia de 39 a 65 
@@ -98,8 +69,6 @@ class Ventana(QMainWindow):  # 60Hz --> 100Hz
         
         self.verticalSlider.setValue(int((publicador.numeroMIDI)*10)) #actualizamos slider
         
-        
-#P1: mostraba la GUI  disenofinal.ui
 def run():
     app = QApplication(sys.argv)
     programa = Ventana()
