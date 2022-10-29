@@ -25,12 +25,12 @@ class Proceso(QObject):
 class Ventana(QMainWindow):
     def __init__(self):
         super(Ventana, self).__init__()
-        uic.loadUi("ui/disenofinal.ui", self)  #P1: mostraba la GUI  disenofinal.ui
+        uic.loadUi("ui/diseno.ui", self)  #P1: mostraba la GUI  disenofinal.ui
         
-        self.botonMidi.clicked.connect(self.xportMidi)
-        self.botonShowPartitura.clicked.connect(self.showPartitura)
+        #self.botonMidi.clicked.connect(self.xportMidi)
+        #self.botonShowPartitura.clicked.connect(self.showPartitura)
         #self.botonStop.clicked.connect(self.stop)
-        self.botonStop.clicked.connect(self.converter_pdf_to_png())
+        #self.botonStop.clicked.connect(self.converter_pdf_to_png())
         
 
     def xportMidi(self):
