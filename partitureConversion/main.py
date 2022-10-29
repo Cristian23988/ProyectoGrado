@@ -81,7 +81,8 @@ def open_file(path):
     subprocess.run([cmd, path])
 
 if __name__ == "__main__":
-    img_file = "src/partitureResources/samples/fire.jpg"
+    img_file = "src/partitureResources/page-0.jpg"
+    #img_file = "src/partitureResources/samples/fire.jpg"
 
     #img_file = sys.argv[1:][0]
     img = cv2.imread(img_file, 0)
