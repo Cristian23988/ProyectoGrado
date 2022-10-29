@@ -30,7 +30,7 @@ class Ventana(QMainWindow):
         self.botonStop.clicked.connect(self.stop)
 
     def xportMidi(self):
-        file_in = "src/audio/audio_piano.wav"
+        file_in = "src/audio/audio_voz_natural.wav"
         file_out = "src/export_midi/audio_piano_midi.mid"
         audio_data, srate = librosa.load(file_in, sr=None)
         midi = wave_to_midi(audio_data, srate=srate)
