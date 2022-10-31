@@ -27,11 +27,21 @@ class Ventana(QMainWindow):
         super(Ventana, self).__init__()
         uic.loadUi("ui/diseno.ui", self)  #P1: mostraba la GUI  disenofinal.ui
         
+        self.button_home_teoria.clicked.connect(self.teoria())
+        self.button_home_practicas.clicked.connect(self.practicaSolfeo())
+        self.button_home_quiz.clicked.connect(self.quiz())
         #self.botonMidi.clicked.connect(self.xportMidi)
         #self.botonShowPartitura.clicked.connect(self.showPartitura)
         #self.botonStop.clicked.connect(self.stop)
         #self.botonStop.clicked.connect(self.converter_pdf_to_png())
-        
+
+    def teoria(self):
+        print("teoria")        
+    def practicaSolfeo(self):
+        print("practica")                    
+    def quiz(self):
+        print("quiz")        
+            
 
     def xportMidi(self):
         file_in = "src/audio/audio_voz_natural.wav"
