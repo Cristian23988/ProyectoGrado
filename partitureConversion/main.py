@@ -79,9 +79,8 @@ def merge_recs(recs, threshold):
 def open_file(path):
     cmd = {'linux':'eog', 'win32':'explorer', 'darwin':'open'}[sys.platform]
     subprocess.run([cmd, path])
-
-if __name__ == "__main__":
-    img_file = "src/partitureResources/page-0.jpg"
+def run(img_file):
+    #img_file = "src/partitureResources/page-0.jpg"
     #img_file = "src/partitureResources/samples/fire.jpg"
 
     #img_file = sys.argv[1:][0]
@@ -249,3 +248,6 @@ if __name__ == "__main__":
     midi.writeFile(binfile)
     binfile.close()
     #open_file('src/export_midi/output.mid')
+
+if __name__ == "__main__":
+     run("src/partitureResources/page-0.jpg")

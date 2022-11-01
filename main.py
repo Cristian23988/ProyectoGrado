@@ -10,6 +10,17 @@ from music21 import note, stream
 from sound_to_midi.monophonic import wave_to_midi
 from pdf2image import convert_from_path
 import aspose.words as aw
+import partitureConversion.main 
+import sys
+import subprocess
+import cv2
+import time
+import numpy as np
+from partitureConversion.best_fit import fit
+from partitureConversion.rectangle import Rectangle
+from partitureConversion.note import Note
+from random import randint
+from partitureConversion.MIDIUtil.src.midiutil.MidiFile3 import MIDIFile
 
 s = stream.Stream()
         
@@ -22,6 +33,7 @@ class Ventana(QMainWindow):
         self.button_menu_teoria.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_teoria))
         self.button_menu_practicas.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_practicas))
         self.button_menu_quiz.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_quiz))
+        self.button_menu_profesor.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_profesor))
 
         self.button_home_teoria.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_teoria))
         self.button_home_practicas.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_practicas))
@@ -30,6 +42,9 @@ class Ventana(QMainWindow):
         self.button_practicas_record.clicked.connect(self.Grabar_Audio)
         #-----------Especificar audio y ruta a reproductir
         self.button_practicas_play.clicked.connect(self.Reproducir_Audio)
+        #Carga PDF
+        
+        self.button_profesor_subir_pdf.clicked.connect(self.Cargar_PDF)
         #self.botonMidi.clicked.connect(self.xportMidi)
         #self.botonShowPartitura.clicked.connect(self.showPartitura)
         #self.botonStop.clicked.connect(self.stop)
@@ -80,8 +95,27 @@ class Ventana(QMainWindow):
         print("Conversion finished!")
         with open (file_out, 'wb') as file:
             midi.writeFile(file)
-        print("Done. Exiting!")     
-            
+        print("Done. Exiting!")
+        
+    def Cargar_PDF(self):
+        import easygui as eg
+        from PIL import Image
+        import shutil
+
+        # Copia el archivo desde la ubicación actual a la
+        # carpeta "Documentos".
+        
+        extension = ["*.pdf","*.jpg","*.png"]
+        partitura_Pdf = eg.fileopenbox(msg="Abrir archivo",
+                         title="Control: fileopenbox",
+                         default='',
+                         filetypes=extension)
+        print()                  
+        shutil.copyfile(partitura_Pdf, "src/pdf/pdf_profesor/partitura.pdf")
+        rta=converter_pdf_to_png()
+        print(rta)
+
+
 
     def xportMidi(self):
         file_in = "src/audio/audio_voz_natural.wav"
@@ -103,10 +137,10 @@ class Ventana(QMainWindow):
     def stop(self):
         quit()
 
-    def converter_pdf_to_png(self):
+def converter_pdf_to_png():
         
         import fitz
-        file_path = "src/pdf/fire.pdf"
+        file_path = "src/pdf/pdf_profesor/partitura.pdf"
         
         zoom = 4  # zoom factor
         # PDF Page is converted into a whole picture 1056*816 and then for each picture a screenshot is taken.
@@ -114,8 +148,6 @@ class Ventana(QMainWindow):
         # zoom = 2 ---> 2 * Default Resolution (text is clear, image text is hard to read)    = filesize small / Image size = 1584*1224
         # zoom = 4 ---> 4 * Default Resolution (text is clear, image text is barely readable) = filesize large
         # zoom = 8 ---> 8 * Default Resolution (text is clear, image text is readable) = filesize large
-        
-
         magnify = fitz.Matrix(zoom, zoom)  # magnifies in x, resp. y direction
         doc = fitz.open(file_path)  # open document
         i=1
@@ -123,8 +155,13 @@ class Ventana(QMainWindow):
             pix = page.get_pixmap(matrix=magnify)  # render page to an image
             pix.save(f"page-{page.number}.jpg")
             i=i+1
-        #return "si"
         
+        #partitureConversion.main.run("src/partitureResources/page-0.jpg")
+        return "generó midi"
+
+def Convertir_PDF_to_MIDI(partitura):
+        return "cargó"
+
 def run():
     print("app running")
     app = QApplication(sys.argv)
