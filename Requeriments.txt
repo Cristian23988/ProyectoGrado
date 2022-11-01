@@ -1,0 +1,4 @@
+playsound==1.2.2
+scipy.io.wavfile
+wavio
+sound_to_midi.monophonic
