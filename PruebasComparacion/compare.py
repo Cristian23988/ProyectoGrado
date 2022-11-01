@@ -6,9 +6,9 @@ from numpy.linalg import norm
 
 
 #Loading audio files
-y1, sr1 = librosa.load('C:/Users/User/Documents/GitHub/ProyectoGrado/src/audio/compare/output.wav') 
+y1, sr1 = librosa.load('C:/Users/User/Documents/GitHub/ProyectoGrado/PruebasComparacion/voice22050.wav') 
 
-y2, sr2 = librosa.load('C:/Users/User/Documents/GitHub/ProyectoGrado/src/audio/compare/output1.wav') 
+y2, sr2 = librosa.load('C:/Users/User/Documents/GitHub/ProyectoGrado/PruebasComparacion/voice22050.wav') 
 
 #Showing multiple plots using subplot
 plt.subplot(1, 2, 1) 
