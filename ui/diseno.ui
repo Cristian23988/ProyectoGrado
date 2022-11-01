@@ -313,6 +313,46 @@ QLabel{
        </size>
       </property>
      </widget>
+     <widget class="QPushButton" name="button_menu_profesor">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>390</y>
+        <width>109</width>
+        <height>48</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Inter</family>
+        <pointsize>10</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="autoFillBackground">
+       <bool>false</bool>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
+      <property name="text">
+       <string>Profesor</string>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>../src/icons/icon_home.png</normaloff>../src/icons/icon_home.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>40</width>
+        <height>40</height>
+       </size>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="verticalLayoutWidget">
      <property name="geometry">
@@ -352,7 +392,7 @@ QPushButton{
 }</string>
         </property>
         <property name="currentIndex">
-         <number>3</number>
+         <number>4</number>
         </property>
         <widget class="QWidget" name="page_home">
          <property name="styleSheet">
@@ -671,6 +711,12 @@ QPushButton{
           <property name="styleSheet">
            <string notr="true">border-color:transparent;</string>
           </property>
+          <property name="frameShape">
+           <enum>QFrame::NoFrame</enum>
+          </property>
+          <property name="lineWidth">
+           <number>0</number>
+          </property>
           <property name="widgetResizable">
            <bool>true</bool>
           </property>
@@ -679,8 +725,8 @@ QPushButton{
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>749</width>
-             <height>579</height>
+             <width>751</width>
+             <height>581</height>
             </rect>
            </property>
            <property name="styleSheet">
@@ -709,9 +755,9 @@ QPushButton{
             <property name="geometry">
              <rect>
               <x>10</x>
-              <y>69</y>
+              <y>59</y>
               <width>721</width>
-              <height>501</height>
+              <height>511</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout">
@@ -734,8 +780,8 @@ QPushButton{
                  <rect>
                   <x>190</x>
                   <y>40</y>
-                  <width>281</width>
-                  <height>171</height>
+                  <width>511</width>
+                  <height>111</height>
                  </rect>
                 </property>
                 <property name="autoFillBackground">
@@ -759,10 +805,10 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
                <widget class="QLabel" name="image_teoria_tema">
                 <property name="geometry">
                  <rect>
-                  <x>20</x>
+                  <x>40</x>
                   <y>40</y>
-                  <width>121</width>
-                  <height>171</height>
+                  <width>111</width>
+                  <height>151</height>
                  </rect>
                 </property>
                 <property name="styleSheet">
@@ -801,7 +847,7 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
                 <property name="geometry">
                  <rect>
                   <x>190</x>
-                  <y>170</y>
+                  <y>160</y>
                   <width>111</width>
                   <height>16</height>
                  </rect>
@@ -816,17 +862,17 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
                  <string>Links/instruments</string>
                 </property>
                </widget>
-               <widget class="QPushButton" name="pushButton">
+               <widget class="QPushButton" name="button_teoria_ingresar">
                 <property name="geometry">
                  <rect>
-                  <x>40</x>
-                  <y>220</y>
+                  <x>60</x>
+                  <y>210</y>
                   <width>75</width>
                   <height>23</height>
                  </rect>
                 </property>
                 <property name="text">
-                 <string>PushButton</string>
+                 <string>Ingresar</string>
                 </property>
                </widget>
               </widget>
@@ -844,8 +890,8 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
                  <rect>
                   <x>190</x>
                   <y>40</y>
-                  <width>281</width>
-                  <height>171</height>
+                  <width>511</width>
+                  <height>111</height>
                  </rect>
                 </property>
                 <property name="autoFillBackground">
@@ -869,10 +915,10 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
                <widget class="QLabel" name="image_teoria_tema_8">
                 <property name="geometry">
                  <rect>
-                  <x>20</x>
+                  <x>40</x>
                   <y>40</y>
-                  <width>121</width>
-                  <height>171</height>
+                  <width>111</width>
+                  <height>151</height>
                  </rect>
                 </property>
                 <property name="styleSheet">
@@ -911,7 +957,7 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
                 <property name="geometry">
                  <rect>
                   <x>190</x>
-                  <y>170</y>
+                  <y>160</y>
                   <width>111</width>
                   <height>16</height>
                  </rect>
@@ -924,6 +970,19 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
                 </property>
                 <property name="text">
                  <string>Links/instruments</string>
+                </property>
+               </widget>
+               <widget class="QPushButton" name="button_teoria_ingresar_2">
+                <property name="geometry">
+                 <rect>
+                  <x>60</x>
+                  <y>210</y>
+                  <width>75</width>
+                  <height>23</height>
+                 </rect>
+                </property>
+                <property name="text">
+                 <string>Ingresar</string>
                 </property>
                </widget>
               </widget>
@@ -1131,7 +1190,7 @@ border-radius: 10px;</string>
           <property name="frameShadow">
            <enum>QFrame::Raised</enum>
           </property>
-          <widget class="QLabel" name="label_3">
+          <widget class="QLabel" name="image_quiz_pentagrama">
            <property name="geometry">
             <rect>
              <x>20</x>
@@ -1187,7 +1246,7 @@ border-radius: 10px;</string>
            </rect>
           </property>
           <property name="text">
-           <string>A</string>
+           <string>Opción A</string>
           </property>
          </widget>
          <widget class="QRadioButton" name="radioButton_quiz_opcion_2">
@@ -1200,7 +1259,7 @@ border-radius: 10px;</string>
            </rect>
           </property>
           <property name="text">
-           <string>B</string>
+           <string>Opción B</string>
           </property>
          </widget>
          <widget class="QRadioButton" name="radioButton_quiz_opcion_3">
@@ -1213,7 +1272,7 @@ border-radius: 10px;</string>
            </rect>
           </property>
           <property name="text">
-           <string>C</string>
+           <string>Opción C</string>
           </property>
          </widget>
          <widget class="QRadioButton" name="radioButton_quiz_opcion_4">
@@ -1226,7 +1285,7 @@ border-radius: 10px;</string>
            </rect>
           </property>
           <property name="text">
-           <string>D</string>
+           <string>Opción D</string>
           </property>
          </widget>
          <widget class="QLabel" name="label_quiz_pregunta">
@@ -1254,6 +1313,203 @@ border-radius: 10px;</string>
           </property>
           <property name="wordWrap">
            <bool>true</bool>
+          </property>
+         </widget>
+        </widget>
+        <widget class="QWidget" name="page_profesor">
+         <property name="styleSheet">
+          <string notr="true">QWidget{
+	background-color: transparent;
+}
+
+QPushButton{
+	background-color: rgb(96, 189, 218);
+	border-radius: 5px;
+}</string>
+         </property>
+         <widget class="QLabel" name="label_profesor_title">
+          <property name="geometry">
+           <rect>
+            <x>330</x>
+            <y>10</y>
+            <width>71</width>
+            <height>21</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <family>Inter</family>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Profesor</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_profesor_descripcion_pdf">
+          <property name="geometry">
+           <rect>
+            <x>30</x>
+            <y>170</y>
+            <width>241</width>
+            <height>211</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Aqui va la descripcion del contenido del pdf 
+
+Description of the project, functions, system operativo desployed, role employed in the project, methodology used, logros realizados,
+
+Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</string>
+          </property>
+          <property name="scaledContents">
+           <bool>true</bool>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+          </property>
+          <property name="wordWrap">
+           <bool>true</bool>
+          </property>
+         </widget>
+         <widget class="QFrame" name="frame_8">
+          <property name="geometry">
+           <rect>
+            <x>300</x>
+            <y>140</y>
+            <width>441</width>
+            <height>441</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">	background-color: rgb(232, 232, 232);
+	border-radius: 15px;</string>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <widget class="QLabel" name="image_profesor_pdf">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>10</y>
+             <width>421</width>
+             <height>421</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="pixmap">
+            <pixmap>../src/images/res_partiture.png</pixmap>
+           </property>
+           <property name="scaledContents">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </widget>
+         <widget class="QLabel" name="label">
+          <property name="geometry">
+           <rect>
+            <x>40</x>
+            <y>60</y>
+            <width>221</width>
+            <height>41</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Subir pdf con el pentagrama de las notas.</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="button_profesor_subir_pdf">
+          <property name="geometry">
+           <rect>
+            <x>320</x>
+            <y>70</y>
+            <width>75</width>
+            <height>23</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(104, 204, 132);
+color: rgb(0, 0, 0);</string>
+          </property>
+          <property name="text">
+           <string>Subir pdf</string>
+          </property>
+         </widget>
+         <widget class="Line" name="line">
+          <property name="geometry">
+           <rect>
+            <x>30</x>
+            <y>100</y>
+            <width>390</width>
+            <height>4</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(217, 217, 217);</string>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+         <widget class="Line" name="line_2">
+          <property name="geometry">
+           <rect>
+            <x>30</x>
+            <y>410</y>
+            <width>220</width>
+            <height>4</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(217, 217, 217);</string>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+         <widget class="Line" name="line_3">
+          <property name="geometry">
+           <rect>
+            <x>30</x>
+            <y>480</y>
+            <width>220</width>
+            <height>4</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(217, 217, 217);</string>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="button_profesor_play">
+          <property name="geometry">
+           <rect>
+            <x>60</x>
+            <y>430</y>
+            <width>151</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Reproducir audio pdf</string>
+          </property>
+          <property name="icon">
+           <iconset>
+            <normaloff>../src/icons/icon_play.png</normaloff>../src/icons/icon_play.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>35</width>
+            <height>25</height>
+           </size>
           </property>
          </widget>
         </widget>
