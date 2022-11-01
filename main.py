@@ -11,25 +11,21 @@ from sound_to_midi.monophonic import wave_to_midi
 from pdf2image import convert_from_path
 import aspose.words as aw
 
-import publicador # publicador.py --> PublicaNota() --> numeroMIDI, frecHz, notaProxima, distNotaProxima
-
 s = stream.Stream()
-
-class Proceso(QObject):
-    def __init__(self):
-        super(Proceso, self).__init__()
-        
-    def procesoPub(self):
-        publicador.PublicaNota()
         
 class Ventana(QMainWindow):
     def __init__(self):
         super(Ventana, self).__init__()
         uic.loadUi("ui/diseno.ui", self)  #P1: mostraba la GUI  disenofinal.ui
         
-        self.button_home_teoria.clicked.connect(self.teoria())
-        self.button_home_practicas.clicked.connect(self.practicaSolfeo())
-        self.button_home_quiz.clicked.connect(self.quiz())
+        self.button_menu_home.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_home))
+        self.button_menu_teoria.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_teoria))
+        self.button_menu_practicas.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_practicas))
+        self.button_menu_quiz.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_quiz))
+
+        self.button_home_teoria.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_teoria))
+        self.button_home_practicas.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_practicas))
+        self.button_home_quiz.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_quiz))
         #self.botonMidi.clicked.connect(self.xportMidi)
         #self.botonShowPartitura.clicked.connect(self.showPartitura)
         #self.botonStop.clicked.connect(self.stop)
@@ -84,32 +80,14 @@ class Ventana(QMainWindow):
             pix.save(f"page-{page.number}.jpg")
             i=i+1
         #return "si"
-
-    def actualizaVentana(self): #Recibe los datos: numeroMIDI, frecHz, notaProxima, distNotaProxima
-       #el numero MIDI varia de 39 a 65 
-        pub_numeroMIDI =  "%.2f" % (publicador.numeroMIDI) #tomamos solo 2 decimales
-        self.ResMidi.setText(str(pub_numeroMIDI)) #actualizamos etiqueta MIDI
-        
-        pub_frecHz =  "%.2f" % (publicador.frecHz)
-        self.ResFrec.setText(str(pub_frecHz)) #actualizamos etiqueta frec Hz
-        
-        self.ResNota.setText(str(publicador.notaProxima))  #actualizamos etiqueta Nota Prox                   
-        #print("notasaaa:",publicador.notaProxima)
-        if(publicador.frecHz > 95):
-            n1 = note.Note(publicador.notaActual, quarterLength = 1) #publicador.elapsed_time)
-            #print(publicador.notaActual)
-            s.append([n1])
-                            
-        distNP = "%.2f" % (publicador.distNotaProxima)
-        self.ResDist.setText(str(distNP)) #actualizamos etiqueta distancia a la nota prox
-        
-        self.verticalSlider.setValue(int((publicador.numeroMIDI)*10)) #actualizamos slider
         
 def run():
+    print("app running")
     app = QApplication(sys.argv)
     programa = Ventana()
     programa.show()
     sys.exit(app.exec_())
+    
     
 if __name__ == '__main__':
     
