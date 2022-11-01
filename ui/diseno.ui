@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>907</width>
-    <height>633</height>
+    <width>909</width>
+    <height>636</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -24,7 +24,14 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(255, 255, 255);</string>
+     <string notr="true">QFrame{
+	background-color: rgb(255, 255, 255);
+}
+
+QPushButton{
+	background-color: rgb(96, 189, 218);
+	border-radius: 5px;
+}</string>
     </property>
     <property name="frameShape">
      <enum>QFrame::StyledPanel</enum>
@@ -181,7 +188,7 @@ QLabel{
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>../src/icons/ico_home.png</normaloff>../src/icons/ico_home.png</iconset>
+        <normaloff>../src/icons/icon_home.png</normaloff>../src/icons/icon_home.png</iconset>
       </property>
       <property name="iconSize">
        <size>
@@ -221,7 +228,7 @@ QLabel{
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>../src/icons/ico_home.png</normaloff>../src/icons/ico_home.png</iconset>
+        <normaloff>../src/icons/icon_home.png</normaloff>../src/icons/icon_home.png</iconset>
       </property>
       <property name="iconSize">
        <size>
@@ -259,7 +266,7 @@ QLabel{
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>../src/icons/ico_home.png</normaloff>../src/icons/ico_home.png</iconset>
+        <normaloff>../src/icons/icon_home.png</normaloff>../src/icons/icon_home.png</iconset>
       </property>
       <property name="iconSize">
        <size>
@@ -297,7 +304,7 @@ QLabel{
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>../src/icons/ico_home.png</normaloff>../src/icons/ico_home.png</iconset>
+        <normaloff>../src/icons/icon_home.png</normaloff>../src/icons/icon_home.png</iconset>
       </property>
       <property name="iconSize">
        <size>
@@ -335,10 +342,17 @@ QLabel{
       <item>
        <widget class="QStackedWidget" name="stackedWidget">
         <property name="styleSheet">
-         <string notr="true">background-color: transparent;</string>
+         <string notr="true">QStackedWidget{
+background-color: transparent;
+}
+
+QPushButton{
+	background-color: rgb(96, 189, 218);
+	border-radius: 5px;
+}</string>
         </property>
         <property name="currentIndex">
-         <number>2</number>
+         <number>3</number>
         </property>
         <widget class="QWidget" name="page_home">
          <property name="styleSheet">
@@ -364,7 +378,6 @@ QLabel{
 
 QPushButton{
 	background-color: rgb(96, 189, 218);
-	border-radius: 5px;
 }</string>
           </property>
           <property name="frameShape">
@@ -376,8 +389,8 @@ QPushButton{
           <widget class="QLabel" name="label_home_title">
            <property name="geometry">
             <rect>
-             <x>200</x>
-             <y>20</y>
+             <x>320</x>
+             <y>10</y>
              <width>101</width>
              <height>21</height>
             </rect>
@@ -395,7 +408,7 @@ QPushButton{
           <widget class="QFrame" name="frame_2">
            <property name="geometry">
             <rect>
-             <x>290</x>
+             <x>300</x>
              <y>160</y>
              <width>141</width>
              <height>261</height>
@@ -474,7 +487,7 @@ QPushButton{
           <widget class="QFrame" name="frame_3">
            <property name="geometry">
             <rect>
-             <x>40</x>
+             <x>50</x>
              <y>160</y>
              <width>141</width>
              <height>261</height>
@@ -553,7 +566,7 @@ QPushButton{
           <widget class="QFrame" name="frame_4">
            <property name="geometry">
             <rect>
-             <x>530</x>
+             <x>550</x>
              <y>160</y>
              <width>141</width>
              <height>261</height>
@@ -637,7 +650,14 @@ QPushButton{
         </widget>
         <widget class="QWidget" name="page_teoria">
          <property name="styleSheet">
-          <string notr="true">background-color: transparent;</string>
+          <string notr="true">QWidget{
+background-color: transparent;
+}
+
+QPushButton{
+	background-color: rgb(96, 189, 218);
+	border-radius: 5px;
+}</string>
          </property>
          <widget class="QScrollArea" name="scrollArea">
           <property name="geometry">
@@ -647,6 +667,9 @@ QPushButton{
             <width>751</width>
             <height>581</height>
            </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">border-color:transparent;</string>
           </property>
           <property name="widgetResizable">
            <bool>true</bool>
@@ -660,7 +683,10 @@ QPushButton{
              <height>579</height>
             </rect>
            </property>
-           <widget class="QLabel" name="label_home_title_2">
+           <property name="styleSheet">
+            <string notr="true">border-color:transparent;</string>
+           </property>
+           <widget class="QLabel" name="label_teoria_title">
             <property name="geometry">
              <rect>
               <x>360</x>
@@ -685,7 +711,7 @@ QPushButton{
               <x>10</x>
               <y>69</y>
               <width>721</width>
-              <height>491</height>
+              <height>501</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout">
@@ -788,6 +814,19 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
                 </property>
                 <property name="text">
                  <string>Links/instruments</string>
+                </property>
+               </widget>
+               <widget class="QPushButton" name="pushButton">
+                <property name="geometry">
+                 <rect>
+                  <x>40</x>
+                  <y>220</y>
+                  <width>75</width>
+                  <height>23</height>
+                 </rect>
+                </property>
+                <property name="text">
+                 <string>PushButton</string>
                 </property>
                </widget>
               </widget>
@@ -895,7 +934,17 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
          </widget>
         </widget>
         <widget class="QWidget" name="page_practicas">
-         <widget class="QLabel" name="label_home_title_3">
+         <property name="styleSheet">
+          <string notr="true">QWidget{
+background-color: transparent;
+}
+
+QPushButton{
+	background-color: rgb(96, 189, 218);
+	border-radius: 5px;
+}</string>
+         </property>
+         <widget class="QLabel" name="label_practicas_title">
           <property name="geometry">
            <rect>
             <x>220</x>
@@ -1033,7 +1082,181 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
           </property>
          </widget>
         </widget>
-        <widget class="QWidget" name="page_quiz"/>
+        <widget class="QWidget" name="page_quiz">
+         <property name="styleSheet">
+          <string notr="true">QWidget{
+background-color: transparent;
+}
+
+QPushButton{
+	background-color: rgb(96, 189, 218);
+	border-radius: 5px;
+}</string>
+         </property>
+         <widget class="QLabel" name="label_quiz_title">
+          <property name="geometry">
+           <rect>
+            <x>350</x>
+            <y>10</y>
+            <width>41</width>
+            <height>21</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <family>Inter</family>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Quiz</string>
+          </property>
+         </widget>
+         <widget class="QFrame" name="frame_7">
+          <property name="geometry">
+           <rect>
+            <x>90</x>
+            <y>90</y>
+            <width>571</width>
+            <height>211</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(232, 232, 232);
+border-radius: 10px;</string>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <widget class="QLabel" name="label_3">
+           <property name="geometry">
+            <rect>
+             <x>20</x>
+             <y>50</y>
+             <width>531</width>
+             <height>151</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="pixmap">
+            <pixmap>../src/images/pentagrama-quiz-example.png</pixmap>
+           </property>
+           <property name="scaledContents">
+            <bool>true</bool>
+           </property>
+          </widget>
+          <widget class="QPushButton" name="button_quiz_play">
+           <property name="geometry">
+            <rect>
+             <x>524</x>
+             <y>10</y>
+             <width>41</width>
+             <height>41</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: transparent;</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>../src/icons/icon_play.png</normaloff>../src/icons/icon_play.png</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>40</width>
+             <height>40</height>
+            </size>
+           </property>
+          </widget>
+         </widget>
+         <widget class="QRadioButton" name="radioButton_quiz_opcion_1">
+          <property name="geometry">
+           <rect>
+            <x>100</x>
+            <y>390</y>
+            <width>82</width>
+            <height>17</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>A</string>
+          </property>
+         </widget>
+         <widget class="QRadioButton" name="radioButton_quiz_opcion_2">
+          <property name="geometry">
+           <rect>
+            <x>100</x>
+            <y>420</y>
+            <width>82</width>
+            <height>17</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>B</string>
+          </property>
+         </widget>
+         <widget class="QRadioButton" name="radioButton_quiz_opcion_3">
+          <property name="geometry">
+           <rect>
+            <x>100</x>
+            <y>450</y>
+            <width>82</width>
+            <height>17</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>C</string>
+          </property>
+         </widget>
+         <widget class="QRadioButton" name="radioButton_quiz_opcion_4">
+          <property name="geometry">
+           <rect>
+            <x>100</x>
+            <y>480</y>
+            <width>82</width>
+            <height>17</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>D</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_quiz_pregunta">
+          <property name="geometry">
+           <rect>
+            <x>100</x>
+            <y>330</y>
+            <width>561</width>
+            <height>51</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Seleccione la respuesta correcta</string>
+          </property>
+          <property name="scaledContents">
+           <bool>true</bool>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+          </property>
+          <property name="wordWrap">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </widget>
        </widget>
       </item>
      </layout>
