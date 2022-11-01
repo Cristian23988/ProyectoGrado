@@ -44,8 +44,8 @@ class Ventana(QMainWindow):
         self.button_practicas_play.clicked.connect(self.Reproducir_Audio)
         #Carga PDF
 
-        self.button_profesor_subir_pdf.clicked.connect(self.prueba)
-        #self.button_profesor_subir_pdf.clicked.connect(self.Cargar_PDF)
+        #self.button_profesor_subir_pdf.clicked.connect(self.prueba)
+        self.button_profesor_subir_pdf.clicked.connect(self.Cargar_PDF)
         #self.botonMidi.clicked.connect(self.xportMidi)
         #self.botonShowPartitura.clicked.connect(self.showPartitura)
         #self.botonStop.clicked.connect(self.stop)
@@ -82,21 +82,11 @@ class Ventana(QMainWindow):
         #definir RUTA de guardado
         file_save='src/audio/voz_solfeo.wav' 
         wv.write(file_save, recording, frequency, sampwidth=2)
+        Convertir_Audio_A_MIDI(file_save)
         print('Finalizado con exito')       
         
-    def Convertir_Audio_A_MIDI(self):
-        import librosa
-        from sound_to_midi.monophonic import wave_to_midi
-        print("Starting...")
-        file_in = "Basepiano.wav"
-        file_out = "src/export_midi/estudiante/audio_estudiante.mid"
-        audio_data, srate = librosa.load(file_in, sr=None)
-        print("Audio file loaded!")
-        midi = wave_to_midi(audio_data, srate=srate)
-        print("Conversion finished!")
-        with open (file_out, 'wb') as file:
-            midi.writeFile(file)
-        print("Done. Exiting!")
+    
+        
         
     def Cargar_PDF(self):
         import easygui as eg
@@ -139,6 +129,22 @@ class Ventana(QMainWindow):
         quit()
     def prueba(self):
         Midi_to_piano_Profesor()
+
+def Convertir_Audio_A_MIDI(file_in):
+        import librosa
+        from sound_to_midi.monophonic import wave_to_midi
+        print("Starting...")
+        #file_in = "Basepiano.wav"
+        file_out = "src/export_midi/estudiante/audio_estudiante.mid"
+        audio_data, srate = librosa.load(file_in, sr=None)
+        print("Audio file loaded!")
+        midi = wave_to_midi(audio_data, srate=srate)
+        print("Conversion finished!")
+        with open (file_out, 'wb') as file:
+            midi.writeFile(file)
+        print("Done. Exiting!")
+        Midi_to_piano_Estudiante(file_out)
+
 def converter_pdf_to_png():
         
         import fitz
@@ -168,15 +174,18 @@ def Convertir_PDF_to_MIDI(partitura):
         Midi_to_piano_Profesor()
 
 def Midi_to_piano_Profesor():
-    import midi_to_wav
+    import  midi_to_wav
     from mido import MidiFile
-    ruta_midi_to_piano='src/export_midi/profesor/audio_piano_midi.mid'
-    midi_to_wav.run(ruta_midi_to_piano) 
+    ruta_midi_to_piano='src/export_midi/profesor/midi_partiture.mid'
+    rta=midi_to_wav.Ejemplo.run(ruta_midi_to_piano) 
+    print(rta)
 
-def Midi_to_piano_Estudiante():
-    from midi2audio import FluidSynth
-    fs = FluidSynth()
-    fs.midi_to_audio('input.mid', 'output.wav')    
+def Midi_to_piano_Estudiante(ruta_midi_to_piano):
+    import  midi_to_wav
+    from mido import MidiFile
+    #ruta_midi_to_piano='src/export_midi/estudiante/audio_piano_midi.mid'
+    rta=midi_to_wav.Ejemplo.run(ruta_midi_to_piano) 
+    print(rta) 
 
 def run():
     print("app running")
