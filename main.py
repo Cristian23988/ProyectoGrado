@@ -43,8 +43,9 @@ class Ventana(QMainWindow):
         #-----------Especificar audio y ruta a reproductir
         self.button_practicas_play.clicked.connect(self.Reproducir_Audio)
         #Carga PDF
-        
-        self.button_profesor_subir_pdf.clicked.connect(self.Cargar_PDF)
+
+        self.button_profesor_subir_pdf.clicked.connect(self.prueba)
+        #self.button_profesor_subir_pdf.clicked.connect(self.Cargar_PDF)
         #self.botonMidi.clicked.connect(self.xportMidi)
         #self.botonShowPartitura.clicked.connect(self.showPartitura)
         #self.botonStop.clicked.connect(self.stop)
@@ -136,7 +137,8 @@ class Ventana(QMainWindow):
 
     def stop(self):
         quit()
-
+    def prueba(self):
+        Midi_to_piano_Profesor()
 def converter_pdf_to_png():
         
         import fitz
@@ -155,12 +157,26 @@ def converter_pdf_to_png():
             pix = page.get_pixmap(matrix=magnify)  # render page to an image
             pix.save(f"page-{page.number}.jpg")
             i=i+1
-        
-        #partitureConversion.main.run("src/partitureResources/page-0.jpg")
+        #Se pasa la ruta del archivo png generado y se envia para convertir a midi
+        imagen_png="src/partitureResources/page-0.jpg"
+        Convertir_PDF_to_MIDI(imagen_png)
         return "generó midi"
-
+    
 def Convertir_PDF_to_MIDI(partitura):
-        return "cargó"
+        partitureConversion.main.run(partitura)
+        print ("Generó MIDI")
+        Midi_to_piano_Profesor()
+
+def Midi_to_piano_Profesor():
+    import midi_to_wav
+    from mido import MidiFile
+    ruta_midi_to_piano='src/export_midi/profesor/audio_piano_midi.mid'
+    midi_to_wav.run(ruta_midi_to_piano) 
+
+def Midi_to_piano_Estudiante():
+    from midi2audio import FluidSynth
+    fs = FluidSynth()
+    fs.midi_to_audio('input.mid', 'output.wav')    
 
 def run():
     print("app running")

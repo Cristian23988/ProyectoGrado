@@ -3,11 +3,11 @@ import subprocess
 import cv2
 import time
 import numpy as np
-from best_fit import fit
-from rectangle import Rectangle
-from note import Note
+from partitureConversion.best_fit import fit
+from partitureConversion.rectangle import Rectangle
+from partitureConversion.note import Note
 from random import randint
-from MIDIUtil.src.midiutil.MidiFile3 import MIDIFile
+from partitureConversion.MIDIUtil.src.midiutil.MidiFile3 import MIDIFile
 
 staff_files = [
     "src/partitureResources/template/staff2.png", 
@@ -249,5 +249,3 @@ def run(img_file):
     binfile.close()
     #open_file('src/export_midi/output.mid')
 
-if __name__ == "__main__":
-     run("src/partitureResources/page-0.jpg")
