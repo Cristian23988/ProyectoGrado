@@ -162,9 +162,9 @@ QLabel{
      <widget class="QPushButton" name="button_menu_teoria">
       <property name="geometry">
        <rect>
-        <x>10</x>
+        <x>18</x>
         <y>239</y>
-        <width>109</width>
+        <width>101</width>
         <height>48</height>
        </rect>
       </property>
@@ -188,11 +188,11 @@ QLabel{
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>../src/icons/icon_home.png</normaloff>../src/icons/icon_home.png</iconset>
+        <normaloff>../src/icons/icon_teoria.png</normaloff>../src/icons/icon_teoria.png</iconset>
       </property>
       <property name="iconSize">
        <size>
-        <width>40</width>
+        <width>35</width>
         <height>40</height>
        </size>
       </property>
@@ -200,9 +200,9 @@ QLabel{
      <widget class="QPushButton" name="button_menu_quiz">
       <property name="geometry">
        <rect>
-        <x>10</x>
+        <x>18</x>
         <y>341</y>
-        <width>109</width>
+        <width>101</width>
         <height>48</height>
        </rect>
       </property>
@@ -228,21 +228,21 @@ QLabel{
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>../src/icons/icon_home.png</normaloff>../src/icons/icon_home.png</iconset>
+        <normaloff>../src/icons/icon_quiz.png</normaloff>../src/icons/icon_quiz.png</iconset>
       </property>
       <property name="iconSize">
        <size>
         <width>40</width>
-        <height>40</height>
+        <height>30</height>
        </size>
       </property>
      </widget>
      <widget class="QPushButton" name="button_menu_home">
       <property name="geometry">
        <rect>
-        <x>10</x>
+        <x>8</x>
         <y>188</y>
-        <width>109</width>
+        <width>111</width>
         <height>48</height>
        </rect>
       </property>
@@ -270,17 +270,17 @@ QLabel{
       </property>
       <property name="iconSize">
        <size>
-        <width>40</width>
-        <height>40</height>
+        <width>45</width>
+        <height>45</height>
        </size>
       </property>
      </widget>
      <widget class="QPushButton" name="button_menu_practicas">
       <property name="geometry">
        <rect>
-        <x>10</x>
+        <x>18</x>
         <y>290</y>
-        <width>109</width>
+        <width>101</width>
         <height>48</height>
        </rect>
       </property>
@@ -304,21 +304,21 @@ QLabel{
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>../src/icons/icon_home.png</normaloff>../src/icons/icon_home.png</iconset>
+        <normaloff>../src/icons/icon_practicas.png</normaloff>../src/icons/icon_practicas.png</iconset>
       </property>
       <property name="iconSize">
        <size>
         <width>40</width>
-        <height>40</height>
+        <height>30</height>
        </size>
       </property>
      </widget>
      <widget class="QPushButton" name="button_menu_profesor">
       <property name="geometry">
        <rect>
-        <x>10</x>
+        <x>18</x>
         <y>390</y>
-        <width>109</width>
+        <width>101</width>
         <height>48</height>
        </rect>
       </property>
@@ -344,12 +344,12 @@ QLabel{
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>../src/icons/icon_home.png</normaloff>../src/icons/icon_home.png</iconset>
+        <normaloff>../src/icons/icon_profesor.png</normaloff>../src/icons/icon_profesor.png</iconset>
       </property>
       <property name="iconSize">
        <size>
         <width>40</width>
-        <height>40</height>
+        <height>30</height>
        </size>
       </property>
      </widget>
