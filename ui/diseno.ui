@@ -162,9 +162,9 @@ QLabel{
      <widget class="QPushButton" name="button_menu_teoria">
       <property name="geometry">
        <rect>
-        <x>10</x>
+        <x>18</x>
         <y>239</y>
-        <width>109</width>
+        <width>101</width>
         <height>48</height>
        </rect>
       </property>
@@ -188,7 +188,7 @@ QLabel{
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>../src/icons/icon_home.png</normaloff>../src/icons/icon_home.png</iconset>
+        <normaloff>../src/icons/icon_teoria.png</normaloff>../src/icons/icon_teoria.png</iconset>
       </property>
       <property name="iconSize">
        <size>
@@ -200,9 +200,9 @@ QLabel{
      <widget class="QPushButton" name="button_menu_quiz">
       <property name="geometry">
        <rect>
-        <x>10</x>
+        <x>18</x>
         <y>341</y>
-        <width>109</width>
+        <width>101</width>
         <height>48</height>
        </rect>
       </property>
@@ -228,12 +228,12 @@ QLabel{
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>../src/icons/icon_home.png</normaloff>../src/icons/icon_home.png</iconset>
+        <normaloff>../src/icons/icon_quiz.png</normaloff>../src/icons/icon_quiz.png</iconset>
       </property>
       <property name="iconSize">
        <size>
         <width>40</width>
-        <height>40</height>
+        <height>30</height>
        </size>
       </property>
      </widget>
@@ -278,9 +278,9 @@ QLabel{
      <widget class="QPushButton" name="button_menu_practicas">
       <property name="geometry">
        <rect>
-        <x>10</x>
+        <x>18</x>
         <y>290</y>
-        <width>109</width>
+        <width>101</width>
         <height>48</height>
        </rect>
       </property>
@@ -304,21 +304,21 @@ QLabel{
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>../src/icons/icon_home.png</normaloff>../src/icons/icon_home.png</iconset>
+        <normaloff>../src/icons/icon_practicas.png</normaloff>../src/icons/icon_practicas.png</iconset>
       </property>
       <property name="iconSize">
        <size>
         <width>40</width>
-        <height>40</height>
+        <height>35</height>
        </size>
       </property>
      </widget>
      <widget class="QPushButton" name="button_menu_profesor">
       <property name="geometry">
        <rect>
-        <x>10</x>
+        <x>18</x>
         <y>390</y>
-        <width>109</width>
+        <width>101</width>
         <height>48</height>
        </rect>
       </property>
@@ -344,12 +344,12 @@ QLabel{
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>../src/icons/icon_home.png</normaloff>../src/icons/icon_home.png</iconset>
+        <normaloff>../src/icons/icon_profesor.png</normaloff>../src/icons/icon_profesor.png</iconset>
       </property>
       <property name="iconSize">
        <size>
         <width>40</width>
-        <height>40</height>
+        <height>30</height>
        </size>
       </property>
      </widget>
@@ -1006,9 +1006,9 @@ QPushButton{
          <widget class="QLabel" name="label_practicas_title">
           <property name="geometry">
            <rect>
-            <x>220</x>
+            <x>330</x>
             <y>10</y>
-            <width>111</width>
+            <width>81</width>
             <height>21</height>
            </rect>
           </property>
@@ -1022,55 +1022,19 @@ QPushButton{
            <string>Prácticas</string>
           </property>
          </widget>
-         <widget class="QFrame" name="frame_practicas_pentagrama">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>60</y>
-            <width>431</width>
-            <height>521</height>
-           </rect>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QFrame{
-	border-radius: 15px;
-	background-color: rgb(217, 217, 217);
-}</string>
-          </property>
-          <property name="frameShape">
-           <enum>QFrame::StyledPanel</enum>
-          </property>
-          <property name="frameShadow">
-           <enum>QFrame::Raised</enum>
-          </property>
-          <widget class="QLabel" name="label_2">
-           <property name="geometry">
-            <rect>
-             <x>10</x>
-             <y>10</y>
-             <width>411</width>
-             <height>501</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-           <property name="pixmap">
-            <pixmap>../src/partitureResources/samples/fire.jpg</pixmap>
-           </property>
-           <property name="scaledContents">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </widget>
          <widget class="QLabel" name="label_practicas_descripcion">
           <property name="geometry">
            <rect>
-            <x>460</x>
-            <y>140</y>
-            <width>281</width>
-            <height>91</height>
+            <x>40</x>
+            <y>100</y>
+            <width>671</width>
+            <height>81</height>
            </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
           </property>
           <property name="text">
            <string>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</string>
@@ -1082,119 +1046,220 @@ QPushButton{
            <bool>true</bool>
           </property>
          </widget>
-         <widget class="QPushButton" name="button_practicas_play">
-          <property name="geometry">
-           <rect>
-            <x>500</x>
-            <y>260</y>
-            <width>161</width>
-            <height>23</height>
-           </rect>
-          </property>
-          <property name="autoFillBackground">
-           <bool>false</bool>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QPushButton{
-	background-color: rgb(217, 217, 217);
-	border-radius: 5px;
-}</string>
-          </property>
-          <property name="text">
-           <string>Reproducir notas pentagrama</string>
-          </property>
-         </widget>
-         <widget class="QPushButton" name="button_practicas_record">
-          <property name="geometry">
-           <rect>
-            <x>540</x>
-            <y>310</y>
-            <width>81</width>
-            <height>23</height>
-           </rect>
-          </property>
-          <property name="autoFillBackground">
-           <bool>false</bool>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QPushButton{
-	background-color: rgb(186, 16, 4);
-	border-radius: 5px;
-	color: rgb(255, 255, 255);
-}</string>
-          </property>
-          <property name="text">
-           <string>Grabar audio</string>
-          </property>
-         </widget>
          <widget class="QLabel" name="label_practicas_tarea">
           <property name="geometry">
            <rect>
-            <x>460</x>
-            <y>60</y>
-            <width>71</width>
+            <x>40</x>
+            <y>70</y>
+            <width>511</width>
             <height>16</height>
            </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
           </property>
           <property name="text">
            <string>Nombre tarea</string>
           </property>
          </widget>
-         <widget class="QPushButton" name="button_compare">
+         <widget class="QFrame" name="frame_9">
           <property name="geometry">
            <rect>
-            <x>540</x>
-            <y>370</y>
-            <width>81</width>
-            <height>23</height>
-           </rect>
-          </property>
-          <property name="autoFillBackground">
-           <bool>false</bool>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QPushButton{
-	background-color: rgb(186, 16, 4);
-	border-radius: 5px;
-	color: rgb(255, 255, 255);
-}</string>
-          </property>
-          <property name="text">
-           <string>Compare prueba</string>
-          </property>
-         </widget>
-         <widget class="QLabel" name="label_puntaje">
-          <property name="geometry">
-           <rect>
-            <x>530</x>
-            <y>450</y>
-            <width>111</width>
-            <height>21</height>
-           </rect>
-          </property>
-          <property name="font">
-           <font>
-            <family>Inter</family>
-            <pointsize>14</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>Puntuje</string>
-          </property>
-         </widget>
-         <widget class="QLabel" name="porcentaje">
-          <property name="geometry">
-           <rect>
-            <x>540</x>
+            <x>170</x>
             <y>490</y>
-            <width>71</width>
-            <height>16</height>
+            <width>281</width>
+            <height>61</height>
+           </rect>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <widget class="QLabel" name="label_puntaje">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>20</y>
+             <width>201</width>
+             <height>21</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <family>Inter</family>
+             <pointsize>14</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Puntaje de semejanza:</string>
+           </property>
+          </widget>
+          <widget class="QLabel" name="porcentaje">
+           <property name="geometry">
+            <rect>
+             <x>220</x>
+             <y>20</y>
+             <width>51</width>
+             <height>21</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>14</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>%</string>
+           </property>
+          </widget>
+          <widget class="Line" name="line_4">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>50</y>
+             <width>281</width>
+             <height>4</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(217, 217, 217);</string>
+           </property>
+           <property name="lineWidth">
+            <number>1</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </widget>
+         <widget class="QLabel" name="label_2">
+          <property name="geometry">
+           <rect>
+            <x>50</x>
+            <y>160</y>
+            <width>661</width>
+            <height>211</height>
            </rect>
           </property>
           <property name="text">
            <string/>
           </property>
+          <property name="pixmap">
+           <pixmap>../src/partitureResources/samples/fire.jpg</pixmap>
+          </property>
+          <property name="scaledContents">
+           <bool>true</bool>
+          </property>
          </widget>
+         <widget class="QFrame" name="frame_10">
+          <property name="geometry">
+           <rect>
+            <x>170</x>
+            <y>400</y>
+            <width>441</width>
+            <height>71</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(217, 217, 217);
+border-radius: 10px;</string>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <widget class="QPushButton" name="button_practicas_play">
+           <property name="geometry">
+            <rect>
+             <x>20</x>
+             <y>20</y>
+             <width>161</width>
+             <height>31</height>
+            </rect>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton{
+	background-color: rgb(85, 170, 255);
+	border-radius: 5px;
+}</string>
+           </property>
+           <property name="text">
+            <string>Reproducir pentagrama</string>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>../src/icons/icon_play.png</normaloff>../src/icons/icon_play.png</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>45</width>
+             <height>25</height>
+            </size>
+           </property>
+          </widget>
+          <widget class="QPushButton" name="button_practicas_record">
+           <property name="geometry">
+            <rect>
+             <x>210</x>
+             <y>20</y>
+             <width>81</width>
+             <height>31</height>
+            </rect>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton{
+	background-color: rgb(186, 16, 4);
+	border-radius: 5px;
+	color: rgb(255, 255, 255);
+}</string>
+           </property>
+           <property name="text">
+            <string>Grabar audio</string>
+           </property>
+          </widget>
+          <widget class="QPushButton" name="button_compare">
+           <property name="geometry">
+            <rect>
+             <x>320</x>
+             <y>20</y>
+             <width>101</width>
+             <height>31</height>
+            </rect>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton{
+	background-color: ;
+	background-color: rgb(104, 204, 132);
+	border-radius: 5px;
+	color: rgb(0, 0, 0);
+}</string>
+           </property>
+           <property name="text">
+            <string>Compare prueba</string>
+           </property>
+          </widget>
+         </widget>
+         <zorder>frame_10</zorder>
+         <zorder>frame_9</zorder>
+         <zorder>label_practicas_title</zorder>
+         <zorder>label_practicas_descripcion</zorder>
+         <zorder>label_practicas_tarea</zorder>
+         <zorder>label_2</zorder>
         </widget>
         <widget class="QWidget" name="page_quiz">
          <property name="styleSheet">
@@ -1482,7 +1547,7 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
          <widget class="QPushButton" name="button_profesor_subir_pdf">
           <property name="geometry">
            <rect>
-            <x>320</x>
+            <x>300</x>
             <y>70</y>
             <width>75</width>
             <height>23</height>
@@ -1501,7 +1566,7 @@ color: rgb(0, 0, 0);</string>
            <rect>
             <x>30</x>
             <y>100</y>
-            <width>390</width>
+            <width>490</width>
             <height>4</height>
            </rect>
           </property>
@@ -1565,6 +1630,23 @@ color: rgb(0, 0, 0);</string>
             <width>35</width>
             <height>25</height>
            </size>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="button_profesor_subir_audio">
+          <property name="geometry">
+           <rect>
+            <x>420</x>
+            <y>70</y>
+            <width>75</width>
+            <height>23</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(85, 170, 255);
+color: rgb(0, 0, 0);</string>
+          </property>
+          <property name="text">
+           <string>Grabar audio</string>
           </property>
          </widget>
         </widget>
