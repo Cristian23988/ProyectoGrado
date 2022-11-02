@@ -81,7 +81,7 @@ class Ventana(QMainWindow):
         import wavio as wv  
         print('Grabando...')       
         frequency = 44400        
-        duration = 10      
+        duration = 4      
         recording = sd.rec(int(duration * frequency), 
                         samplerate = frequency, channels = 1)         
         sd.wait()         
@@ -166,15 +166,19 @@ def converter_pdf_to_png():
         # zoom = 8 ---> 8 * Default Resolution (text is clear, image text is readable) = filesize large
         magnify = fitz.Matrix(zoom, zoom)  # magnifies in x, resp. y direction
         doc = fitz.open(file_path)  # open document
-        i=1
+       
+        imagen_png=''
         for page in doc:
             pix = page.get_pixmap(matrix=magnify)  # render page to an image
-            pix.save(f"page-{page.number}.jpg")
-            i=i+1
+            pix.save(f"src/partitureResources/page-{page.number}.jpg")
+            imagen_png=f"src/partitureResources/page-{page.number}.jpg"
+            Convertir_PDF_to_MIDI(imagen_png)
+           
         #Se pasa la ruta del archivo png generado y se envia para convertir a midi
-        imagen_png="src/partitureResources/page-0.jpg"
-        Convertir_PDF_to_MIDI(imagen_png)
+        
+        
         return "generó midi"
+
 def comparacion_practica(self):
         Audio_base='output_profesor.wav'
         Audio_estud='output_estudiante.wav'        

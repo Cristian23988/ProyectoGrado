@@ -11,12 +11,19 @@ from partitureConversion.MIDIUtil.src.midiutil.MidiFile3 import MIDIFile
 
 staff_files = [
     "src/partitureResources/template/staff2.png", 
-    "src/partitureResources/template/staff.png"]
+    "src/partitureResources/template/staff.png",
+    "src/partitureResources/template/staff3.png",
+    "src/partitureResources/template/staffprueba1.png",
+    "src/partitureResources/template/staffprueba2.png",
+    "src/partitureResources/template/staffprueba3.png",
+    "src/partitureResources/template/staffprueba4.png",
+    "src/partitureResources/template/staffprueba5.png"]
 quarter_files = [
     "src/partitureResources/template/quarter.png", 
     "src/partitureResources/template/solid-note.png"]
 sharp_files = [
-    "src/partitureResources/template/sharp.png"]
+    "src/partitureResources/template/sharp.png",
+    "src/partitureResources/template/f-sharp.png"]
 flat_files = [
     "src/partitureResources/template/flat-line.png", 
     "src/partitureResources/template/flat-space.png" ]
@@ -105,16 +112,16 @@ def run(img_file):
     staff_recs_img = img.copy()
     for r in staff_recs:
         r.draw(staff_recs_img, (0, 0, 255), 2)
-    #cv2.imwrite('staff_recs_img.png', staff_recs_img)
-    #open_file('staff_recs_img.png')
+    cv2.imwrite('staff_recs_img.png', staff_recs_img)
+    open_file('staff_recs_img.png')
 
     print("Discovering staff locations...")
     staff_boxes = merge_recs([Rectangle(0, r.y, img_width, r.h) for r in staff_recs], 0.01)
     staff_boxes_img = img.copy()
     for r in staff_boxes:
         r.draw(staff_boxes_img, (0, 0, 255), 2)
-    #cv2.imwrite('staff_boxes_img.png', staff_boxes_img)
-    #open_file('staff_boxes_img.png')
+    cv2.imwrite('staff_boxes_img.png', staff_boxes_img)
+    open_file('staff_boxes_img.png')
     
     print("Matching sharp image...")
     sharp_recs = locate_images(img_gray, sharp_imgs, sharp_lower, sharp_upper, sharp_thresh)
@@ -124,8 +131,8 @@ def run(img_file):
     sharp_recs_img = img.copy()
     for r in sharp_recs:
         r.draw(sharp_recs_img, (0, 0, 255), 2)
-    #cv2.imwrite('sharp_recs_img.png', sharp_recs_img)
-    #open_file('sharp_recs_img.png')
+    cv2.imwrite('sharp_recs_img.png', sharp_recs_img)
+    open_file('sharp_recs_img.png')
 
     print("Matching flat image...")
     flat_recs = locate_images(img_gray, flat_imgs, flat_lower, flat_upper, flat_thresh)
@@ -135,8 +142,8 @@ def run(img_file):
     flat_recs_img = img.copy()
     for r in flat_recs:
         r.draw(flat_recs_img, (0, 0, 255), 2)
-    #cv2.imwrite('flat_recs_img.png', flat_recs_img)
-    #open_file('flat_recs_img.png')
+    cv2.imwrite('flat_recs_img.png', flat_recs_img)
+    open_file('flat_recs_img.png')
 
     print("Matching quarter image...")
     quarter_recs = locate_images(img_gray, quarter_imgs, quarter_lower, quarter_upper, quarter_thresh)
@@ -146,8 +153,8 @@ def run(img_file):
     quarter_recs_img = img.copy()
     for r in quarter_recs:
         r.draw(quarter_recs_img, (0, 0, 255), 2)
-    #cv2.imwrite('quarter_recs_img.png', quarter_recs_img)
-    #open_file('quarter_recs_img.png')
+    cv2.imwrite('quarter_recs_img.png', quarter_recs_img)
+    open_file('quarter_recs_img.png')
 
     print("Matching half image...")
     half_recs = locate_images(img_gray, half_imgs, half_lower, half_upper, half_thresh)
@@ -157,8 +164,8 @@ def run(img_file):
     half_recs_img = img.copy()
     for r in half_recs:
         r.draw(half_recs_img, (0, 0, 255), 2)
-    #cv2.imwrite('half_recs_img.png', half_recs_img)
-    #open_file('half_recs_img.png')
+    cv2.imwrite('half_recs_img.png', half_recs_img)
+    open_file('half_recs_img.png')
 
     print("Matching whole image...")
     whole_recs = locate_images(img_gray, whole_imgs, whole_lower, whole_upper, whole_thresh)
@@ -168,8 +175,8 @@ def run(img_file):
     whole_recs_img = img.copy()
     for r in whole_recs:
         r.draw(whole_recs_img, (0, 0, 255), 2)
-    #cv2.imwrite('whole_recs_img.png', whole_recs_img)
-    #open_file('whole_recs_img.png')
+    cv2.imwrite('whole_recs_img.png', whole_recs_img)
+    open_file('whole_recs_img.png')
 
     note_groups = []
     for box in staff_boxes:
