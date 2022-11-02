@@ -1,3 +1,4 @@
+from ctypes import pointer
 import sys
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
@@ -21,6 +22,7 @@ from partitureConversion.rectangle import Rectangle
 from partitureConversion.note import Note
 from random import randint
 from partitureConversion.MIDIUtil.src.midiutil.MidiFile3 import MIDIFile
+from Comparacion.compare import comparacion_wav
 
 s = stream.Stream()
         
@@ -46,6 +48,10 @@ class Ventana(QMainWindow):
 
         #self.button_profesor_subir_pdf.clicked.connect(self.prueba)
         self.button_profesor_subir_pdf.clicked.connect(self.Cargar_PDF)
+
+        self.button_compare.clicked.connect(self.prueba_compare)
+
+        
         #self.botonMidi.clicked.connect(self.xportMidi)
         #self.botonShowPartitura.clicked.connect(self.showPartitura)
         #self.botonStop.clicked.connect(self.stop)
@@ -56,7 +62,9 @@ class Ventana(QMainWindow):
     def Abrir_Modulo_Practica(self):
         print("practica")                    
     def Abrir_Modulo_Quiz(self):
-        print("quiz")        
+        print("quiz") 
+    def prueba_compare(self):
+        comparacion_practica(self)
         
     def Reproducir_Audio(self):
         #pip uninstall playsound
@@ -86,7 +94,7 @@ class Ventana(QMainWindow):
         print('Finalizado con exito')       
         
     
-        
+    
         
     def Cargar_PDF(self):
         import easygui as eg
@@ -167,6 +175,20 @@ def converter_pdf_to_png():
         imagen_png="src/partitureResources/page-0.jpg"
         Convertir_PDF_to_MIDI(imagen_png)
         return "generó midi"
+def comparacion_practica(self):
+        Audio_base='output_profesor.wav'
+        Audio_estud='output_estudiante.wav'        
+        porcentaje=comparacion_wav(Audio_base,Audio_estud)
+        print(porcentaje, porcentaje >= 0.0)
+        if(porcentaje >= 0.0 and porcentaje <= 100000.0):
+            porcentaje = 100-(porcentaje/100)
+            #porcentaje=str(porcentaje)+'%'
+            porcentaje = '%.4f' %porcentaje
+            self.porcentaje.setText(porcentaje)
+        elif():
+            porcentaje='es igual a: '+str(porcentaje)
+            self.porcentaje.setText(porcentaje)
+        print(porcentaje)
     
 def Convertir_PDF_to_MIDI(partitura):
         partitureConversion.main.run(partitura)
@@ -177,14 +199,18 @@ def Midi_to_piano_Profesor():
     import  midi_to_wav
     from mido import MidiFile
     ruta_midi_to_piano='src/export_midi/profesor/midi_partiture.mid'
-    rta=midi_to_wav.Ejemplo.run(ruta_midi_to_piano) 
+    file_output='output_profesor.wav'
+    rol='profesor'
+    rta=midi_to_wav.Ejemplo.run(ruta_midi_to_piano,file_output,rol) 
     print(rta)
 
 def Midi_to_piano_Estudiante(ruta_midi_to_piano):
     import  midi_to_wav
     from mido import MidiFile
     #ruta_midi_to_piano='src/export_midi/estudiante/audio_piano_midi.mid'
-    rta=midi_to_wav.Ejemplo.run(ruta_midi_to_piano) 
+    rol='estudiante'
+    file_output='output_estudiante.wav'
+    rta=midi_to_wav.Ejemplo.run(ruta_midi_to_piano,file_output,rol) 
     print(rta) 
 
 def run():

@@ -162,9 +162,9 @@ QLabel{
      <widget class="QPushButton" name="button_menu_teoria">
       <property name="geometry">
        <rect>
-        <x>18</x>
+        <x>10</x>
         <y>239</y>
-        <width>101</width>
+        <width>109</width>
         <height>48</height>
        </rect>
       </property>
@@ -188,11 +188,11 @@ QLabel{
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>../src/icons/icon_teoria.png</normaloff>../src/icons/icon_teoria.png</iconset>
+        <normaloff>../src/icons/icon_home.png</normaloff>../src/icons/icon_home.png</iconset>
       </property>
       <property name="iconSize">
        <size>
-        <width>35</width>
+        <width>40</width>
         <height>40</height>
        </size>
       </property>
@@ -200,9 +200,9 @@ QLabel{
      <widget class="QPushButton" name="button_menu_quiz">
       <property name="geometry">
        <rect>
-        <x>18</x>
+        <x>10</x>
         <y>341</y>
-        <width>101</width>
+        <width>109</width>
         <height>48</height>
        </rect>
       </property>
@@ -228,21 +228,21 @@ QLabel{
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>../src/icons/icon_quiz.png</normaloff>../src/icons/icon_quiz.png</iconset>
+        <normaloff>../src/icons/icon_home.png</normaloff>../src/icons/icon_home.png</iconset>
       </property>
       <property name="iconSize">
        <size>
         <width>40</width>
-        <height>30</height>
+        <height>40</height>
        </size>
       </property>
      </widget>
      <widget class="QPushButton" name="button_menu_home">
       <property name="geometry">
        <rect>
-        <x>8</x>
+        <x>10</x>
         <y>188</y>
-        <width>111</width>
+        <width>109</width>
         <height>48</height>
        </rect>
       </property>
@@ -270,17 +270,17 @@ QLabel{
       </property>
       <property name="iconSize">
        <size>
-        <width>45</width>
-        <height>45</height>
+        <width>40</width>
+        <height>40</height>
        </size>
       </property>
      </widget>
      <widget class="QPushButton" name="button_menu_practicas">
       <property name="geometry">
        <rect>
-        <x>18</x>
+        <x>10</x>
         <y>290</y>
-        <width>101</width>
+        <width>109</width>
         <height>48</height>
        </rect>
       </property>
@@ -304,21 +304,21 @@ QLabel{
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>../src/icons/icon_practicas.png</normaloff>../src/icons/icon_practicas.png</iconset>
+        <normaloff>../src/icons/icon_home.png</normaloff>../src/icons/icon_home.png</iconset>
       </property>
       <property name="iconSize">
        <size>
         <width>40</width>
-        <height>30</height>
+        <height>40</height>
        </size>
       </property>
      </widget>
      <widget class="QPushButton" name="button_menu_profesor">
       <property name="geometry">
        <rect>
-        <x>18</x>
+        <x>10</x>
         <y>390</y>
-        <width>101</width>
+        <width>109</width>
         <height>48</height>
        </rect>
       </property>
@@ -344,12 +344,12 @@ QLabel{
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>../src/icons/icon_profesor.png</normaloff>../src/icons/icon_profesor.png</iconset>
+        <normaloff>../src/icons/icon_home.png</normaloff>../src/icons/icon_home.png</iconset>
       </property>
       <property name="iconSize">
        <size>
         <width>40</width>
-        <height>30</height>
+        <height>40</height>
        </size>
       </property>
      </widget>
@@ -392,7 +392,7 @@ QPushButton{
 }</string>
         </property>
         <property name="currentIndex">
-         <number>4</number>
+         <number>2</number>
         </property>
         <widget class="QWidget" name="page_home">
          <property name="styleSheet">
@@ -751,7 +751,7 @@ QPushButton{
              <string>Teoría</string>
             </property>
            </widget>
-           <widget class="QWidget" name="">
+           <widget class="QWidget" name="layoutWidget">
             <property name="geometry">
              <rect>
               <x>10</x>
@@ -1008,7 +1008,7 @@ QPushButton{
            <rect>
             <x>220</x>
             <y>10</y>
-            <width>71</width>
+            <width>111</width>
             <height>21</height>
            </rect>
           </property>
@@ -1138,6 +1138,61 @@ QPushButton{
           </property>
           <property name="text">
            <string>Nombre tarea</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="button_compare">
+          <property name="geometry">
+           <rect>
+            <x>540</x>
+            <y>370</y>
+            <width>81</width>
+            <height>23</height>
+           </rect>
+          </property>
+          <property name="autoFillBackground">
+           <bool>false</bool>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+	background-color: rgb(186, 16, 4);
+	border-radius: 5px;
+	color: rgb(255, 255, 255);
+}</string>
+          </property>
+          <property name="text">
+           <string>Compare prueba</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_puntaje">
+          <property name="geometry">
+           <rect>
+            <x>530</x>
+            <y>450</y>
+            <width>111</width>
+            <height>21</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <family>Inter</family>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Puntuje</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="porcentaje">
+          <property name="geometry">
+           <rect>
+            <x>540</x>
+            <y>490</y>
+            <width>71</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string/>
           </property>
          </widget>
         </widget>
@@ -1332,7 +1387,7 @@ QPushButton{
            <rect>
             <x>330</x>
             <y>10</y>
-            <width>71</width>
+            <width>91</width>
             <height>21</height>
            </rect>
           </property>

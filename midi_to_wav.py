@@ -6,8 +6,8 @@ from pydub.generators import Sine
 class Ejemplo:
     def __init__(self):
         self.n = 0  # Atributo de instancia
-    def run(self):
-        
+    def run(self, file_output, rol):
+        print(file_output)
         mid = MidiFile(self)
         def note_to_freq(note, concert_A=440.0):
             '''
@@ -60,5 +60,12 @@ class Ejemplo:
         # except FileNotFoundError:
 
         #     exit()
-        output.export("src/audio/compare/output.wav", format="wav")
+        file_path=''
+        if (rol == 'estudiante'):
+            file_path='src/audio/compare/estudiante/'
+        elif (rol == 'profesor'):
+            file_path='src/audio/compare/profesor/'
+
+        output.export(file_path+file_output, format="wav")
+        print(file_path+file_output)
         return 'Generó Audio'
