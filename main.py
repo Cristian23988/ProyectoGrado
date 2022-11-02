@@ -45,6 +45,8 @@ class Ventana(QMainWindow):
         self.button_profesor_subir_audio.clicked.connect(self.grabar_profesor)
         #-----------Especificar audio y ruta a reproductir
         self.button_practicas_play.clicked.connect(self.Reproducir_Audio)
+
+        self.button_profesor_play.clicked.connect(self.Reproducir_Audio_partitura)
         #Carga PDF
 
         #self.button_profesor_subir_pdf.clicked.connect(self.prueba)
@@ -79,7 +81,16 @@ class Ventana(QMainWindow):
         from playsound import playsound  
         #Definir Path de lectura (RUTA)
         print("Reproduciendo...")
-        playsound('src/audio/.wav')
+        playsound('src/audio/compare/profesor/output_profesor.wav')
+        print("Finalizado.")
+
+    def Reproducir_Audio_partitura(self):
+        #pip uninstall playsound
+        #pip install playsound==1.2.2
+        from playsound import playsound  
+        #Definir Path de lectura (RUTA)
+        print("Reproduciendo...")
+        playsound('src/audio/compare/profesor/output_profesor.wav')
         print("Finalizado.")
         
     def Cargar_PDF(self):
