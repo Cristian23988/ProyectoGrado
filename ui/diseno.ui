@@ -392,7 +392,7 @@ QPushButton{
 }</string>
         </property>
         <property name="currentIndex">
-         <number>2</number>
+         <number>4</number>
         </property>
         <widget class="QWidget" name="page_home">
          <property name="styleSheet">
@@ -1250,7 +1250,7 @@ border-radius: 10px;</string>
 }</string>
            </property>
            <property name="text">
-            <string>Compare prueba</string>
+            <string>Comparar audios</string>
            </property>
           </widget>
          </widget>
@@ -1642,8 +1642,9 @@ color: rgb(0, 0, 0);</string>
            </rect>
           </property>
           <property name="styleSheet">
-           <string notr="true">background-color: rgb(85, 170, 255);
-color: rgb(0, 0, 0);</string>
+           <string notr="true">	background-color: rgb(186, 16, 4);
+	border-radius: 5px;
+	color: rgb(255, 255, 255);</string>
           </property>
           <property name="text">
            <string>Grabar audio</string>
