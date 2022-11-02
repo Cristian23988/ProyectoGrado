@@ -79,13 +79,8 @@ class Ventana(QMainWindow):
         from playsound import playsound  
         #Definir Path de lectura (RUTA)
         print("Reproduciendo...")
-        playsound('src/audio/audio_voz_natural.wav')
+        playsound('src/audio/.wav')
         print("Finalizado.")
-
-
-        
-    
-    
         
     def Cargar_PDF(self):
         import easygui as eg
