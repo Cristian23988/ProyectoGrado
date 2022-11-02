@@ -392,7 +392,7 @@ QPushButton{
 }</string>
         </property>
         <property name="currentIndex">
-         <number>4</number>
+         <number>2</number>
         </property>
         <widget class="QWidget" name="page_home">
          <property name="styleSheet">
@@ -431,14 +431,14 @@ QPushButton{
             <rect>
              <x>320</x>
              <y>10</y>
-             <width>101</width>
+             <width>111</width>
              <height>21</height>
             </rect>
            </property>
            <property name="font">
             <font>
              <family>Inter</family>
-             <pointsize>14</pointsize>
+             <pointsize>16</pointsize>
             </font>
            </property>
            <property name="text">
@@ -735,16 +735,16 @@ QPushButton{
            <widget class="QLabel" name="label_teoria_title">
             <property name="geometry">
              <rect>
-              <x>360</x>
+              <x>350</x>
               <y>10</y>
-              <width>61</width>
+              <width>71</width>
               <height>21</height>
              </rect>
             </property>
             <property name="font">
              <font>
               <family>Inter</family>
-              <pointsize>14</pointsize>
+              <pointsize>16</pointsize>
              </font>
             </property>
             <property name="text">
@@ -1006,16 +1006,16 @@ QPushButton{
          <widget class="QLabel" name="label_practicas_title">
           <property name="geometry">
            <rect>
-            <x>330</x>
+            <x>350</x>
             <y>10</y>
-            <width>81</width>
+            <width>101</width>
             <height>21</height>
            </rect>
           </property>
           <property name="font">
            <font>
             <family>Inter</family>
-            <pointsize>14</pointsize>
+            <pointsize>16</pointsize>
            </font>
           </property>
           <property name="text">
@@ -1069,7 +1069,7 @@ QPushButton{
            <rect>
             <x>170</x>
             <y>490</y>
-            <width>281</width>
+            <width>311</width>
             <height>61</height>
            </rect>
           </property>
@@ -1103,7 +1103,7 @@ QPushButton{
             <rect>
              <x>220</x>
              <y>20</y>
-             <width>51</width>
+             <width>71</width>
              <height>21</height>
             </rect>
            </property>
@@ -1121,7 +1121,7 @@ QPushButton{
             <rect>
              <x>0</x>
              <y>50</y>
-             <width>281</width>
+             <width>300</width>
              <height>4</height>
             </rect>
            </property>
@@ -1277,14 +1277,14 @@ QPushButton{
            <rect>
             <x>350</x>
             <y>10</y>
-            <width>41</width>
-            <height>21</height>
+            <width>51</width>
+            <height>31</height>
            </rect>
           </property>
           <property name="font">
            <font>
             <family>Inter</family>
-            <pointsize>14</pointsize>
+            <pointsize>16</pointsize>
            </font>
           </property>
           <property name="text">
@@ -1459,7 +1459,7 @@ QPushButton{
           <property name="font">
            <font>
             <family>Inter</family>
-            <pointsize>14</pointsize>
+            <pointsize>16</pointsize>
            </font>
           </property>
           <property name="text">
