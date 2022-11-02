@@ -133,7 +133,7 @@ def Grabar_Audio(rol):
         import wavio as wv  
         print('Grabando...')       
         frequency = 44400        
-        duration = 4      
+        duration = 10   
         recording = sd.rec(int(duration * frequency), 
                         samplerate = frequency, channels = 1)         
         sd.wait()         
@@ -209,15 +209,14 @@ def comparacion_practica(self):
         Audio_estud='output_estudiante.wav'        
         porcentaje=comparacion_wav(Audio_base,Audio_estud)
         print(porcentaje, porcentaje >= 0.0)
-        if(porcentaje >= 0.0 and porcentaje <= 100000.0):
-            porcentaje = 100-(porcentaje/100)
-            #porcentaje=str(porcentaje)+'%'
-            porcentaje = '%.4f' %porcentaje
-            self.porcentaje.setText(porcentaje)
-        elif():
-            porcentaje='es igual a: '+str(porcentaje)
-            self.porcentaje.setText(porcentaje)
-        print(porcentaje)
+        porcentaje = int(100-(porcentaje/1000))
+        #porcentaje=str(porcentaje)+'%'
+        if(porcentaje < 0):
+            porcentaje = '0%'
+        else:
+            porcentaje = str(porcentaje)
+        self.porcentaje.setText(porcentaje+'%')
+        #print(porcentaje)
     
 def Convertir_PDF_to_MIDI(partitura):
         filepath=partitureConversion.main.run(partitura)
