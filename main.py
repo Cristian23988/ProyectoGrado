@@ -41,7 +41,8 @@ class Ventana(QMainWindow):
         self.button_home_practicas.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_practicas))
         self.button_home_quiz.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_quiz))
         #Grabar y reproducir audio-----------------------
-        self.button_practicas_record.clicked.connect(self.Grabar_Audio)
+        self.button_practicas_record.clicked.connect(self.grabar_estudiante)
+        self.button_profesor_subir_audio.clicked.connect(self.grabar_profesor)
         #-----------Especificar audio y ruta a reproductir
         self.button_practicas_play.clicked.connect(self.Reproducir_Audio)
         #Carga PDF
@@ -65,7 +66,13 @@ class Ventana(QMainWindow):
         print("quiz") 
     def prueba_compare(self):
         comparacion_practica(self)
-        
+    def grabar_estudiante(self):
+        rol='estudiante'
+        Grabar_Audio(rol)
+    def grabar_profesor(self):
+        rol='profesor'
+        Grabar_Audio(rol)
+
     def Reproducir_Audio(self):
         #pip uninstall playsound
         #pip install playsound==1.2.2
@@ -75,23 +82,7 @@ class Ventana(QMainWindow):
         playsound('src/audio/audio_voz_natural.wav')
         print("Finalizado.")
 
-    def Grabar_Audio(self):
-        import sounddevice as sd 
-        from scipy.io.wavfile import write 
-        import wavio as wv  
-        print('Grabando...')       
-        frequency = 44400        
-        duration = 4      
-        recording = sd.rec(int(duration * frequency), 
-                        samplerate = frequency, channels = 1)         
-        sd.wait()         
-        #write("recording0.wav", frequency, recording)  
-        #Graba en sonido monofonico, para cambiar a stereo va con channels = 2       
-        #definir RUTA de guardado
-        file_save='src/audio/voz_solfeo.wav' 
-        wv.write(file_save, recording, frequency, sampwidth=2)
-        Convertir_Audio_A_MIDI(file_save)
-        print('Finalizado con exito')       
+
         
     
     
@@ -135,15 +126,44 @@ class Ventana(QMainWindow):
 
     def stop(self):
         quit()
-    def prueba(self):
-        Midi_to_piano_Profesor()
 
-def Convertir_Audio_A_MIDI(file_in):
+def Grabar_Audio(rol):
+        import sounddevice as sd 
+        from scipy.io.wavfile import write 
+        import wavio as wv  
+        print('Grabando...')       
+        frequency = 44400        
+        duration = 4      
+        recording = sd.rec(int(duration * frequency), 
+                        samplerate = frequency, channels = 1)         
+        sd.wait()         
+        #write("recording0.wav", frequency, recording)  
+        #Graba en sonido monofonico, para cambiar a stereo va con channels = 2       
+        #definir RUTA de guardado
+        file_save='' 
+        file_path=''
+        
+        if (rol == 'estudiante'):
+            file_save='voz_solfeo.wav' 
+            file_path='src/audio/audio_de_estudiante/'
+        elif (rol == 'profesor'):
+            file_save='audio_profesor.wav' 
+            file_path='src/audio/audio_de_profesor/'
+        wv.write(file_path+file_save, recording, frequency, sampwidth=2)
+        Convertir_Audio_A_MIDI(file_path+file_save,rol)
+        print('Finalizado con exito')       
+
+def Convertir_Audio_A_MIDI(file_in,rol):
         import librosa
         from sound_to_midi.monophonic import wave_to_midi
         print("Starting...")
         #file_in = "Basepiano.wav"
-        file_out = "src/export_midi/estudiante/audio_estudiante.mid"
+        file_out = ""
+        if (rol == 'estudiante'):
+            file_out = "src/export_midi/estudiante/audio_estudiante.mid"
+        elif (rol == 'profesor'):
+            file_out = "src/export_midi/profesor/midi_partiture.mid"
+        
         audio_data, srate = librosa.load(file_in, sr=None)
         print("Audio file loaded!")
         midi = wave_to_midi(audio_data, srate=srate)
@@ -151,7 +171,12 @@ def Convertir_Audio_A_MIDI(file_in):
         with open (file_out, 'wb') as file:
             midi.writeFile(file)
         print("Done. Exiting!")
-        Midi_to_piano_Estudiante(file_out)
+
+        if (rol == 'estudiante'):
+            Midi_to_piano_Estudiante(file_out)
+        elif (rol == 'profesor'):
+            Midi_to_piano_Profesor(file_out)
+        
 
 def converter_pdf_to_png():
         
@@ -195,14 +220,14 @@ def comparacion_practica(self):
         print(porcentaje)
     
 def Convertir_PDF_to_MIDI(partitura):
-        partitureConversion.main.run(partitura)
+        filepath=partitureConversion.main.run(partitura)
         print ("Generó MIDI")
-        Midi_to_piano_Profesor()
+        Midi_to_piano_Profesor(filepath)
 
-def Midi_to_piano_Profesor():
+def Midi_to_piano_Profesor(ruta_midi_to_piano):
     import  midi_to_wav
     from mido import MidiFile
-    ruta_midi_to_piano='src/export_midi/profesor/midi_partiture.mid'
+    #ruta_midi_to_piano='src/export_midi/profesor/midi_partiture.mid'
     file_output='output_profesor.wav'
     rol='profesor'
     rta=midi_to_wav.Ejemplo.run(ruta_midi_to_piano,file_output,rol) 

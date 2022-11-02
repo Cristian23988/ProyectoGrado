@@ -251,8 +251,11 @@ def run(img_file):
 
     midi.addNote(track,channel,pitch,time,4,0)
     # And write it to disk.
-    binfile = open("src/export_midi/profesor/midi_partiture.mid", 'wb')
+    file='midi_partiture.mid'
+    path_file='src/export_midi/profesor/'
+    binfile = open(path_file+file, 'wb')
     midi.writeFile(binfile)
     binfile.close()
     #open_file('src/export_midi/output.mid')
+    return path_file+file
 
