@@ -221,7 +221,8 @@ def comparacion_practica(self):
             porcentaje = '0%'
         else:
             porcentaje = str(porcentaje)
-        self.porcentaje.setText(porcentaje+'%')
+            porcentaje = porcentaje +'%'
+        self.porcentaje.setText(porcentaje)
         #print(porcentaje)
     
 def Convertir_PDF_to_MIDI(partitura):

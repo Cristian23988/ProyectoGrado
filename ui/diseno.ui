@@ -392,7 +392,7 @@ QPushButton{
 }</string>
         </property>
         <property name="currentIndex">
-         <number>4</number>
+         <number>2</number>
         </property>
         <widget class="QWidget" name="page_home">
          <property name="styleSheet">
@@ -1136,25 +1136,6 @@ QPushButton{
            </property>
           </widget>
          </widget>
-         <widget class="QLabel" name="label_2">
-          <property name="geometry">
-           <rect>
-            <x>50</x>
-            <y>160</y>
-            <width>661</width>
-            <height>211</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="pixmap">
-           <pixmap>../src/partitureResources/samples/fire.jpg</pixmap>
-          </property>
-          <property name="scaledContents">
-           <bool>true</bool>
-          </property>
-         </widget>
          <widget class="QFrame" name="frame_10">
           <property name="geometry">
            <rect>
@@ -1254,12 +1235,56 @@ border-radius: 10px;</string>
            </property>
           </widget>
          </widget>
+         <widget class="QScrollArea" name="scrollArea_2">
+          <property name="geometry">
+           <rect>
+            <x>40</x>
+            <y>160</y>
+            <width>671</width>
+            <height>221</height>
+           </rect>
+          </property>
+          <property name="widgetResizable">
+           <bool>true</bool>
+          </property>
+          <widget class="QWidget" name="scrollAreaWidgetContents">
+           <property name="geometry">
+            <rect>
+             <x>-295</x>
+             <y>-443</y>
+             <width>2497</width>
+             <height>3526</height>
+            </rect>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout">
+            <item>
+             <widget class="QLabel" name="label_2">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="pixmap">
+               <pixmap>../src/partitureResources/samples/fire.jpg</pixmap>
+              </property>
+              <property name="scaledContents">
+               <bool>true</bool>
+              </property>
+              <property name="wordWrap">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </widget>
          <zorder>frame_10</zorder>
          <zorder>frame_9</zorder>
          <zorder>label_practicas_title</zorder>
          <zorder>label_practicas_descripcion</zorder>
          <zorder>label_practicas_tarea</zorder>
-         <zorder>label_2</zorder>
+         <zorder>scrollArea_2</zorder>
         </widget>
         <widget class="QWidget" name="page_quiz">
          <property name="styleSheet">
