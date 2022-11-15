@@ -25,6 +25,7 @@ from partitureConversion.MIDIUtil.src.midiutil.MidiFile3 import MIDIFile
 from Comparacion.compare import comparacion_wav
 from conexion.evidencia_estudiante import insert as insertar_evidencia
 from conexion.notas import insert as insertarNota
+from conexion.material_actividad import insert as insertar_materialXactividad
 id_evidencia=0
 s = stream.Stream()
         
@@ -158,6 +159,7 @@ def Grabar_Audio(rol):
         elif (rol == 'profesor'):
             file_save='audio_profesor.wav' 
             file_path='src/audio/audio_de_profesor/'
+            id_evidencia=insertar_materialXactividad(3,file_path+file_save,'',2,2,1)
         wv.write(file_path+file_save, recording, frequency, sampwidth=2)
         Convertir_Audio_A_MIDI(file_path+file_save,rol)
         
@@ -231,7 +233,9 @@ def comparacion_practica(self):
             porcentaje = porcentaje +'%'
         self.porcentaje.setText(porcentaje)
         print(porcentaje)
-        insertarNota(13,5,porcentaje,1,2)
+
+        #Guardar calificación con evidencia a la actividad
+        insertarNota(13,5,porcentaje,1,id_evidencia)
         
         #print(porcentaje)
     
