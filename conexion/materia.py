@@ -5,6 +5,7 @@ v_table='materia'
 v_id_materia='id'
 v_titulo='titulo'
 v_descripcion='descripcion'
+v_id_profesor='id_profesor'
 v_lista_materias=[]
 
 
@@ -32,8 +33,8 @@ def update(id):
     connect.conexion1.commit()
     ##conexion1.close() 
 
-def insert(titulo,descripcion):
-    cursor1.execute(f'insert into {v_table} ({v_titulo},{v_descripcion}) values("{titulo}","{descripcion}")') 
+def insert(titulo,descripcion,id_profesor):
+    cursor1.execute(f'insert into {v_table} ({v_titulo},{v_descripcion},{v_id_profesor}) values("{titulo}","{descripcion},{id_profesor}")') 
     connect.conexion1.commit()
 
 #PRUEBASFunciona

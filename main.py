@@ -23,7 +23,9 @@ from partitureConversion.note import Note
 from random import randint
 from partitureConversion.MIDIUtil.src.midiutil.MidiFile3 import MIDIFile
 from Comparacion.compare import comparacion_wav
-
+from conexion.evidencia_estudiante import insert as insertar_evidencia
+from conexion.notas import insert as insertarNota
+id_evidencia=0
 s = stream.Stream()
         
 class Ventana(QMainWindow):
@@ -139,7 +141,7 @@ def Grabar_Audio(rol):
         import wavio as wv  
         print('Grabando...')       
         frequency = 44400        
-        duration = 10   
+        duration = 5 
         recording = sd.rec(int(duration * frequency), 
                         samplerate = frequency, channels = 1)         
         sd.wait()         
@@ -152,11 +154,13 @@ def Grabar_Audio(rol):
         if (rol == 'estudiante'):
             file_save='voz_solfeo.wav' 
             file_path='src/audio/audio_de_estudiante/'
+            id_evidencia=insertar_evidencia(file_path+file_save,10)
         elif (rol == 'profesor'):
             file_save='audio_profesor.wav' 
             file_path='src/audio/audio_de_profesor/'
         wv.write(file_path+file_save, recording, frequency, sampwidth=2)
         Convertir_Audio_A_MIDI(file_path+file_save,rol)
+        
         print('Finalizado con exito')       
 
 def Convertir_Audio_A_MIDI(file_in,rol):
@@ -178,6 +182,7 @@ def Convertir_Audio_A_MIDI(file_in,rol):
             midi.writeFile(file)
         print("Done. Exiting!")
 
+        print(id_evidencia)
         if (rol == 'estudiante'):
             Midi_to_piano_Estudiante(file_out)
         elif (rol == 'profesor'):
@@ -216,13 +221,18 @@ def comparacion_practica(self):
         porcentaje=comparacion_wav(Audio_base,Audio_estud)
         print(porcentaje, porcentaje >= 0.0)
         porcentaje = int(100-(porcentaje/1000))
+        nota=0
         #porcentaje=str(porcentaje)+'%'
         if(porcentaje < 0):
             porcentaje = '0%'
+            
         else:
             porcentaje = str(porcentaje)
             porcentaje = porcentaje +'%'
         self.porcentaje.setText(porcentaje)
+        print(porcentaje)
+        insertarNota(13,5,porcentaje,1,2)
+        
         #print(porcentaje)
     
 def Convertir_PDF_to_MIDI(partitura):

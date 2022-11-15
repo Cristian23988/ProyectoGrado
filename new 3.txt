@@ -1,0 +1,32 @@
+Consultar
+
+SELECT * FROM  material m, actividad a
+where a.id=m.id_actividad
+and a.id_sesion=m.id_sesion
+
+#TODAS LAS ACTIVIDADES DE LA MISMA SESION
+SELECT * FROM  material m, actividad a
+where a.id_sesion=m.id_sesion
+and a.id= (IDSESION)
+
+#Trae el material o archivos de cada actividad
+Select * from material m, actividad a
+where m.id_actividad=a.id
+
+#Traer los archivos de evidencia del estudiante x actividad calificada
+select * from estudiante_nota_clase e, evidencia_estudiante ee
+where e.id_evidencia=ee.id
+and e.id_estudiante=ee.id_estudiante
+
+#Traer el profesor que creo una actividad en una clase
+select * from actividad a, usuario u
+where a.id_profesor=u.id_Usuario
+
+
+#NOTA
+#Traer material o archivos de un actividad y evidencia de una nota ya calificada
+Select * from material m, actividad a, estudiante_nota_clase e, evidencia_estudiante ee
+where m.id_actividad=a.id
+and e.id_actividad=a.id
+and e.id_evidencia=ee.id
+and e.id_estudiante=ee.id_estudiante
