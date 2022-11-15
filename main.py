@@ -26,19 +26,56 @@ from Comparacion.compare import comparacion_wav
 from conexion.evidencia_estudiante import insert as insertar_evidencia
 from conexion.notas import insert as insertarNota
 from conexion.material_actividad import insert as insertar_materialXactividad
+from conexion.user import *
 id_evidencia=0
 s = stream.Stream()
         
 class Ventana(QMainWindow):
     def __init__(self):
         super(Ventana, self).__init__()
-        uic.loadUi("ui/diseno.ui", self)  #P1: mostraba la GUI  disenofinal.ui
-        
+        uic.loadUi("ui/login.ui", self)  #P1: mostraba la GUI  disenofinal.ui
+        self.button_login.clicked.connect(lambda:self.logIn(self.input_login_correo.text(),self.input_login_contrasena.text()))
+        v_usuarioN = ""
+        v_rolN = ""
+
+    def logIn(self,userName,password):
+        if userName and password:
+            user = findLogin(userName,password)
+            if user and user[0][3] == 2:
+                print('Estas logeado')
+                self.v_usuarioN = user[0][1]
+                self.v_rolN = "Profesor"
+                self.profesor()
+            elif user and user[0][3] == 3:
+                print('Estas logeado')
+                self.v_usuarioN = user[0][1]
+                self.v_rolN = "Estudiante"
+                self.estudiante()
+            else:
+                print('No estas logeado')
+    
+    def cerrarSesion(self):
+        uic.loadUi("ui/login.ui", self)  #P1: mostraba la GUI  disenofinal.ui
+        self.input_login_correo.setText("")
+        self.input_login_contrasena.setText("")
+        self.button_login.clicked.connect(lambda:self.logIn(self.input_login_correo.text(),self.input_login_contrasena.text()))
+
+    def estudiante(self):
+        uic.loadUi("ui/diseno_estudiante.ui", self)  #P1: mostraba la GUI  disenofinal.ui
+        self.label_userName.setText(self.v_usuarioN)
+        self.label_userRole.setText(self.v_rolN)
+        self.button_menu_cerrar_sesion.clicked.connect(self.cerrarSesion)
+
+    def profesor(self):
+        uic.loadUi("ui/diseno_profesor.ui", self)  #P1: mostraba la GUI  disenofinal.ui
+        self.label_userName.setText(self.v_usuarioN)
+        self.label_userRole.setText(self.v_rolN)
         self.button_menu_home.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_home))
         self.button_menu_teoria.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_teoria))
         self.button_menu_practicas.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_practicas))
         self.button_menu_quiz.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_quiz))
         self.button_menu_profesor.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_profesor))
+        self.button_menu_cerrar_sesion.clicked.connect(self.cerrarSesion)
 
         self.button_home_teoria.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_teoria))
         self.button_home_practicas.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_practicas))
