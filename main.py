@@ -26,6 +26,7 @@ from Comparacion.compare import comparacion_wav
 from conexion.evidencia_estudiante import insert as insertar_evidencia
 from conexion.notas import insert as insertarNota
 from conexion.material_actividad import insert as insertar_materialXactividad
+from conexion.user import findLogin
 s = stream.Stream()
         
 class Ventana(QMainWindow):
@@ -42,11 +43,13 @@ class Ventana(QMainWindow):
             user = findLogin(userName,password)
             if user and user[0][3] == 2:
                 print('Estas logeado')
+                self.v_id_usuario=user[0][0]
                 self.v_usuarioN = user[0][1]
                 self.v_rolN = "Profesor"
                 self.profesor()
             elif user and user[0][3] == 3:
                 print('Estas logeado')
+                self.v_id_usuario=user[0][0]
                 self.v_usuarioN = user[0][1]
                 self.v_rolN = "Estudiante"
                 self.estudiante()
@@ -110,10 +113,10 @@ class Ventana(QMainWindow):
         comparacion_practica(self)
     def grabar_estudiante(self):
         rol='estudiante'
-        self.id_ruta=Grabar_Audio(rol)
+        self.id_ruta=Grabar_Audio(self,rol)
     def grabar_profesor(self):
         rol='profesor'
-        self.id_rutaGrabar_Audio(rol)
+        self.id_ruta=Grabar_Audio(self,rol)
 
     def Reproducir_Audio(self):
         #pip uninstall playsound
@@ -173,7 +176,7 @@ class Ventana(QMainWindow):
     def stop(self):
         quit()
 
-def Grabar_Audio(rol):
+def Grabar_Audio(self,rol):
         import sounddevice as sd 
         from scipy.io.wavfile import write 
         import wavio as wv  
@@ -192,14 +195,15 @@ def Grabar_Audio(rol):
         if (rol == 'estudiante'):
             file_save='voz_solfeo.wav' 
             file_path='src/audio/audio_de_estudiante/'
-            id_ruta=insertar_evidencia(file_path+file_save,10)
+            #RUTA - ID DE USUARIO
+            id_ruta=insertar_evidencia(file_path+file_save,self.v_id_usuario)
         elif (rol == 'profesor'):
             file_save='audio_profesor.wav' 
-            file_path='src/audio/audio_de_profesor/'
-            id_ruta=insertar_materialXactividad(3,file_path+file_save,'',2,2,1)
+            file_path='src/audio/audio_de_profesor/'            
+            #TIPO MATERIAL - RUTA - DESCRIPCION TXT - SESION - ID DE USUARIO - ACTIVIDAD
+            id_ruta=insertar_materialXactividad(3,file_path+file_save,'',2,self.v_id_usuario,1)
         wv.write(file_path+file_save, recording, frequency, sampwidth=2)
         Convertir_Audio_A_MIDI(file_path+file_save,rol)
-        
         print('Finalizado con exito')  
         return id_ruta     
 
