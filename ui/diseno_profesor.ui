@@ -380,7 +380,7 @@ QLabel{
        <string notr="true"/>
       </property>
       <property name="text">
-       <string>Cerrar Sesión</string>
+       <string>Cerrar Sesion</string>
       </property>
       <property name="icon">
        <iconset>
@@ -889,7 +889,7 @@ QPushButton{
                 <enum>QLayout::SetDefaultConstraint</enum>
                </property>
                <item>
-                <widget class="QFrame" name="frame_">
+                <widget class="QFrame" name="frame_5">
                  <property name="styleSheet">
                   <string notr="true"/>
                  </property>

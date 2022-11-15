@@ -12,3 +12,6 @@ PyMuPDF==1.20.2
 pycopy-pwd
 mido
 pydub
+selenium
+webdriver-manager==2.28.1
+mysql-connector-python

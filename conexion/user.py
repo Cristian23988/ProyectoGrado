@@ -1,4 +1,4 @@
-from conect import connect 
+from conexion.conect import connect 
 
 cursor1=connect.conexion1.cursor()
 v_table='usuario'
@@ -23,10 +23,11 @@ def findById(id):
 
 def findLogin(username,password):
     #cursor1.execute("select * from usuario where username="+username+" and password="+password)
-    cursor1.execute(f"select * from {v_table} where {v_username}='{username}' and {password}='{password}'")
+    cursor1.execute(f"select * from {v_table} where {v_username}='{username}' and {v_password}='{password}'")
     v_lista_usuario.clear()
     for fila in cursor1:
-        v_lista_usuario.append(fila)   
+        v_lista_usuario.append(fila)  
+    return v_lista_usuario 
 
 def deleteById(id):
     cursor1.execute(f"delete from {v_table} where {v_id_usuario}={id}")
@@ -46,10 +47,10 @@ def insert(usuario,passw,rol):
 
     
 #PRUEBASFunciona
-findAll()
+#findAll()
 ##findLogin('admin','admin1')
 #findById(1)
 #deleteById(5)
 #update(1)
 #insert('prof','prof',2)
-print(v_lista_usuario)
+#print(v_lista_usuario)

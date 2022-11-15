@@ -50,7 +50,7 @@ QPushButton{
      </property>
      <property name="styleSheet">
       <string notr="true">#fondo_menu{
-	background-color: rgb(37, 161, 148);
+	background-color: rgb(170, 255, 127);
 	border-radius: 20px;
 }
 
@@ -65,7 +65,7 @@ QVBoxLayout{
 QPushButton{
 	background-color: transparent;
 	text-align: left;
-	color: white;
+	color: black;
 }
 
 QLabel{
@@ -358,7 +358,7 @@ QLabel{
        <rect>
         <x>10</x>
         <y>440</y>
-        <width>121</width>
+        <width>111</width>
         <height>48</height>
        </rect>
       </property>
@@ -889,7 +889,7 @@ QPushButton{
                 <enum>QLayout::SetDefaultConstraint</enum>
                </property>
                <item>
-                <widget class="QFrame" name="frame_">
+                <widget class="QFrame" name="frame_5">
                  <property name="styleSheet">
                   <string notr="true"/>
                  </property>
