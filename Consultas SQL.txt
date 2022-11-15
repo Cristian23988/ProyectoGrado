@@ -30,3 +30,7 @@ where m.id_actividad=a.id
 and e.id_actividad=a.id
 and e.id_evidencia=ee.id
 and e.id_estudiante=ee.id_estudiante
+
+#Traer todas las sesiones de una materia
+select * from sesion
+where id_materia=(numero)
