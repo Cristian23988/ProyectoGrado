@@ -26,10 +26,11 @@ from Comparacion.compare import comparacion_wav
 from conexion.evidencia_estudiante import insert as insertar_evidencia
 from conexion.notas import insert as insertarNota
 from conexion.material_actividad import insert as insertar_materialXactividad
-id_evidencia=0
+
 s = stream.Stream()
         
 class Ventana(QMainWindow):
+    
     def __init__(self):
         super(Ventana, self).__init__()
         uic.loadUi("ui/diseno.ui", self)  #P1: mostraba la GUI  disenofinal.ui
@@ -56,6 +57,7 @@ class Ventana(QMainWindow):
         self.button_profesor_subir_pdf.clicked.connect(self.Cargar_PDF)
 
         self.button_compare.clicked.connect(self.prueba_compare)
+        self.id_ruta=0
 
         
         #self.botonMidi.clicked.connect(self.xportMidi)
@@ -73,10 +75,10 @@ class Ventana(QMainWindow):
         comparacion_practica(self)
     def grabar_estudiante(self):
         rol='estudiante'
-        Grabar_Audio(rol)
+        self.id_ruta=Grabar_Audio(rol)
     def grabar_profesor(self):
         rol='profesor'
-        Grabar_Audio(rol)
+        self.id_rutaGrabar_Audio(rol)
 
     def Reproducir_Audio(self):
         #pip uninstall playsound
@@ -151,19 +153,20 @@ def Grabar_Audio(rol):
         #definir RUTA de guardado
         file_save='' 
         file_path=''
-        
+        id_ruta=0
         if (rol == 'estudiante'):
             file_save='voz_solfeo.wav' 
             file_path='src/audio/audio_de_estudiante/'
-            id_evidencia=insertar_evidencia(file_path+file_save,10)
+            id_ruta=insertar_evidencia(file_path+file_save,10)
         elif (rol == 'profesor'):
             file_save='audio_profesor.wav' 
             file_path='src/audio/audio_de_profesor/'
-            id_evidencia=insertar_materialXactividad(3,file_path+file_save,'',2,2,1)
+            id_ruta=insertar_materialXactividad(3,file_path+file_save,'',2,2,1)
         wv.write(file_path+file_save, recording, frequency, sampwidth=2)
         Convertir_Audio_A_MIDI(file_path+file_save,rol)
         
-        print('Finalizado con exito')       
+        print('Finalizado con exito')  
+        return id_ruta     
 
 def Convertir_Audio_A_MIDI(file_in,rol):
         import librosa
@@ -184,7 +187,7 @@ def Convertir_Audio_A_MIDI(file_in,rol):
             midi.writeFile(file)
         print("Done. Exiting!")
 
-        print(id_evidencia)
+        
         if (rol == 'estudiante'):
             Midi_to_piano_Estudiante(file_out)
         elif (rol == 'profesor'):
@@ -235,7 +238,7 @@ def comparacion_practica(self):
         print(porcentaje)
 
         #Guardar calificación con evidencia a la actividad
-        insertarNota(13,5,porcentaje,1,id_evidencia)
+        insertarNota(13,5,porcentaje,1,self.id_ruta)
         
         #print(porcentaje)
     
