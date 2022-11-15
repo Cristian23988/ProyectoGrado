@@ -21,6 +21,8 @@ from partitureConversion.best_fit import fit
 from partitureConversion.rectangle import Rectangle
 from partitureConversion.note import Note
 from random import randint
+import threading
+import time
 from partitureConversion.MIDIUtil.src.midiutil.MidiFile3 import MIDIFile
 from Comparacion.compare import comparacion_wav
 from conexion.evidencia_estudiante import insert as insertar_evidencia
@@ -112,11 +114,21 @@ class Ventana(QMainWindow):
     def prueba_compare(self):
         comparacion_practica(self)
     def grabar_estudiante(self):
+        termino=self.clic()
         rol='estudiante'
-        self.id_ruta=Grabar_Audio(self,rol)
+        if (termino==False):
+            self.id_ruta=Grabar_Audio(self,rol)
+        
     def grabar_profesor(self):
+        termino=self.clic()
         rol='profesor'
-        self.id_ruta=Grabar_Audio(self,rol)
+        if (termino==False):
+            self.id_ruta=Grabar_Audio(self,rol)
+    def clic(self):
+        from Metronome.main import main
+        rta=main()
+        return rta
+
 
     def Reproducir_Audio(self):
         #pip uninstall playsound
