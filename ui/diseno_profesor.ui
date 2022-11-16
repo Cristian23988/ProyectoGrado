@@ -847,7 +847,7 @@ QPushButton{
              <widget class="QLineEdit" name="input_materias_search">
               <property name="geometry">
                <rect>
-                <x>210</x>
+                <x>220</x>
                 <y>70</y>
                 <width>281</width>
                 <height>20</height>
@@ -927,11 +927,6 @@ QPushButton{
               <property name="cornerButtonEnabled">
                <bool>true</bool>
               </property>
-              <row>
-               <property name="text">
-                <string>row 1</string>
-               </property>
-              </row>
               <column>
                <property name="text">
                 <string>Código</string>
@@ -942,30 +937,31 @@ QPushButton{
                 <string>Nombre</string>
                </property>
               </column>
-              <item row="0" column="1">
-               <property name="text">
-                <string/>
-               </property>
-               <property name="icon">
-                <iconset>
-                 <normaloff>../src/icons/icon_quiz.png</normaloff>../src/icons/icon_quiz.png</iconset>
-               </property>
-               <property name="flags">
-                <set>ItemIsSelectable|ItemIsDragEnabled|ItemIsUserCheckable</set>
-               </property>
-              </item>
              </widget>
              <widget class="QPushButton" name="button_sesiones_ver_sesion">
               <property name="geometry">
                <rect>
-                <x>320</x>
+                <x>300</x>
                 <y>600</y>
-                <width>75</width>
+                <width>141</width>
                 <height>23</height>
                </rect>
               </property>
               <property name="text">
                <string>Ver Actividades de Sesión</string>
+              </property>
+             </widget>
+             <widget class="QPushButton" name="button_sesiones_regresar">
+              <property name="geometry">
+               <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>75</width>
+                <height>23</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Regresar</string>
               </property>
              </widget>
             </widget>
@@ -981,11 +977,108 @@ QPushButton{
 	qproperty-geometry: rect(200 210 80 30);
 }</string>
              </property>
+             <widget class="QPushButton" name="button_actividades_ver_actividad">
+              <property name="geometry">
+               <rect>
+                <x>250</x>
+                <y>250</y>
+                <width>80</width>
+                <height>30</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Ver Actividad</string>
+              </property>
+             </widget>
+             <widget class="QLineEdit" name="input_actividades_search">
+              <property name="geometry">
+               <rect>
+                <x>230</x>
+                <y>80</y>
+                <width>321</width>
+                <height>20</height>
+               </rect>
+              </property>
+             </widget>
+             <widget class="QTableWidget" name="table_actividades">
+              <property name="geometry">
+               <rect>
+                <x>30</x>
+                <y>40</y>
+                <width>160</width>
+                <height>184</height>
+               </rect>
+              </property>
+              <property name="lineWidth">
+               <number>1</number>
+              </property>
+              <property name="editTriggers">
+               <set>QAbstractItemView::AnyKeyPressed|QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed|QAbstractItemView::SelectedClicked</set>
+              </property>
+              <property name="showGrid">
+               <bool>false</bool>
+              </property>
+              <property name="wordWrap">
+               <bool>true</bool>
+              </property>
+              <property name="cornerButtonEnabled">
+               <bool>true</bool>
+              </property>
+              <column>
+               <property name="text">
+                <string>Código</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Actividad</string>
+               </property>
+              </column>
+             </widget>
+             <widget class="QLabel" name="label_sesiones_title_2">
+              <property name="geometry">
+               <rect>
+                <x>230</x>
+                <y>10</y>
+                <width>200</width>
+                <height>32</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <family>Inter</family>
+                <pointsize>16</pointsize>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QLabel{
+	qproperty-geometry: rect(250 10 200 32);
+}</string>
+              </property>
+              <property name="text">
+               <string>Gestión de Actividades</string>
+              </property>
+             </widget>
+             <widget class="QPushButton" name="button_actividades_regresar">
+              <property name="geometry">
+               <rect>
+                <x>60</x>
+                <y>270</y>
+                <width>80</width>
+                <height>30</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Regresar</string>
+              </property>
+             </widget>
+            </widget>
+            <widget class="QWidget" name="material_actividad_profesor">
              <widget class="QWidget" name="layoutWidget">
               <property name="geometry">
                <rect>
-                <x>10</x>
-                <y>59</y>
+                <x>30</x>
+                <y>80</y>
                 <width>981</width>
                 <height>601</height>
                </rect>
@@ -1295,7 +1388,20 @@ qproperty-geometry: rect(290 210 80 30);</string>
 }</string>
               </property>
               <property name="text">
-               <string>Teoría</string>
+               <string>Actividades</string>
+              </property>
+             </widget>
+             <widget class="QPushButton" name="button_material_actividad_regresar">
+              <property name="geometry">
+               <rect>
+                <x>0</x>
+                <y>10</y>
+                <width>75</width>
+                <height>23</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Regresar</string>
               </property>
              </widget>
             </widget>

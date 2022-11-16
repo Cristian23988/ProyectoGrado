@@ -33,7 +33,7 @@ def findMaterialByActivity(id):
 def deleteById(id):
     cursor1.execute(f"delete from {v_table} where {v_id_material}={id}")
     connect.conexion1.commit()
-    ##conexion1.close()    
+    ##conexion1.close()
 
 def update(id):
     #CAMBIAR SET para que sea dinamico en el update
