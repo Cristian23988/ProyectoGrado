@@ -1,4 +1,4 @@
-from conect import connect 
+from conexion.conect import connect 
 
 cursor1=connect.conexion1.cursor()
 v_table='sesion'
@@ -28,7 +28,7 @@ def findByMateria(id_materia):
     v_lista_sesiones.clear()
     for fila in cursor1:
         v_lista_sesiones.append(fila)
-    
+    return v_lista_sesiones
     ##conexion1.close()    
 
 def deleteById(id):
@@ -48,10 +48,10 @@ def insert(titulo,id_materia,corte):
     connect.conexion1.commit()
 
 #PRUEBASFunciona
-findAll()
+#findAll()
 #findById(1)
 #deleteById(5)
 #update(5)
 #insert('Sesion3','1')
 ##findByMateria(1)
-print(v_lista_sesiones)   
+#print(v_lista_sesiones)   
