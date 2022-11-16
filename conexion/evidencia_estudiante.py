@@ -56,4 +56,4 @@ def insert(ruta,id_estudiante):
 #deleteById(5)
 #update(1)
 #insert('src/audioprueba.wav',10)
-print(v_lista_usuario)
+#print(v_lista_usuario)

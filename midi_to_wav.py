@@ -61,9 +61,9 @@ class Ejemplo:
 
         #     exit()
         file_path=''
-        if (rol == 'estudiante'):
+        if (rol == 'Estudiante'):
             file_path='src/audio/compare/estudiante/'
-        elif (rol == 'profesor'):
+        elif (rol == 'Profesor'):
             file_path='src/audio/compare/profesor/'
 
         output.export(file_path+file_output, format="wav")

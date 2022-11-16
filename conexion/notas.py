@@ -113,4 +113,4 @@ def insert(id_estudiante,id_actividad,puntaje,intentos,id_evidencia):
 #insert(13, 5, 60, 1, 2)
 ##findByMateria(1)
 #findByEstudiante(13)
-print(v_lista_estudiantes)   
+#print(v_lista_estudiantes)   

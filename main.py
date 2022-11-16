@@ -77,6 +77,8 @@ class Ventana(QMainWindow):
         self.label_userName.setText(self.v_usuarioN)
         self.label_userRole.setText(self.v_rolN)
         self.button_menu_cerrar_sesion.clicked.connect(self.cerrarSesion)
+        self.button_practicas_record.clicked.connect(self.grabar_estudiante)
+        self.button_compare.clicked.connect(self.prueba_compare)
         ##self.button_menu_teoria.clicked.connect(self.Abrir_Modulo_Teoria)
 
         self.button_menu_practicas.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_practicas))
@@ -99,7 +101,7 @@ class Ventana(QMainWindow):
         self.button_home_practicas.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_practicas))
         self.button_home_quiz.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_quiz))
         #Grabar y reproducir audio-----------------------
-        self.button_practicas_record.clicked.connect(self.grabar_estudiante)
+        
         self.button_profesor_subir_audio.clicked.connect(self.grabar_profesor)
         #-----------Especificar audio y ruta a reproductir
         self.button_practicas_play.clicked.connect(self.Reproducir_Audio)
@@ -157,14 +159,14 @@ class Ventana(QMainWindow):
         comparacion_practica(self)
     def grabar_estudiante(self):
         
-        if (self.v_rolN=='estudiante'):
+        if (self.v_rolN=='Estudiante'):
             termino=self.clic()
             if (termino==False):
                 self.id_ruta=Grabar_Audio(self,self.v_rolN)
         else:
             print("NO ES ESTUDIANTE ")
     def grabar_profesor(self):
-        if (self.v_rolN=='profesor'):
+        if (self.v_rolN=='Profesor'):
             termino=self.clic()
             if (termino==False):
                 self.id_ruta=Grabar_Audio(self,self.v_rolN)
@@ -281,7 +283,7 @@ def Grabar_Audio(self,rol):
         file_save='' 
         file_path=''
         id_ruta=0
-        if (rol == 'estudiante'):
+        if (self.v_rolN == 'Estudiante'):
             file_save='voz_solfeo.wav' 
             file_path='src/audio/audio_de_estudiante/'
             rta=existeEvidencia(file_path+file_save)
@@ -298,7 +300,7 @@ def Grabar_Audio(self,rol):
                 id_ruta=insertar_evidencia(file_path+file_save,self.v_id_usuario)
             
             
-        elif (rol == 'profesor'):
+        elif (self.v_rolN == 'Profesor'):
             file_save='audio_profesor.wav' 
             file_path='src/audio/audio_de_profesor/'            
             #TIPO MATERIAL - RUTA - DESCRIPCION TXT - SESION - ID DE USUARIO - ACTIVIDAD
@@ -314,18 +316,12 @@ def Grabar_Audio(self,rol):
             if rta==False:
             #RUTA - ID DE USUARIO
                 id_ruta=insertar_materialXactividad(3,file_path+file_save,'',2,self.v_id_usuario,1)
-            
+        print(file_path+file_save)
         wv.write(file_path+file_save, recording, frequency, sampwidth=2)
-        Convertir_Audio_A_MIDI(file_path+file_save,rol)
+        Convertir_Audio_A_MIDI(file_path+file_save,self.v_rolN)
         print('Finalizado con exito')  
         return id_ruta     
-def nuevaRuta(rol,file_path,file_save,rta):
-    
-    #file_path='src/audio/audio_de_estudiante/'
-    
-    print(rta)
-    i=0
-    
+
 
 
 def Convertir_Audio_A_MIDI(file_in,rol):
@@ -334,9 +330,9 @@ def Convertir_Audio_A_MIDI(file_in,rol):
         print("Starting...")
         #file_in = "Basepiano.wav"
         file_out = ""
-        if (rol == 'estudiante'):
+        if (rol == 'Estudiante'):
             file_out = "src/export_midi/estudiante/audio_estudiante.mid"
-        elif (rol == 'profesor'):
+        elif (rol == 'Profesor'):
             file_out = "src/export_midi/profesor/midi_partiture.mid"
         
         audio_data, srate = librosa.load(file_in, sr=None)
@@ -348,9 +344,9 @@ def Convertir_Audio_A_MIDI(file_in,rol):
         print("Done. Exiting!")
 
         
-        if (rol == 'estudiante'):
+        if (rol == 'Estudiante'):
             Midi_to_piano_Estudiante(file_out)
-        elif (rol == 'profesor'):
+        elif (rol == 'Profesor'):
             Midi_to_piano_Profesor(file_out)
         
 
@@ -398,7 +394,7 @@ def comparacion_practica(self):
         print(porcentaje)
 
         #Guardar calificación con evidencia a la actividad
-        insertarNota(13,5,porcentaje,1,self.id_ruta)
+        insertarNota(self.v_id_usuario,1,porcentaje,1,self.id_ruta)
         
         #print(porcentaje)
     
@@ -412,7 +408,7 @@ def Midi_to_piano_Profesor(ruta_midi_to_piano):
     from mido import MidiFile
     #ruta_midi_to_piano='src/export_midi/profesor/midi_partiture.mid'
     file_output='output_profesor.wav'
-    rol='profesor'
+    rol='Profesor'
     rta=midi_to_wav.Ejemplo.run(ruta_midi_to_piano,file_output,rol) 
     print(rta)
 
@@ -420,7 +416,7 @@ def Midi_to_piano_Estudiante(ruta_midi_to_piano):
     import  midi_to_wav
     from mido import MidiFile
     #ruta_midi_to_piano='src/export_midi/estudiante/audio_piano_midi.mid'
-    rol='estudiante'
+    rol='Estudiante'
     file_output='output_estudiante.wav'
     rta=midi_to_wav.Ejemplo.run(ruta_midi_to_piano,file_output,rol) 
     print(rta) 

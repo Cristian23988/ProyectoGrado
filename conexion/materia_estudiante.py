@@ -18,6 +18,7 @@ def findByIdEstudiante(id):
     v_lista_materias.clear()
     for fila in materias:
         v_lista_materias.append(fila)
+    return v_lista_materias
 
 
 #PRUEBASFunciona
@@ -26,4 +27,4 @@ def findByIdEstudiante(id):
 #deleteById(5)
 #update(1)
 ##insert('Clase2','Solfeo')
-print(v_lista_materias)
+#print(v_lista_materias)

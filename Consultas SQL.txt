@@ -34,3 +34,14 @@ and e.id_estudiante=ee.id_estudiante
 #Traer todas las sesiones de una materia
 select * from sesion
 where id_materia=(numero)
+
+
+trae las calificaciones de estudiantes 
+Select est.username estudiante, ee.ruta, e.puntaje puntaje, e.intentos, prof.username profesor, m.ruta  from material m, actividad a, estudiante_nota_clase e, evidencia_estudiante ee, usuario est, usuario prof
+where m.id_actividad=a.id
+and e.id_estudiante=est.id_Usuario
+and a.id_profesor=prof.id_Usuario
+and e.id_actividad=a.id
+and e.id_evidencia=ee.id
+and e.id_estudiante=ee.id_estudiante
+and m.id_tipo_material in (3,4)
