@@ -1,10 +1,12 @@
 from ctypes import pointer
 import sys
 from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
+from PyQt5.QtWidgets import (QWidget, QSlider, QLineEdit, QLabel, QPushButton, QScrollArea,QApplication,
+                             QHBoxLayout, QVBoxLayout, QMainWindow)
 from PyQt5.QtCore import *
 from PyQt5 import uic # llama al archivo disenofinal.ui
 from PyQt5 import QtWidgets
+import functools
 from PyQt5.QtWidgets import QMessageBox
 import numpy as np
 import librosa
@@ -17,7 +19,6 @@ import partitureConversion.main
 import sys
 import subprocess
 import cv2
-
 import time
 import numpy as np
 from partitureConversion.best_fit import fit
@@ -37,6 +38,8 @@ from conexion.user import findLogin
 from conexion.materia import findAll as materiaFindAll
 from conexion.sesion import findByMateria as sesionFindAll
 from conexion.actividad import findBySesion as actividadFindAll
+from conexion.material_actividad import findMaterialByActivity as materialByActividad
+from conexion.tipo_archivo import findById as tipoArchivo
 s = stream.Stream()
         
 class Ventana(QMainWindow):
@@ -119,7 +122,6 @@ class Ventana(QMainWindow):
 
         self.button_compare.clicked.connect(self.prueba_compare)
         self.id_ruta=0
-
         
         #self.botonMidi.clicked.connect(self.xportMidi)
         #self.botonShowPartitura.clicked.connect(self.showPartitura)
@@ -194,7 +196,8 @@ class Ventana(QMainWindow):
         if self.v_id_actividad != 0 and self.v_id_actividad != -1:
             self.stackedWidget_2.setCurrentWidget(self.material_actividad_profesor)
             material_actividades = actividadFindAll(self.v_id_actividad)
-            print(material_actividades)
+            #print(material_actividades)
+
             #self.v_table = self.table_actividades
             #self.llenarDatosTable(actividades)
             
@@ -204,8 +207,83 @@ class Ventana(QMainWindow):
             #elf.button_actividades_ver_materia.clicked.connect(self.Abrir_Modulo_Material_Actividad)
         elif self.v_id_actividad == -1:
             self.Abrir_Modulo_Actividades()
+        button = "button_material"
+        t = self.button_material_pro_crear.text()
+        print(t)
+        self.button_material_pro_crear.clicked.connect(functools.partial(self.button))
         
+
         self.button_material_actividad_regresar.clicked.connect(self.Abrir_Modulo_Actividades)
+        self.llenarMaterial(material_actividades)
+
+    def llenarMaterial(self, datos):
+        
+        self.scroll = self.scrollArea_3           # Scroll Area which contains the widgets, set as the centralWidget
+        self.widget = QWidget()                 # Widget that contains the collection of Vertical Box
+        self.vbox = QVBoxLayout()               # The Vertical Box that contains the Horizontal Boxes of  labels and buttons
+
+        for row_number, row_data in enumerate(datos):
+            datos_material = materialByActividad(datos[row_number][0])
+            tit = str(row_number+1)
+            title = QLabel("Actividad "+tit)
+            self.vbox.addWidget(title)
+
+            descripcion = QLabel(datos[row_number][5])
+            self.vbox.addWidget(descripcion)
+
+            #print(datos_material[row_number][2])
+            for r, r_data in enumerate(datos_material):
+                try:
+                    tipo_material = tipoArchivo(datos_material[r][1])
+                except:
+                    tipo_material = ""
+
+                if tipo_material != "" and tipo_material[0][1] == "Audio":
+                    btn_audio = QPushButton(str(datos_material[r][0]), self)
+                    btn_audio.setObjectName("button_material_actividad_reproducir_audio")
+                    btn_audio.setText("Reproducir audio de actividad")
+                    print(datos_material[r][2])
+                    btn_audio.clicked.connect(lambda: self.Reproducir_Audio_Material(datos_material[r][2]))
+                    btn_audio.show()
+                    self.vbox.addWidget(btn_audio)
+                
+                if tipo_material != "" and tipo_material[0][1] == "Imagen":
+                    pixmap = QPixmap(datos_material[r][2])                
+                    image = QLabel()
+                    image.setPixmap(pixmap)
+                    self.vbox.addWidget(image)
+                    #print(datos_material[0][2])
+            
+            btn = QPushButton(str(datos[row_number][0]), self)
+            btn.setObjectName(str(datos[row_number][0]))
+            btn.clicked.connect(functools.partial(self.button))
+            btn.show()
+            self.vbox.addWidget(btn)
+            
+            btn = QPushButton(str(datos[row_number][0]), self)
+            btn.setObjectName(str(datos[row_number][0]))
+            btn.clicked.connect(functools.partial(self.button))
+            btn.show()
+            self.vbox.addWidget(btn)
+
+        self.widget.setLayout(self.vbox)
+
+
+        #Scroll Area Properties
+        self.scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        self.scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.scroll.setWidgetResizable(True)
+        self.scroll.setWidget(self.widget)
+
+        #self.setCentralWidget(self.scroll)
+
+        #self.setGeometry(600, 100, 1000, 900)
+        #self.setWindowTitle('Scroll Area Demonstration')
+        self.show()
+
+    def button(self):
+        sender_button = self.sender().text()
+        print(sender_button)
 
     def Abrir_Modulo_Practica(self):
         print("practica")                    
@@ -221,6 +299,7 @@ class Ventana(QMainWindow):
                 self.id_ruta=Grabar_Audio(self,self.v_rolN)
         else:
             print("NO ES ESTUDIANTE ")
+            
     def grabar_profesor(self):
         if (self.v_rolN=='Profesor'):
             termino=self.clic()
@@ -264,6 +343,14 @@ class Ventana(QMainWindow):
         rta=main()
         return rta
 
+    def Reproducir_Audio_Material(self, ruta):
+        #pip uninstall playsound
+        #pip install playsound==1.2.2
+        from playsound import playsound  
+        #Definir Path de lectura (RUTA)
+        print("Reproduciendo...")
+        playsound(ruta)
+        print("Finalizado.")
 
     def Reproducir_Audio(self):
         #pip uninstall playsound
