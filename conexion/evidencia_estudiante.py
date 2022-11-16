@@ -19,6 +19,15 @@ def findById(id):
     v_lista_usuario.clear()
     for fila in cursor1:
         v_lista_usuario.append(fila)   
+def findByRuta(ruta_path):
+    cursor1.execute(f'select * from {v_table} where {v_ruta}="{ruta_path}"')
+    v_lista_usuario.clear()
+    registro=cursor1.fetchall()
+    if registro:
+        return True  
+    else: 
+        return False    
+    
 
 def deleteById(id):
     cursor1.execute(f"delete from {v_table} where {v_id_evidencia}={id}")

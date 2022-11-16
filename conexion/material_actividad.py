@@ -9,20 +9,20 @@ v_descripcion_text='descripcion_text'
 v_id_sesion='id_sesion'
 v_id_usuario='id_usuario'
 v_id_actividad='id_actividad'
-v_lista_usuario=[]
+v_lista_material=[]
 
 
 def findAll():
     cursor1.execute(f"select * from {v_table}")
-    v_lista_usuario.clear()
+    v_lista_material.clear()
     for fila in cursor1:
-        v_lista_usuario.append(fila) 
+        v_lista_material.append(fila) 
 
 def findById(id):
     cursor1.execute(f"select * from {v_table} where {v_id_material}={id}")
-    v_lista_usuario.clear()
+    v_lista_material.clear()
     for fila in cursor1:
-        v_lista_usuario.append(fila)   
+        v_lista_material.append(fila)   
 
 def deleteById(id):
     cursor1.execute(f"delete from {v_table} where {v_id_material}={id}")
@@ -46,12 +46,20 @@ def insert(id_tipo_material,ruta,descripcion_text,id_sesion,id_usuario,id_activi
     print("id del dato ingresado: ",id)
     return id
 
-    
+def findByRuta(ruta_path):
+    cursor1.execute(f'select * from {v_table} where {v_ruta}="{ruta_path}"')
+    v_lista_material.clear()
+    registro=cursor1.fetchall()
+    if registro:
+        return True  
+    else: 
+        return False   
+
 #PRUEBASFunciona
 #findAll()
 ##findLogin('admin','admin1')
 #findById(1)
 #deleteById(5)
 #update(1)
-insert(3,'src/audioprueba.wav','',2,2,1)
-print(v_lista_usuario)
+#insert(3,'src/audioprueba.wav','',2,2,1)
+print(v_lista_material)

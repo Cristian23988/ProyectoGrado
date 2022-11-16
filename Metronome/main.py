@@ -130,5 +130,3 @@ def main():
 
     root.mainloop()
     return False
-
-main

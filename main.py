@@ -26,6 +26,8 @@ import time
 from partitureConversion.MIDIUtil.src.midiutil.MidiFile3 import MIDIFile
 from Comparacion.compare import comparacion_wav
 from conexion.evidencia_estudiante import insert as insertar_evidencia
+from conexion.evidencia_estudiante import findByRuta as existeEvidencia
+from conexion.material_actividad import findByRuta as existematerial
 from conexion.notas import insert as insertarNota
 from conexion.material_actividad import insert as insertar_materialXactividad
 from conexion.user import findLogin
@@ -207,17 +209,49 @@ def Grabar_Audio(self,rol):
         if (rol == 'estudiante'):
             file_save='voz_solfeo.wav' 
             file_path='src/audio/audio_de_estudiante/'
+            rta=existeEvidencia(file_path+file_save)
+            print(rta)
+            i=0
+            if rta==True:
+                while rta==True:
+                    file_save=f'voz_solfeo{i}.wav' 
+                    rta=existeEvidencia(file_path+file_save) 
+                    i=i+1
+            print(rta)                               
+            if rta==False:
             #RUTA - ID DE USUARIO
-            id_ruta=insertar_evidencia(file_path+file_save,self.v_id_usuario)
+                id_ruta=insertar_evidencia(file_path+file_save,self.v_id_usuario)
+            
+            
         elif (rol == 'profesor'):
             file_save='audio_profesor.wav' 
             file_path='src/audio/audio_de_profesor/'            
             #TIPO MATERIAL - RUTA - DESCRIPCION TXT - SESION - ID DE USUARIO - ACTIVIDAD
-            id_ruta=insertar_materialXactividad(3,file_path+file_save,'',2,self.v_id_usuario,1)
+            rta=existematerial(file_path+file_save)
+            print(rta)
+            i=0
+            if rta==True:
+                while rta==True:
+                    file_save=f'audio_profesor{i}.wav' 
+                    rta=existematerial(file_path+file_save) 
+                    i=i+1
+            print(rta)                               
+            if rta==False:
+            #RUTA - ID DE USUARIO
+                id_ruta=insertar_materialXactividad(3,file_path+file_save,'',2,self.v_id_usuario,1)
+            
         wv.write(file_path+file_save, recording, frequency, sampwidth=2)
         Convertir_Audio_A_MIDI(file_path+file_save,rol)
         print('Finalizado con exito')  
         return id_ruta     
+def nuevaRuta(rol,file_path,file_save,rta):
+    
+    #file_path='src/audio/audio_de_estudiante/'
+    
+    print(rta)
+    i=0
+    
+
 
 def Convertir_Audio_A_MIDI(file_in,rol):
         import librosa
