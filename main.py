@@ -76,7 +76,10 @@ class Ventana(QMainWindow):
         self.label_userName.setText(self.v_usuarioN)
         self.label_userRole.setText(self.v_rolN)
         self.button_menu_cerrar_sesion.clicked.connect(self.cerrarSesion)
-
+        self.button_menu_practicas.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_practicas))
+        self.stackedWidget.setCurrentWidget(self.page_home)
+        self.button_menu_quiz.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_quiz))
+        
     def profesor(self):
         uic.loadUi("ui/diseno_profesor.ui", self)  #P1: mostraba la GUI  disenofinal.ui
         self.stackedWidget.setCurrentWidget(self.page_home)
@@ -149,10 +152,20 @@ class Ventana(QMainWindow):
     def prueba_compare(self):
         comparacion_practica(self)
     def grabar_estudiante(self):
-        termino=self.clic()
-        rol='estudiante'
-        if (termino==False):
-            self.id_ruta=Grabar_Audio(self,rol)
+        
+        if (self.v_rolN=='estudiante'):
+            termino=self.clic()
+            if (termino==False):
+                self.id_ruta=Grabar_Audio(self,self.v_rolN)
+        else:
+            print("NO ES ESTUDIANTE ")
+    def grabar_profesor(self):
+        if (self.v_rolN=='profesor'):
+            termino=self.clic()
+            if (termino==False):
+                self.id_ruta=Grabar_Audio(self,self.v_rolN)
+            else:
+                print("NO ES PROFESOR ")
         
     def searchTable(self, s):
         self.v_table.setCurrentItem(None)
@@ -183,11 +196,7 @@ class Ventana(QMainWindow):
         msg.setInformativeText(descripcion)
         x = msg.exec_()
 
-    def grabar_profesor(self):
-        termino=self.clic()
-        rol='profesor'
-        if (termino==False):
-            self.id_ruta=Grabar_Audio(self,rol)
+    
     def clic(self):
         from Metronome.main import main
         rta=main()
