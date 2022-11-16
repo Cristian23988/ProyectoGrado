@@ -38,12 +38,14 @@ def findById(id):
 
 #Traer material o archivos de un actividad y evidencia de una nota ya calificada X ESTUDIANTE
 def findByEstudiante(id_estudiante):
-    ordenGet= '*'
+    ordenGet= 'est.username estudiante, ee.ruta, e.puntaje puntaje, e.intentos, prof.username profesor, m.ruta '
     tables=f"{v_table} e, {v_evidencia} ee ,{v_actividad} a ,{v_material} m"
-    validaciones=f"""m.id_actividad=a.id
+    validaciones=f"""and e.id_estudiante=est.id_Usuario
+                    and a.id_profesor=prof.id_Usuario
                     and e.id_actividad=a.id
                     and e.id_evidencia=ee.id
                     and e.id_estudiante=ee.id_estudiante
+                    and m.id_tipo_material in (3,4)
                     and e.id_estudiante={id_estudiante}"""
     sql=f"select {ordenGet} from {tables} WHERE {validaciones}"
     cursor1.execute(f"{sql}")
