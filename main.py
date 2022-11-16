@@ -4,6 +4,8 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5 import uic # llama al archivo disenofinal.ui
+from PyQt5 import QtWidgets
+from PyQt5.QtWidgets import QMessageBox
 import numpy as np
 import librosa
 import midiutil
@@ -31,6 +33,8 @@ from conexion.material_actividad import findByRuta as existematerial
 from conexion.notas import insert as insertarNota
 from conexion.material_actividad import insert as insertar_materialXactividad
 from conexion.user import findLogin
+from conexion.materia import findAll as materiaFindAll
+from conexion.sesion import findByMateria as sesionFindAll
 s = stream.Stream()
         
 class Ventana(QMainWindow):
@@ -41,6 +45,7 @@ class Ventana(QMainWindow):
         self.button_login.clicked.connect(lambda:self.logIn(self.input_login_correo.text(),self.input_login_contrasena.text()))
         v_usuarioN = ""
         v_rolN = ""
+        v_table = None
 
     def logIn(self,userName,password):
         if userName and password:
@@ -74,10 +79,11 @@ class Ventana(QMainWindow):
 
     def profesor(self):
         uic.loadUi("ui/diseno_profesor.ui", self)  #P1: mostraba la GUI  disenofinal.ui
+        self.stackedWidget.setCurrentWidget(self.page_home)
         self.label_userName.setText(self.v_usuarioN)
         self.label_userRole.setText(self.v_rolN)
         self.button_menu_home.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_home))
-        self.button_menu_teoria.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_teoria))
+        self.button_menu_teoria.clicked.connect(self.Abrir_Modulo_Teoria)
         self.button_menu_practicas.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_practicas))
         self.button_menu_quiz.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_quiz))
         self.button_menu_profesor.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_profesor))
@@ -108,7 +114,34 @@ class Ventana(QMainWindow):
         #self.botonStop.clicked.connect(self.converter_pdf_to_png())
 
     def Abrir_Modulo_Teoria(self):
-        print("teoria")        
+        self.stackedWidget.setCurrentWidget(self.page_teoria)
+        self.stackedWidget_2.setCurrentWidget(self.materia_profesor)
+        materias = materiaFindAll()
+        self.v_table = self.table_temas
+        self.llenarDatosTable(materias)
+        
+        self.input_materias_search.setPlaceholderText("Buscar...")
+        self.input_materias_search.textChanged.connect(self.searchTable)
+
+        self.button_materias_ver_materia.clicked.connect(self.Abrir_Modulo_Sesiones)
+
+    def Abrir_Modulo_Sesiones(self):
+        cod = 1
+        if self.v_table.currentItem() != None:
+            cod = int(self.v_table.currentItem().text())
+            print(cod)
+        
+        self.stackedWidget_2.setCurrentWidget(self.sesiones_profesor)
+        sesiones = sesionFindAll(cod)
+        print("sesiones: ",sesiones)
+        self.v_table = self.table_sesiones
+        self.llenarDatosTable(sesiones)
+        
+        self.input_sesiones_search.setPlaceholderText("Buscar...")
+        self.input_sesiones_search.textChanged.connect(self.searchTable)
+
+        #self.button_sesiones_ver_materia.clicked.connect(self.Abrir_Modulo_Sesiones)
+
     def Abrir_Modulo_Practica(self):
         print("practica")                    
     def Abrir_Modulo_Quiz(self):
@@ -121,6 +154,35 @@ class Ventana(QMainWindow):
         if (termino==False):
             self.id_ruta=Grabar_Audio(self,rol)
         
+    def searchTable(self, s):
+        self.v_table.setCurrentItem(None)
+        
+        if not s: 
+            return
+
+        matching_items = self.v_table.findItems(s, Qt.MatchContains)
+        if matching_items:
+            # We have found something.
+            item = matching_items[0]  # Take the first.
+            self.v_table.setCurrentItem(item)
+    
+    def llenarDatosTable(self, datos):
+        self.v_table.setRowCount(0)
+        for row_number, row_data in enumerate(datos):
+            self.v_table.insertRow(row_number)
+            for column_number, data in enumerate(row_data):
+                self.v_table.setItem(row_number, column_number, QtWidgets.QTableWidgetItem(str(data)))
+    
+    def mostrarAlerta(self, title, text, descripcion):
+        msg = QMessageBox()
+        msg.setWindowTitle(title)
+        msg.setText(text)
+        msg.setIcon(QMessageBox.Information)
+        msg.setStandardButtons(QMessageBox.Ok)
+        msg.setDefaultButton(QMessageBox.Ok)
+        msg.setInformativeText(descripcion)
+        x = msg.exec_()
+
     def grabar_profesor(self):
         termino=self.clic()
         rol='profesor'
