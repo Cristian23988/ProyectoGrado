@@ -788,7 +788,7 @@ QPushButton{
              <widget class="QTableWidget" name="table_temas">
               <property name="geometry">
                <rect>
-                <x>220</x>
+                <x>230</x>
                 <y>100</y>
                 <width>261</width>
                 <height>481</height>
@@ -809,11 +809,6 @@ QPushButton{
               <property name="cornerButtonEnabled">
                <bool>true</bool>
               </property>
-              <row>
-               <property name="text">
-                <string>row 1</string>
-               </property>
-              </row>
               <column>
                <property name="text">
                 <string>Código</string>
@@ -824,18 +819,6 @@ QPushButton{
                 <string>Nombre</string>
                </property>
               </column>
-              <item row="0" column="1">
-               <property name="text">
-                <string/>
-               </property>
-               <property name="icon">
-                <iconset>
-                 <normaloff>../src/icons/icon_quiz.png</normaloff>../src/icons/icon_quiz.png</iconset>
-               </property>
-               <property name="flags">
-                <set>ItemIsSelectable|ItemIsDragEnabled|ItemIsUserCheckable</set>
-               </property>
-              </item>
              </widget>
              <widget class="QLabel" name="label_materias_title">
               <property name="geometry">
@@ -972,7 +955,7 @@ QPushButton{
                </property>
               </item>
              </widget>
-             <widget class="QPushButton" name="button_materias_ver_materia_2">
+             <widget class="QPushButton" name="button_sesiones_ver_sesion">
               <property name="geometry">
                <rect>
                 <x>320</x>
@@ -982,7 +965,7 @@ QPushButton{
                </rect>
               </property>
               <property name="text">
-               <string>Ver Materia</string>
+               <string>Ver Actividades de Sesión</string>
               </property>
              </widget>
             </widget>

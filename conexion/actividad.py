@@ -22,7 +22,8 @@ def findById(id):
     for fila in cursor1:
         v_lista_actividad.append(fila)  
 
-def findByIdSesion(id):
+#Material de la
+def findMaterialByActividad(id):
     cursor1.execute(f"select * from {v_table} where {v_id_sesion}={id}")
     v_lista_actividad.clear()
     for fila in cursor1:

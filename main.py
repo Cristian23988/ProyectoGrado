@@ -35,6 +35,7 @@ from conexion.material_actividad import insert as insertar_materialXactividad
 from conexion.user import findLogin
 from conexion.materia import findAll as materiaFindAll
 from conexion.sesion import findByMateria as sesionFindAll
+from conexion.actividad import findBySesion as actividadFindAll
 s = stream.Stream()
         
 class Ventana(QMainWindow):
@@ -46,6 +47,9 @@ class Ventana(QMainWindow):
         v_usuarioN = ""
         v_rolN = ""
         v_table = None
+        v_id_materia = 0
+        v_id_sesion = 0
+        v_id_actividad = 0
 
     def logIn(self,userName,password):
         if userName and password:
@@ -135,21 +139,47 @@ class Ventana(QMainWindow):
             self.button_materias_ver_materia.clicked.connect(self.Abrir_Modulo_Sesiones)
 
     def Abrir_Modulo_Sesiones(self):
-        cod = 1
         if self.v_table.currentItem() != None:
-            cod = int(self.v_table.currentItem().text())
-            print(cod)
+            try:
+                self.v_id_materia = int(self.v_table.currentItem().text())
+            except:
+                self.v_id_materia = -1
+                self.mostrarAlerta("Error","Incorrecta celda seleccionada","Por favor seleccione solo el código")
         
-        self.stackedWidget_2.setCurrentWidget(self.sesiones_profesor)
-        sesiones = sesionFindAll(cod)
-        print("sesiones: ",sesiones)
-        self.v_table = self.table_sesiones
-        self.llenarDatosTable(sesiones)
-        
-        self.input_sesiones_search.setPlaceholderText("Buscar...")
-        self.input_sesiones_search.textChanged.connect(self.searchTable)
+        if self.v_id_materia != 0 and self.v_id_materia != -1:
+            self.stackedWidget_2.setCurrentWidget(self.sesiones_profesor)
+            sesiones = sesionFindAll(self.v_id_materia)
+            self.v_table = self.table_sesiones
+            self.llenarDatosTable(sesiones)
+            
+            self.input_sesiones_search.setPlaceholderText("Buscar...")
+            self.input_sesiones_search.textChanged.connect(self.searchTable)
 
-        #self.button_sesiones_ver_materia.clicked.connect(self.Abrir_Modulo_Sesiones)
+            self.button_sesiones_ver_sesion.clicked.connect(self.Abrir_Modulo_Actividades)
+        elif self.v_id_materia == -1:
+            self.Abrir_Modulo_Teoria()
+    
+    def Abrir_Modulo_Actividades(self):
+        if self.v_table.currentItem() != None:
+            try:
+                self.v_id_actividad = int(self.v_table.currentItem().text())
+            except:
+                self.v_id_actividad = -1
+                self.mostrarAlerta("Error","Incorrecta celda seleccionada","Por favor seleccione solo el código")
+        
+        if self.v_id_actividad != 0 and self.v_id_actividad != -1:
+            self.stackedWidget_2.setCurrentWidget(self.actividades_profesor)
+            actividades = actividadFindAll(self.v_id_actividad)
+            print(actividades)
+            # self.v_table = self.table_sesiones
+            # self.llenarDatosTable(sesiones)
+            
+            # self.input_sesiones_search.setPlaceholderText("Buscar...")
+            # self.input_sesiones_search.textChanged.connect(self.searchTable)
+
+            #self.button_sesiones_ver_materia.clicked.connect(self.Abrir_Modulo_Sesiones)
+        elif self.v_id_sesion == -1:
+            self.Abrir_Modulo_Sesiones()
 
     def Abrir_Modulo_Practica(self):
         print("practica")                    
