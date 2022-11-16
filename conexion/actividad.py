@@ -22,6 +22,8 @@ def findById(id):
     for fila in cursor1:
         v_lista_actividad.append(fila)  
 
+
+
 def deleteById(id):
     cursor1.execute(f"delete from {v_table} where v_{v_id_actividad}={id}")
     connect.conexion1.commit()
@@ -43,5 +45,5 @@ def insert(id_sesion,id_tipo_actividad,id_materia,id_profesor):
 #findById(1)
 #deleteById(5)
 #update(1)
-insert(3,2,1,2)
+##insert(3,2,1,2)
 print(v_lista_actividad)

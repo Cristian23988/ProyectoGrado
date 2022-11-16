@@ -73,13 +73,16 @@ class Ventana(QMainWindow):
 
     def estudiante(self):
         uic.loadUi("ui/diseno_estudiante.ui", self)  #P1: mostraba la GUI  disenofinal.ui
+        self.stackedWidget.setCurrentWidget(self.page_home)
         self.label_userName.setText(self.v_usuarioN)
         self.label_userRole.setText(self.v_rolN)
         self.button_menu_cerrar_sesion.clicked.connect(self.cerrarSesion)
+        ##self.button_menu_teoria.clicked.connect(self.Abrir_Modulo_Teoria)
+
         self.button_menu_practicas.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_practicas))
-        self.stackedWidget.setCurrentWidget(self.page_home)
+        self.button_home_teoria.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_teoria))
         self.button_menu_quiz.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_quiz))
-        
+
     def profesor(self):
         uic.loadUi("ui/diseno_profesor.ui", self)  #P1: mostraba la GUI  disenofinal.ui
         self.stackedWidget.setCurrentWidget(self.page_home)
@@ -115,18 +118,19 @@ class Ventana(QMainWindow):
         #self.botonShowPartitura.clicked.connect(self.showPartitura)
         #self.botonStop.clicked.connect(self.stop)
         #self.botonStop.clicked.connect(self.converter_pdf_to_png())
-
+    
     def Abrir_Modulo_Teoria(self):
-        self.stackedWidget.setCurrentWidget(self.page_teoria)
-        self.stackedWidget_2.setCurrentWidget(self.materia_profesor)
-        materias = materiaFindAll()
-        self.v_table = self.table_temas
-        self.llenarDatosTable(materias)
         
-        self.input_materias_search.setPlaceholderText("Buscar...")
-        self.input_materias_search.textChanged.connect(self.searchTable)
+            self.stackedWidget.setCurrentWidget(self.page_teoria)
+            self.stackedWidget_2.setCurrentWidget(self.materia_profesor)
+            materias = materiaFindAll()
+            self.v_table = self.table_temas
+            self.llenarDatosTable(materias)
+            
+            self.input_materias_search.setPlaceholderText("Buscar...")
+            self.input_materias_search.textChanged.connect(self.searchTable)
 
-        self.button_materias_ver_materia.clicked.connect(self.Abrir_Modulo_Sesiones)
+            self.button_materias_ver_materia.clicked.connect(self.Abrir_Modulo_Sesiones)
 
     def Abrir_Modulo_Sesiones(self):
         cod = 1

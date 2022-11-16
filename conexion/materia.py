@@ -20,7 +20,9 @@ def findById(id):
     cursor1.execute(f"select * from {v_table} where {v_id_materia}={id}")
     v_lista_materias.clear()
     for fila in cursor1:
-        v_lista_materias.append(fila)  
+        v_lista_materias.append(fila) 
+    return v_lista_materias
+ 
 
 def deleteById(id):
     cursor1.execute(f"delete from {v_table} where v_{v_id_materia}={id}")
@@ -37,6 +39,7 @@ def update(id):
 def insert(titulo,descripcion,id_profesor):
     cursor1.execute(f'insert into {v_table} ({v_titulo},{v_descripcion},{v_id_profesor}) values("{titulo}","{descripcion},{id_profesor}")') 
     connect.conexion1.commit()
+
 
 #PRUEBASFunciona
 #findAll()
