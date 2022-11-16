@@ -1,4 +1,4 @@
-from conect import connect 
+from conexion.conect import connect 
 
 cursor1=connect.conexion1.cursor()
 v_table='actividad'
@@ -22,7 +22,13 @@ def findById(id):
     for fila in cursor1:
         v_lista_actividad.append(fila)  
 
-
+#Actividades por sesion
+def findBySesion(id_sesion):
+    cursor1.execute(f"select * from {v_table} where {v_id_sesion}={id_sesion}")
+    v_lista_actividad.clear()
+    for fila in cursor1:
+        v_lista_actividad.append(fila)
+    return v_lista_actividad
 
 def deleteById(id):
     cursor1.execute(f"delete from {v_table} where v_{v_id_actividad}={id}")
@@ -46,4 +52,4 @@ def insert(id_sesion,id_tipo_actividad,id_materia,id_profesor):
 #deleteById(5)
 #update(1)
 ##insert(3,2,1,2)
-print(v_lista_actividad)
+#print(v_lista_actividad)
