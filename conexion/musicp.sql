@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 16-11-2022 a las 02:00:07
+-- Tiempo de generación: 17-11-2022 a las 04:11:07
 -- Versión del servidor: 10.4.17-MariaDB
 -- Versión de PHP: 8.0.2
 
@@ -32,19 +32,20 @@ CREATE TABLE `actividad` (
   `id_sesion` int(11) NOT NULL,
   `id_tipo_actividad` int(11) NOT NULL,
   `id_materia` int(11) NOT NULL,
-  `id_profesor` int(11) NOT NULL
+  `id_profesor` int(11) NOT NULL,
+  `descripcion_actividad` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `actividad`
 --
 
-INSERT INTO `actividad` (`id`, `id_sesion`, `id_tipo_actividad`, `id_materia`, `id_profesor`) VALUES
-(1, 1, 2, 1, 2),
-(5, 1, 1, 1, 2),
-(6, 2, 2, 1, 2),
-(7, 2, 1, 1, 2),
-(9, 3, 2, 1, 2);
+INSERT INTO `actividad` (`id`, `id_sesion`, `id_tipo_actividad`, `id_materia`, `id_profesor`, `descripcion_actividad`) VALUES
+(1, 1, 2, 1, 14, 'Description of the project, functions, system operativo desployed, role employed in the project, methodology used, logros realizados,\\n\\nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.'),
+(5, 1, 1, 1, 2, 'Description of the project, functions, system operativo desployed, role employed in the project, methodology used, logros realizados,\\n\\nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.'),
+(6, 2, 2, 1, 2, 'Description of the project, functions, system operativo desployed, role employed in the project, methodology used, logros realizados,\\n\\nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.'),
+(7, 2, 1, 1, 2, 'Description of the project, functions, system operativo desployed, role employed in the project, methodology used, logros realizados,\\n\\nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.'),
+(10, 1, 2, 1, 2, 'Description of the project, functions, system operativo desployed, role employed in the project, methodology used, logros realizados,\\n\\nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.');
 
 -- --------------------------------------------------------
 
@@ -87,12 +88,11 @@ CREATE TABLE `estudiante_nota_clase` (
 --
 
 INSERT INTO `estudiante_nota_clase` (`id`, `id_estudiante`, `id_actividad`, `puntaje`, `intentos`, `id_evidencia`) VALUES
-(6, 12, 1, '70', 1, 1),
-(8, 13, 6, '80', 2, 2),
-(14, 13, 5, '1', 1, 2),
-(15, 13, 5, '0%', 1, 2),
-(16, 13, 5, '96%', 1, 2),
-(17, 13, 5, '88%', 1, 12);
+(20, 12, 1, '98%', 1, 22),
+(21, 13, 1, '93%', 1, 23),
+(22, 12, 1, '97%', 1, 25),
+(23, 12, 1, '97%', 1, 26),
+(24, 12, 1, '72%', 1, 27);
 
 -- --------------------------------------------------------
 
@@ -111,20 +111,12 @@ CREATE TABLE `evidencia_estudiante` (
 --
 
 INSERT INTO `evidencia_estudiante` (`id`, `ruta`, `id_estudiante`) VALUES
-(1, 'src/audioSolfeoEstu.wav', 12),
-(2, 'src/ruta2estudiante.wav', 13),
-(4, 'src/audioprueba.wav', 10),
-(5, 'src/audioprueba.wav', 10),
-(6, 'src/audioprueba.wav', 10),
-(7, 'output_profesor.wav', 10),
-(8, 'src/audio/audio_de_estudiante/voz_solfeo.wav', 10),
-(11, 'src/audio/audio_de_estudiante/voz_solfeo.wav', 10),
-(12, 'src/audio/audio_de_estudiante/voz_solfeo.wav', 10),
-(13, 'src/audio/audio_de_estudiante/voz_solfeo.wav', 14),
-(14, 'src/audio/audio_de_estudiante/voz_solfeo1.wav', 14),
-(15, 'src/audio/audio_de_estudiante/voz_solfeo0.wav', 14),
-(16, 'src/audio/audio_de_estudiante/voz_solfeo2.wav', 14),
-(17, 'src/audio/audio_de_estudiante/voz_solfeo3.wav', 14);
+(22, 'src/audio/audio_de_estudiante/voz_solfeo.wav', 12),
+(23, 'src/audio/audio_de_estudiante/voz_solfeo0.wav', 13),
+(24, 'src/audio/audio_de_estudiante/voz_solfeo1.wav', 12),
+(25, 'src/audio/audio_de_estudiante/voz_solfeo2.wav', 12),
+(26, 'src/audio/audio_de_estudiante/voz_solfeo3.wav', 12),
+(27, 'src/audio/audio_de_estudiante/voz_solfeo4.wav', 12);
 
 -- --------------------------------------------------------
 
@@ -157,7 +149,6 @@ CREATE TABLE `material` (
   `id` int(11) NOT NULL,
   `id_tipo_material` int(11) NOT NULL,
   `ruta` varchar(100) NOT NULL,
-  `descripcion_text` text NOT NULL,
   `id_sesion` int(11) NOT NULL,
   `id_usuario` int(11) NOT NULL,
   `id_actividad` int(11) NOT NULL
@@ -167,15 +158,9 @@ CREATE TABLE `material` (
 -- Volcado de datos para la tabla `material`
 --
 
-INSERT INTO `material` (`id`, `id_tipo_material`, `ruta`, `descripcion_text`, `id_sesion`, `id_usuario`, `id_actividad`) VALUES
-(13, 3, 'src/SolfeoProfesor.wav', '', 1, 2, 1),
-(19, 3, 'src/audioProf.wav', '', 1, 2, 5),
-(21, 3, 'src/SolfeoProfesorActivi6.wav', '', 2, 2, 6),
-(22, 3, 'src/SolfeoProfesor.wav', '', 2, 2, 7),
-(57, 3, 'src/audio/audio_de_profesor/audio_profesor.wav', '', 2, 14, 1),
-(58, 3, 'src/audio/audio_de_profesor/audio_profesor.wav', '', 2, 14, 1),
-(59, 3, 'src/audio/audio_de_profesor/audio_profesor0.wav', '', 2, 14, 1),
-(60, 3, 'src/audio/audio_de_profesor/audio_profesor1.wav', '', 2, 14, 1);
+INSERT INTO `material` (`id`, `id_tipo_material`, `ruta`, `id_sesion`, `id_usuario`, `id_actividad`) VALUES
+(67, 3, 'src/audio/audio_de_profesor/audio_profesor.wav', 2, 14, 1),
+(69, 1, 'src/images/image_quiz.jpg', 1, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -254,10 +239,9 @@ CREATE TABLE `tipo_archivo` (
 --
 
 INSERT INTO `tipo_archivo` (`id`, `descripcion`) VALUES
-(1, 'Texto'),
+(1, 'Imagen'),
 (2, 'PDF'),
-(3, 'Audio'),
-(4, 'Imagen');
+(3, 'Audio');
 
 -- --------------------------------------------------------
 
@@ -293,7 +277,9 @@ INSERT INTO `usuario` (`id_Usuario`, `username`, `password`, `rol`) VALUES
 ALTER TABLE `actividad`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_sesion` (`id_sesion`),
-  ADD KEY `id_tipo_actividad` (`id_tipo_actividad`);
+  ADD KEY `id_tipo_actividad` (`id_tipo_actividad`),
+  ADD KEY `id_profesor` (`id_profesor`),
+  ADD KEY `id_materia` (`id_materia`);
 
 --
 -- Indices de la tabla `estudiante_materia`
@@ -376,7 +362,7 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `actividad`
 --
 ALTER TABLE `actividad`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `estudiante_materia`
@@ -388,13 +374,13 @@ ALTER TABLE `estudiante_materia`
 -- AUTO_INCREMENT de la tabla `estudiante_nota_clase`
 --
 ALTER TABLE `estudiante_nota_clase`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT de la tabla `evidencia_estudiante`
 --
 ALTER TABLE `evidencia_estudiante`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT de la tabla `materia`
@@ -406,7 +392,7 @@ ALTER TABLE `materia`
 -- AUTO_INCREMENT de la tabla `material`
 --
 ALTER TABLE `material`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
 
 --
 -- AUTO_INCREMENT de la tabla `rol`
@@ -447,7 +433,9 @@ ALTER TABLE `usuario`
 --
 ALTER TABLE `actividad`
   ADD CONSTRAINT `actividad_ibfk_2` FOREIGN KEY (`id_tipo_actividad`) REFERENCES `tipo_actividad` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `actividad_ibfk_4` FOREIGN KEY (`id_sesion`) REFERENCES `sesion` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `actividad_ibfk_4` FOREIGN KEY (`id_sesion`) REFERENCES `sesion` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `actividad_ibfk_5` FOREIGN KEY (`id_profesor`) REFERENCES `usuario` (`id_Usuario`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `actividad_ibfk_6` FOREIGN KEY (`id_materia`) REFERENCES `materia` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `estudiante_materia`
