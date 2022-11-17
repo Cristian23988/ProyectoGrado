@@ -1,13 +1,12 @@
 from ctypes import pointer
 import sys
 from PyQt5.QtGui import *
-from PyQt5.QtWidgets import (QWidget, QSlider, QLineEdit, QLabel, QPushButton, QScrollArea,QApplication,
-                             QHBoxLayout, QVBoxLayout, QMainWindow)
+from PyQt5.QtWidgets import (QWidget, QSlider, QLineEdit, QLabel, QFrame, QGridLayout, QPushButton, QScrollArea, QApplication, QSpacerItem,
+                             QHBoxLayout, QVBoxLayout, QMainWindow, QSizePolicy, QMessageBox)
 from PyQt5.QtCore import *
 from PyQt5 import uic # llama al archivo disenofinal.ui
 from PyQt5 import QtWidgets
 import functools
-from PyQt5.QtWidgets import QMessageBox
 import numpy as np
 import librosa
 import midiutil
@@ -106,7 +105,7 @@ class Ventana(QMainWindow):
         self.button_menu_profesor.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_profesor))
         self.button_menu_cerrar_sesion.clicked.connect(self.cerrarSesion)
 
-        self.button_home_teoria.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_teoria))
+        self.button_home_teoria.clicked.connect(self.Abrir_Modulo_Teoria)
         self.button_home_practicas.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_practicas))
         self.button_home_quiz.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_quiz))
         #Grabar y reproducir audio-----------------------
@@ -197,20 +196,10 @@ class Ventana(QMainWindow):
         if self.v_id_actividad != 0 and self.v_id_actividad != -1:
             self.stackedWidget_2.setCurrentWidget(self.material_actividad_profesor)
             material_actividades = actividadFindAll(self.v_id_actividad)
-            #print(material_actividades)
-
-            #self.v_table = self.table_actividades
-            #self.llenarDatosTable(actividades)
-            
-            #self.input_actividades_search.setPlaceholderText("Buscar...")
-            #self.input_actividades_search.textChanged.connect(self.searchTable)
-
-            #elf.button_actividades_ver_materia.clicked.connect(self.Abrir_Modulo_Material_Actividad)
         elif self.v_id_actividad == -1:
             self.Abrir_Modulo_Actividades()
         button = "button_material"
         t = self.button_material_pro_crear.text()
-        print(t)
         self.button_material_pro_crear.clicked.connect(functools.partial(self.button))
         
 
@@ -219,67 +208,105 @@ class Ventana(QMainWindow):
 
     def llenarMaterial(self, datos):
         
-        self.scroll = self.scrollArea_3           # Scroll Area which contains the widgets, set as the centralWidget
-        self.widget = QWidget()                 # Widget that contains the collection of Vertical Box
-        self.vbox = QVBoxLayout()               # The Vertical Box that contains the Horizontal Boxes of  labels and buttons
+        scroll = self.scrollArea_3           # Scroll Area which contains the widgets, set as the centralWidget
+        widget = QWidget()                 # Widget that contains the collection of Vertical Box
+        vbox = QVBoxLayout()               # The Vertical Box that contains the Horizontal Boxes of  labels and buttons
+        scroll.setGeometry(100,60,700,600)
+        scroll.setWidgetResizable(True)
+
         #print(datos[0][5])
-        for row_number, row_data in enumerate(datos):
+        for row_number, row_data in enumerate(datos):            
             datos_material = materialByActividad(datos[row_number][0])
             tit = str(row_number+1)
             title = QLabel("Actividad "+tit)
-            self.vbox.addWidget(title)
+            title.setScaledContents(True)
+            title.setWordWrap(True)
+            vbox.addWidget(title)
 
             descripcion = QLabel(datos[row_number][5])
-            self.vbox.addWidget(descripcion)
+            descripcion.setScaledContents(True)
+            descripcion.setWordWrap(True)
+            vbox.addWidget(descripcion)
 
-            #print(datos_material[row_number][2])
             for r, r_data in enumerate(datos_material):
                 try:
                     tipo_material = tipoArchivo(datos_material[r][1])
                 except:
                     tipo_material = ""
-
-                if tipo_material != "" and tipo_material[0][1] == "Audio":
-                    btn_audio = QPushButton(str(datos_material[r][0]), self)
-                    btn_audio.setObjectName("button_material_actividad_reproducir_audio")
-                    #btn_audio.setText("Reproducir audio de actividad")
-                    #print(datos_material[r][2])
-                    btn_audio.clicked.connect(lambda: self.Reproducir_Audio_Material())
-                    btn_audio.show()
-                    self.vbox.addWidget(btn_audio)
+                
+                grid_2 = QGridLayout()
+                grid_2.setHorizontalSpacing(6)
+                #Horizontal spacer
+                space = QSpacerItem(40, 20, QSizePolicy.Expanding)
+                count_items = 0
                 
                 if tipo_material != "" and tipo_material[0][1] == "Imagen":
                     pixmap = QPixmap(datos_material[r][2])                
                     image = QLabel()
                     image.setPixmap(pixmap)
-                    self.vbox.addWidget(image)
-                    #print(datos_material[0][2])
+                    grid_2.addWidget(image, count_items, 0)
+                    grid_2.addItem(space, count_items, 1)
+                    count_items += 1
+                    
+                if tipo_material != "" and tipo_material[0][1] == "Audio":
+                    btn_audio = QPushButton(str(datos_material[r][0]), self)
+                    btn_audio.setObjectName(str(datos_material[r][0]))
+                    btn_audio.clicked.connect(lambda: self.Reproducir_Audio_Material())
+                    btn_audio.setStyleSheet("background-color: rgb(96, 189, 218); color: rgb(96, 189, 218); font-size: 1px;")
+                    btn_audio.setIcon(QIcon('src/icons/icon_play.png'))
+                    btn_audio.setIconSize(QSize(50, 50)) 
+                    btn_audio.show()
+                    grid_2.addWidget(btn_audio, count_items, 0)
+                    grid_2.addItem(space, count_items, 1)
+                    print("count_items audi", datos_material[r][0])
             
+                vbox.addLayout(grid_2)
+
+            grid = QGridLayout()
+            grid.setHorizontalSpacing(6)
+
+            #Horizontal spacer
+            space = QSpacerItem(40, 20, QSizePolicy.Expanding)
+            grid.addItem(space, 0, 0)
+
+            #Boton agregar
             btn = QPushButton(str(datos[row_number][0]), self)
             btn.setObjectName(str(datos[row_number][0]))
             btn.clicked.connect(functools.partial(self.button))
+            btn.setStyleSheet("background-color: rgb(96, 189, 218); color: rgb(96, 189, 218); font-size: 1px;")
+            btn.setIcon(QIcon('src/icons/icon_home.png'))
+            btn.setIconSize(QSize(50, 50)) 
             btn.show()
-            self.vbox.addWidget(btn)
+            grid.addWidget(btn, 0, 1)
             
+            #Boton actualizar
             btn = QPushButton(str(datos[row_number][0]), self)
             btn.setObjectName(str(datos[row_number][0]))
             btn.clicked.connect(functools.partial(self.button))
+            btn.setStyleSheet("background-color: rgb(86, 188, 75); color: rgb(86, 188, 75); font-size: 1px;")
+            btn.setIcon(QIcon('src/icons/icon_home.png'))
+            btn.setIconSize(QSize(50, 50)) 
             btn.show()
-            self.vbox.addWidget(btn)
+            grid.addWidget(btn, 0, 2)
 
-        self.widget.setLayout(self.vbox)
+            #boton eliminar
+            btn = QPushButton(str(datos[row_number][0]), self)
+            btn.setObjectName(str(datos[row_number][0]))
+            btn.clicked.connect(functools.partial(self.button))
+            btn.setStyleSheet("background-color: rgb(170, 0, 0); color: rgb(170, 0, 0); font-size: 1px;")
+            btn.setIcon(QIcon('src/icons/icon_home.png'))
+            btn.setIconSize(QSize(50, 50)) 
+            btn.show()
+            grid.addWidget(btn, 0, 3)
+            grid.addItem(space, 0, 4)
+            vbox.addLayout(grid)
 
-
+        widget.setLayout(vbox)
         #Scroll Area Properties
-        self.scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
-        self.scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        self.scroll.setWidgetResizable(True)
-        self.scroll.setWidget(self.widget)
-
-        #self.setCentralWidget(self.scroll)
-
-        #self.setGeometry(600, 100, 1000, 900)
-        #self.setWindowTitle('Scroll Area Demonstration')
+        scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        scroll.setWidgetResizable(True)
+        scroll.setWidget(widget)
         self.show()
 
     def button(self):
