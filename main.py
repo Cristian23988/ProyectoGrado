@@ -134,17 +134,20 @@ class Ventana(QMainWindow):
             self.stackedWidget_2.setCurrentWidget(self.materia_profesor)
             materias = materiaFindAll()
             self.v_table = self.table_temas
+            self.v_table.clearContents()
             self.llenarDatosTable(materias)
-            
+
             self.input_materias_search.setPlaceholderText("Buscar...")
             self.input_materias_search.textChanged.connect(self.searchTable)
 
-            self.button_materias_ver_materia.clicked.connect(self.Abrir_Modulo_Sesiones)
-
     def Abrir_Modulo_Sesiones(self):
-        if self.v_table.currentItem() != None:
+        sender_button = self.sender().text()
+        if sender_button == "Regresar":
+            sender_button = str(self.v_id_materia)
+
+        if sender_button != "Regresar":
             try:
-                self.v_id_materia = int(self.v_table.currentItem().text())
+                self.v_id_materia = int(sender_button)
             except:
                 self.v_id_materia = -1
                 self.mostrarAlerta("Error","Incorrecta celda seleccionada","Por favor seleccione solo el código")
@@ -153,20 +156,24 @@ class Ventana(QMainWindow):
                 self.stackedWidget_2.setCurrentWidget(self.sesiones_profesor)
                 sesiones = sesionFindAll(self.v_id_materia)
                 self.v_table = self.table_sesiones
+                self.v_table.clearContents()
                 self.llenarDatosTable(sesiones)
                 
                 self.input_sesiones_search.setPlaceholderText("Buscar...")
                 self.input_sesiones_search.textChanged.connect(self.searchTable)
-
-                self.button_sesiones_ver_sesion.clicked.connect(self.Abrir_Modulo_Actividades)
-                self.button_sesiones_regresar.clicked.connect(self.Abrir_Modulo_Teoria)
+                self.button_sesiones_regresar.clicked.connect(functools.partial(self.Abrir_Modulo_Teoria))
             elif self.v_id_materia == -1:
+                self.v_table.clearContents()
                 self.Abrir_Modulo_Teoria()
     
     def Abrir_Modulo_Actividades(self):
-        if self.v_table.currentItem() != None:
+        sender_button = self.sender().text()
+        if sender_button == "Regresar":
+            sender_button = str(self.v_id_sesion)
+            
+        if sender_button != "Regresar":
             try:
-                self.v_id_sesion = int(self.v_table.currentItem().text())
+                self.v_id_sesion = int(sender_button)
             except:
                 self.v_id_sesion = -1
                 self.mostrarAlerta("Error","Incorrecta celda seleccionada","Por favor seleccione solo el código")
@@ -179,16 +186,19 @@ class Ventana(QMainWindow):
                 
                 self.input_actividades_search.setPlaceholderText("Buscar...")
                 self.input_actividades_search.textChanged.connect(self.searchTable)
-
-                self.button_actividades_ver_actividad.clicked.connect(self.Abrir_Modulo_Material_Actividad)
-                self.button_actividades_regresar.clicked.connect(self.Abrir_Modulo_Sesiones)
+                self.button_actividades_regresar.clicked.connect(functools.partial(self.Abrir_Modulo_Sesiones))
             elif self.v_id_sesion == -1:
+                self.v_table.clearContents()
                 self.Abrir_Modulo_Sesiones()
 
     def Abrir_Modulo_Material_Actividad(self):
-        if self.v_table.currentItem() != None:
+        sender_button = self.sender().text()
+        if sender_button == "Regresar":
+            sender_button = str(self.v_id_actividad)
+
+        if sender_button != "Regresar":
             try:
-                self.v_id_actividad = int(self.v_table.currentItem().text())
+                self.v_id_actividad = int(sender_button)
             except:
                 self.v_id_actividad = -1
                 self.mostrarAlerta("Error","Incorrecta celda seleccionada","Por favor seleccione solo el código")
@@ -197,24 +207,19 @@ class Ventana(QMainWindow):
                 self.stackedWidget_2.setCurrentWidget(self.material_actividad_profesor)
                 material_actividades = actividadFindAll(self.v_id_actividad)
             elif self.v_id_actividad == -1:
+                self.v_table.clearContents()
                 self.Abrir_Modulo_Actividades()
-            button = "button_material"
-            t = self.button_material_pro_crear.text()
-            self.button_material_pro_crear.clicked.connect(functools.partial(self.button))
-            
 
-            self.button_material_actividad_regresar.clicked.connect(self.Abrir_Modulo_Actividades)
+            self.button_material_actividad_regresar.clicked.connect(functools.partial(self.Abrir_Modulo_Actividades))
             self.llenarMaterial(material_actividades)
 
     def llenarMaterial(self, datos):
-        
         scroll = self.scrollArea_3           # Scroll Area which contains the widgets, set as the centralWidget
         widget = QWidget()                 # Widget that contains the collection of Vertical Box
         vbox = QVBoxLayout()               # The Vertical Box that contains the Horizontal Boxes of  labels and buttons
         scroll.setGeometry(100,60,700,600)
         scroll.setWidgetResizable(True)
 
-        #print(datos[0][5])
         for row_number, row_data in enumerate(datos):            
             datos_material = materialByActividad(datos[row_number][0])
             tit = str(row_number+1)
@@ -252,13 +257,12 @@ class Ventana(QMainWindow):
                     btn_audio = QPushButton(str(datos_material[r][0]), self)
                     btn_audio.setObjectName(str(datos_material[r][0]))
                     btn_audio.clicked.connect(lambda: self.Reproducir_Audio_Material())
-                    btn_audio.setStyleSheet("background-color: rgb(96, 189, 218); color: rgb(96, 189, 218); font-size: 1px;")
+                    btn_audio.setStyleSheet("background-color: white; color: white; font-size: 1px;")
                     btn_audio.setIcon(QIcon('src/icons/icon_play.png'))
-                    btn_audio.setIconSize(QSize(50, 50)) 
+                    btn_audio.setIconSize(QSize(40, 40)) 
                     btn_audio.show()
                     grid_2.addWidget(btn_audio, count_items, 0)
                     grid_2.addItem(space, count_items, 1)
-                    print("count_items audi", datos_material[r][0])
             
                 vbox.addLayout(grid_2)
 
@@ -350,10 +354,28 @@ class Ventana(QMainWindow):
     
     def llenarDatosTable(self, datos):
         self.v_table.setRowCount(0)
+        tname = self.v_table.objectName()
+        
         for row_number, row_data in enumerate(datos):
             self.v_table.insertRow(row_number)
-            for column_number, data in enumerate(row_data):
-                self.v_table.setItem(row_number, column_number, QtWidgets.QTableWidgetItem(str(data)))
+            self.v_table.setItem(row_number, 0, QtWidgets.QTableWidgetItem(row_data[1]))
+
+            btn = QPushButton(str(row_data[0]), self)
+            btn.setObjectName(str(row_data[0]))
+            if tname == "table_temas":
+                btn.clicked.connect(functools.partial(self.Abrir_Modulo_Sesiones))
+            elif tname == "table_sesiones":
+                btn.clicked.connect(functools.partial(self.Abrir_Modulo_Actividades))
+            elif tname == "table_actividades":
+                n_act = str(row_number+1)
+                n_act = "Actividad "+n_act
+                self.v_table.setItem(row_number, 0, QtWidgets.QTableWidgetItem(n_act))
+                btn.clicked.connect(functools.partial(self.Abrir_Modulo_Material_Actividad))
+            btn.setStyleSheet("background-color: white; color: white; font-size: 1px;")
+            btn.setIcon(QIcon('src/icons/icon_ver.png'))
+            btn.setIconSize(QSize(30, 30)) 
+            btn.show()
+            self.v_table.setCellWidget(row_number, 1, btn)
     
     def mostrarAlerta(self, title, text, descripcion):
         msg = QMessageBox()

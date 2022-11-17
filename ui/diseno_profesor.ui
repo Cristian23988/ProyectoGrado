@@ -788,14 +788,17 @@ QPushButton{
              <widget class="QTableWidget" name="table_temas">
               <property name="geometry">
                <rect>
-                <x>230</x>
+                <x>210</x>
                 <y>100</y>
-                <width>261</width>
-                <height>481</height>
+                <width>320</width>
+                <height>400</height>
                </rect>
               </property>
+              <property name="styleSheet">
+               <string notr="true">border: 0px; </string>
+              </property>
               <property name="lineWidth">
-               <number>1</number>
+               <number>0</number>
               </property>
               <property name="editTriggers">
                <set>QAbstractItemView::AnyKeyPressed|QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed|QAbstractItemView::SelectedClicked</set>
@@ -807,16 +810,16 @@ QPushButton{
                <bool>true</bool>
               </property>
               <property name="cornerButtonEnabled">
-               <bool>true</bool>
+               <bool>false</bool>
               </property>
               <column>
                <property name="text">
-                <string>Código</string>
+                <string>Nombre</string>
                </property>
               </column>
               <column>
                <property name="text">
-                <string>Nombre</string>
+                <string>Ver</string>
                </property>
               </column>
              </widget>
@@ -847,24 +850,11 @@ QPushButton{
              <widget class="QLineEdit" name="input_materias_search">
               <property name="geometry">
                <rect>
-                <x>220</x>
+                <x>210</x>
                 <y>70</y>
                 <width>281</width>
                 <height>20</height>
                </rect>
-              </property>
-             </widget>
-             <widget class="QPushButton" name="button_materias_ver_materia">
-              <property name="geometry">
-               <rect>
-                <x>280</x>
-                <y>600</y>
-                <width>141</width>
-                <height>23</height>
-               </rect>
-              </property>
-              <property name="text">
-               <string>Ver Sesiones de Materia</string>
               </property>
              </widget>
             </widget>
@@ -872,9 +862,9 @@ QPushButton{
              <widget class="QLineEdit" name="input_sesiones_search">
               <property name="geometry">
                <rect>
-                <x>220</x>
+                <x>210</x>
                 <y>70</y>
-                <width>281</width>
+                <width>400</width>
                 <height>20</height>
                </rect>
               </property>
@@ -884,7 +874,7 @@ QPushButton{
                <rect>
                 <x>250</x>
                 <y>10</y>
-                <width>200</width>
+                <width>211</width>
                 <height>32</height>
                </rect>
               </property>
@@ -906,11 +896,14 @@ QPushButton{
              <widget class="QTableWidget" name="table_sesiones">
               <property name="geometry">
                <rect>
-                <x>230</x>
+                <x>210</x>
                 <y>100</y>
-                <width>261</width>
-                <height>481</height>
+                <width>450</width>
+                <height>400</height>
                </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">border: 0px; </string>
               </property>
               <property name="lineWidth">
                <number>1</number>
@@ -929,27 +922,24 @@ QPushButton{
               </property>
               <column>
                <property name="text">
-                <string>Código</string>
+                <string>Nombre</string>
                </property>
               </column>
               <column>
                <property name="text">
-                <string>Nombre</string>
+                <string>Ver</string>
                </property>
               </column>
-             </widget>
-             <widget class="QPushButton" name="button_sesiones_ver_sesion">
-              <property name="geometry">
-               <rect>
-                <x>300</x>
-                <y>600</y>
-                <width>141</width>
-                <height>23</height>
-               </rect>
-              </property>
-              <property name="text">
-               <string>Ver Actividades de Sesión</string>
-              </property>
+              <column>
+               <property name="text">
+                <string>Editar</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Eliminar</string>
+               </property>
+              </column>
              </widget>
              <widget class="QPushButton" name="button_sesiones_regresar">
               <property name="geometry">
@@ -979,25 +969,12 @@ QPushButton{
                <string>Regresar</string>
               </property>
              </widget>
-             <widget class="QPushButton" name="button_actividades_ver_actividad">
-              <property name="geometry">
-               <rect>
-                <x>350</x>
-                <y>320</y>
-                <width>151</width>
-                <height>23</height>
-               </rect>
-              </property>
-              <property name="text">
-               <string>Ver material de la actividad</string>
-              </property>
-             </widget>
              <widget class="QLineEdit" name="input_actividades_search">
               <property name="geometry">
                <rect>
-                <x>306</x>
-                <y>60</y>
-                <width>231</width>
+                <x>210</x>
+                <y>70</y>
+                <width>400</width>
                 <height>20</height>
                </rect>
               </property>
@@ -1005,11 +982,14 @@ QPushButton{
              <widget class="QTableWidget" name="table_actividades">
               <property name="geometry">
                <rect>
-                <x>320</x>
-                <y>90</y>
-                <width>211</width>
-                <height>192</height>
+                <x>210</x>
+                <y>100</y>
+                <width>450</width>
+                <height>400</height>
                </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">border: 0px;</string>
               </property>
               <property name="showGrid">
                <bool>false</bool>
@@ -1022,21 +1002,31 @@ QPushButton{
               </property>
               <column>
                <property name="text">
-                <string>Código</string>
+                <string>Nombre</string>
                </property>
               </column>
               <column>
                <property name="text">
-                <string>Nombre</string>
+                <string>Ver</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Editar</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Eliminar</string>
                </property>
               </column>
              </widget>
              <widget class="QLabel" name="label_materias_title_2">
               <property name="geometry">
                <rect>
-                <x>310</x>
+                <x>270</x>
                 <y>10</y>
-                <width>251</width>
+                <width>250</width>
                 <height>32</height>
                </rect>
               </property>
@@ -1048,7 +1038,7 @@ QPushButton{
               </property>
               <property name="styleSheet">
                <string notr="true">QLabel{
-	qproperty-geometry: rect(250 10 200 32);
+	qproperty-geometry: rect(270 10 250 32);
 }</string>
               </property>
               <property name="text">
@@ -1063,9 +1053,9 @@ QPushButton{
              <widget class="QLabel" name="label_teoria_title">
               <property name="geometry">
                <rect>
-                <x>290</x>
+                <x>320</x>
                 <y>10</y>
-                <width>251</width>
+                <width>75</width>
                 <height>32</height>
                </rect>
               </property>
