@@ -149,19 +149,19 @@ class Ventana(QMainWindow):
                 self.v_id_materia = -1
                 self.mostrarAlerta("Error","Incorrecta celda seleccionada","Por favor seleccione solo el código")
         
-        if self.v_id_materia != 0 and self.v_id_materia != -1:
-            self.stackedWidget_2.setCurrentWidget(self.sesiones_profesor)
-            sesiones = sesionFindAll(self.v_id_materia)
-            self.v_table = self.table_sesiones
-            self.llenarDatosTable(sesiones)
-            
-            self.input_sesiones_search.setPlaceholderText("Buscar...")
-            self.input_sesiones_search.textChanged.connect(self.searchTable)
+            if self.v_id_materia != 0 and self.v_id_materia != -1:
+                self.stackedWidget_2.setCurrentWidget(self.sesiones_profesor)
+                sesiones = sesionFindAll(self.v_id_materia)
+                self.v_table = self.table_sesiones
+                self.llenarDatosTable(sesiones)
+                
+                self.input_sesiones_search.setPlaceholderText("Buscar...")
+                self.input_sesiones_search.textChanged.connect(self.searchTable)
 
-            self.button_sesiones_ver_sesion.clicked.connect(self.Abrir_Modulo_Actividades)
-            self.button_sesiones_regresar.clicked.connect(self.Abrir_Modulo_Teoria)
-        elif self.v_id_materia == -1:
-            self.Abrir_Modulo_Teoria()
+                self.button_sesiones_ver_sesion.clicked.connect(self.Abrir_Modulo_Actividades)
+                self.button_sesiones_regresar.clicked.connect(self.Abrir_Modulo_Teoria)
+            elif self.v_id_materia == -1:
+                self.Abrir_Modulo_Teoria()
     
     def Abrir_Modulo_Actividades(self):
         if self.v_table.currentItem() != None:
@@ -171,19 +171,19 @@ class Ventana(QMainWindow):
                 self.v_id_sesion = -1
                 self.mostrarAlerta("Error","Incorrecta celda seleccionada","Por favor seleccione solo el código")
         
-        if self.v_id_sesion != 0 and self.v_id_sesion != -1:
-            self.stackedWidget_2.setCurrentWidget(self.actividades_profesor)
-            actividades = actividadFindAll(self.v_id_sesion)
-            self.v_table = self.table_actividades
-            self.llenarDatosTable(actividades)
-            
-            self.input_actividades_search.setPlaceholderText("Buscar...")
-            self.input_actividades_search.textChanged.connect(self.searchTable)
+            if self.v_id_sesion != 0 and self.v_id_sesion != -1:
+                self.stackedWidget_2.setCurrentWidget(self.actividades_profesor)
+                actividades = actividadFindAll(self.v_id_sesion)
+                self.v_table = self.table_actividades
+                self.llenarDatosTable(actividades)
+                
+                self.input_actividades_search.setPlaceholderText("Buscar...")
+                self.input_actividades_search.textChanged.connect(self.searchTable)
 
-            self.button_actividades_ver_actividad.clicked.connect(self.Abrir_Modulo_Material_Actividad)
-            self.button_actividades_regresar.clicked.connect(self.Abrir_Modulo_Sesiones)
-        elif self.v_id_sesion == -1:
-            self.Abrir_Modulo_Sesiones()
+                self.button_actividades_ver_actividad.clicked.connect(self.Abrir_Modulo_Material_Actividad)
+                self.button_actividades_regresar.clicked.connect(self.Abrir_Modulo_Sesiones)
+            elif self.v_id_sesion == -1:
+                self.Abrir_Modulo_Sesiones()
 
     def Abrir_Modulo_Material_Actividad(self):
         if self.v_table.currentItem() != None:
@@ -193,18 +193,18 @@ class Ventana(QMainWindow):
                 self.v_id_actividad = -1
                 self.mostrarAlerta("Error","Incorrecta celda seleccionada","Por favor seleccione solo el código")
         
-        if self.v_id_actividad != 0 and self.v_id_actividad != -1:
-            self.stackedWidget_2.setCurrentWidget(self.material_actividad_profesor)
-            material_actividades = actividadFindAll(self.v_id_actividad)
-        elif self.v_id_actividad == -1:
-            self.Abrir_Modulo_Actividades()
-        button = "button_material"
-        t = self.button_material_pro_crear.text()
-        self.button_material_pro_crear.clicked.connect(functools.partial(self.button))
-        
+            if self.v_id_actividad != 0 and self.v_id_actividad != -1:
+                self.stackedWidget_2.setCurrentWidget(self.material_actividad_profesor)
+                material_actividades = actividadFindAll(self.v_id_actividad)
+            elif self.v_id_actividad == -1:
+                self.Abrir_Modulo_Actividades()
+            button = "button_material"
+            t = self.button_material_pro_crear.text()
+            self.button_material_pro_crear.clicked.connect(functools.partial(self.button))
+            
 
-        self.button_material_actividad_regresar.clicked.connect(self.Abrir_Modulo_Actividades)
-        self.llenarMaterial(material_actividades)
+            self.button_material_actividad_regresar.clicked.connect(self.Abrir_Modulo_Actividades)
+            self.llenarMaterial(material_actividades)
 
     def llenarMaterial(self, datos):
         
