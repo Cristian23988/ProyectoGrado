@@ -39,6 +39,7 @@ from conexion.materia import findAll as materiaFindAll
 from conexion.sesion import findByMateria as sesionFindAll
 from conexion.actividad import findBySesion as actividadFindAll
 from conexion.material_actividad import findMaterialByActivity as materialByActividad
+from conexion.material_actividad import findById as materialById
 from conexion.tipo_archivo import findById as tipoArchivo
 s = stream.Stream()
         
@@ -221,7 +222,7 @@ class Ventana(QMainWindow):
         self.scroll = self.scrollArea_3           # Scroll Area which contains the widgets, set as the centralWidget
         self.widget = QWidget()                 # Widget that contains the collection of Vertical Box
         self.vbox = QVBoxLayout()               # The Vertical Box that contains the Horizontal Boxes of  labels and buttons
-
+        #print(datos[0][5])
         for row_number, row_data in enumerate(datos):
             datos_material = materialByActividad(datos[row_number][0])
             tit = str(row_number+1)
@@ -241,9 +242,9 @@ class Ventana(QMainWindow):
                 if tipo_material != "" and tipo_material[0][1] == "Audio":
                     btn_audio = QPushButton(str(datos_material[r][0]), self)
                     btn_audio.setObjectName("button_material_actividad_reproducir_audio")
-                    btn_audio.setText("Reproducir audio de actividad")
-                    print(datos_material[r][2])
-                    btn_audio.clicked.connect(lambda: self.Reproducir_Audio_Material(datos_material[r][2]))
+                    #btn_audio.setText("Reproducir audio de actividad")
+                    #print(datos_material[r][2])
+                    btn_audio.clicked.connect(lambda: self.Reproducir_Audio_Material())
                     btn_audio.show()
                     self.vbox.addWidget(btn_audio)
                 
@@ -343,13 +344,15 @@ class Ventana(QMainWindow):
         rta=main()
         return rta
 
-    def Reproducir_Audio_Material(self, ruta):
+    def Reproducir_Audio_Material(self):
         #pip uninstall playsound
         #pip install playsound==1.2.2
         from playsound import playsound  
         #Definir Path de lectura (RUTA)
+        r_button = int(self.sender().text())
+        ruta = materialById(r_button)
         print("Reproduciendo...")
-        playsound(ruta)
+        playsound(ruta[0][2])
         print("Finalizado.")
 
     def Reproducir_Audio(self):
