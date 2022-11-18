@@ -452,6 +452,8 @@ class Ventana(QMainWindow):
         scroll.setWidgetResizable(True)
         grid = QGridLayout()
         grid.setHorizontalSpacing(6)
+        #button guardar
+        btn_guardar = QPushButton("Guardar", self)
 
         if sender == "sesion":
             datos = datos   #para evitar error de lista "datos" fuera de rango
@@ -481,20 +483,21 @@ class Ventana(QMainWindow):
                 tabla = "insert_sesiones"
                 #Select corte
                 self.comboBox.addItems(corte)
-                self.button_form_crear.clicked.connect(lambda: self.guardarForm([tabla, self.input_1.text(), self.v_id_materia, int(self.comboBox.currentText())]))
+                #button guardar
+                btn_guardar.clicked.connect(lambda: self.guardarForm([tabla, self.input_1.text(), self.v_id_materia, int(self.comboBox.currentText())]))
+                
             elif tipo == "update":
                 self.label_form_crear_title.setText("Formulario Editar Sesión")
                 tabla = "update_sesiones"
                 #Input nombre sesion
                 self.input_1.setText(datos[1])
                 #ComboBox corte
+                print(datos)
                 self.comboBox.addItem(str(datos[3]))
                 corte.remove(str(datos[3]))     #remueve el item de la bd para evitar duplicados
                 self.comboBox.addItems(corte)
-
-                #print(x.index('o')) #busca elemento dentro de un array
-
-                self.button_form_crear.clicked.connect(lambda: self.guardarForm([tabla, datos[0], self.input_1.text(), self.comboBox.currentText()]))
+                #button guardar
+                btn_guardar.clicked.connect(lambda: self.guardarForm([tabla, datos[0], self.input_1.text(), self.comboBox.currentText()]))
 
             grid.addWidget(self.title_1, 0, 0)
             grid.addWidget(self.input_1, 0, 1)
@@ -531,7 +534,8 @@ class Ventana(QMainWindow):
                 for r, dat in enumerate(tipoAct):
                     self.comboBox.addItem(dat[1])
 
-                self.button_form_crear.clicked.connect(functools.partial(self.guardarForm, [tabla, self.v_id_sesion, self.comboBox.currentText(), self.v_id_materia, self.v_id_usuario, self.input_1.text()]))
+                #button guardar
+                btn_guardar.clicked.connect(lambda: self.guardarForm([tabla, self.v_id_sesion, self.comboBox.currentText(), self.v_id_materia, self.v_id_usuario, self.input_1.text()]))
             
             elif tipo == "update":
                 self.label_form_crear_title.setText("Formulario Editar Actividad")
@@ -550,22 +554,17 @@ class Ventana(QMainWindow):
                 #Input descripcion
                 self.input_1.setText(datos[5])
 
-                btn_audio = QPushButton("hola", self)
-                btn_audio.setObjectName("hola")
-                btn_audio.clicked.connect(lambda: self.guardarForm([tabla, datos[0], self.comboBox.currentText(), self.input_1.text()]))
-                btn_audio.setStyleSheet("background-color: white; color: white; font-size: 1px;")
-                btn_audio.setIcon(QIcon('src/icons/icon_play.png'))
-                btn_audio.setIconSize(QSize(40, 40)) 
-                btn_audio.setGeometry(10,6,100,50)
-                btn_audio.show()
-
-                self.button_form_crear.clicked.connect(functools.partial(self.guardarForm, [tabla, datos[0], self.comboBox.currentText(), self.input_1.text()]))
-
+                #button guardar
+                btn_guardar.clicked.connect(lambda: self.guardarForm([tabla, datos[0], self.comboBox.currentText(), self.input_1.text()]))
+                
             grid.addWidget(self.title_1, 1, 0)
             grid.addWidget(self.comboBox, 1, 1)
             grid.addWidget(self.title_2, 2, 0)
             grid.addWidget(self.input_1, 2, 1)
             
+        btn_guardar.setGeometry(5,5,75,25)
+        btn_guardar.setParent(self.frame_button_crear)
+        btn_guardar.show()
         vbox.addLayout(grid)
         widget.setLayout(vbox)
         #Scroll Area Properties

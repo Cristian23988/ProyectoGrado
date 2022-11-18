@@ -1171,8 +1171,8 @@ QPushButton{
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>164</width>
-                 <height>541</height>
+                 <width>649</width>
+                 <height>528</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout">
@@ -1412,19 +1412,6 @@ color: rgb(170, 0, 0);</string>
                <string>Formulario Crear</string>
               </property>
              </widget>
-             <widget class="QPushButton" name="button_form_crear">
-              <property name="geometry">
-               <rect>
-                <x>400</x>
-                <y>600</y>
-                <width>75</width>
-                <height>23</height>
-               </rect>
-              </property>
-              <property name="text">
-               <string>Guardar</string>
-              </property>
-             </widget>
              <widget class="QScrollArea" name="scrollArea_form_crear">
               <property name="geometry">
                <rect>
@@ -1460,8 +1447,8 @@ color: rgb(170, 0, 0);</string>
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>649</width>
-                 <height>509</height>
+                 <width>651</width>
+                 <height>511</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -1486,6 +1473,22 @@ color: rgb(170, 0, 0);</string>
               </property>
               <property name="text">
                <string>Regresar</string>
+              </property>
+             </widget>
+             <widget class="QFrame" name="frame_button_crear">
+              <property name="geometry">
+               <rect>
+                <x>390</x>
+                <y>590</y>
+                <width>101</width>
+                <height>41</height>
+               </rect>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::StyledPanel</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Raised</enum>
               </property>
              </widget>
             </widget>
