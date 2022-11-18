@@ -36,7 +36,9 @@ from conexion.material_actividad import insert as insertar_materialXactividad
 from conexion.user import findLogin
 from conexion.materia import findAll as materiaFindAll
 from conexion.sesion import findByMateria as sesionFindAll
+from conexion.sesion import findById as sesionFindId
 from conexion.sesion import insert as insertSesiones
+from conexion.sesion import update as updateSesiones
 from conexion.actividad import findBySesion as actividadFindAll
 from conexion.material_actividad import findMaterialByActivity as materialByActividad
 from conexion.material_actividad import findById as materialById
@@ -45,6 +47,7 @@ from conexion.tipo_archivo import findById as tipoArchivo
 from conexion.material_actividad import insert as guardarMateria_Actividad
 from conexion.actividad import update as actualizar_actividad
 from conexion.actividad import insert as insertar_actividad
+from conexion.actividad import findById as actividadFindId
 from conexion.actividad import findTipoActividades as findTipoActividad
 from conexion.tipo_archivo import findById as tipoArchivo
 from conexion.preguntas import update as actualizar_preguntas
@@ -222,7 +225,6 @@ class Ventana(QMainWindow):
             if self.v_id_actividad != 0 and self.v_id_actividad != -1:
                 self.stackedWidget_2.setCurrentWidget(self.material_actividad_profesor)
                 material_actividades = actividadFindAll(self.v_id_actividad)
-                print(material_actividades)
             elif self.v_id_actividad == -1:
                 self.v_table.clearContents()
                 self.Abrir_Modulo_Actividades()
@@ -361,12 +363,27 @@ class Ventana(QMainWindow):
                 print("NO ES PROFESOR ")
 
     def guardarForm(self, datos):
-        print("guardar datos", datos)
-        if datos[0] == "sesiones":
+        print(datos)
+        #print(x.index('o'))
+        if datos[0] == "insert_sesiones":
             insertSesiones(datos[1],datos[2], datos[3])
             print("insertadad sesion")
         
-        if datos[0] == "actividades":
+        if datos[0] == "update_sesiones":
+            updateSesiones(datos[1],datos[2], datos[3])
+            print("actualizada sesion")
+        
+        if datos[0] == "insert_actividades":
+            tipoAct = findTipoActividad()
+            for r, dat in enumerate(tipoAct):
+                #selecciona el id de acuerdo al texto
+                if dat[1] == datos[2]:
+                    datos[2] = dat[0]
+            
+            insertar_actividad(datos[1], datos[2], datos[3], datos[4], datos[5])
+            print("insertada actividad")
+        
+        if datos[0] == "update_actividades":
             tipoAct = findTipoActividad()
             for r, dat in enumerate(tipoAct):
                 #selecciona el id de acuerdo al texto
@@ -374,9 +391,29 @@ class Ventana(QMainWindow):
                     datos[2] = dat[0]
 
             insertar_actividad(datos[1], datos[2], datos[3], datos[4], datos[5])
-            print("insertadad actividad")
+            print("insertada actividad")
+    
+    def editarForm(self):
+        id = int(self.sender().text())
+        if self.v_table.objectName() == "table_sesiones":
+            sender = "sesion"
+            datos = sesionFindId(id)
+        
+        if self.v_table.objectName() == "table_actividades":
+            sender = "actividad"
+            datos = actividadFindId(id)
+        
+        self.form("update", sender, datos[0])
     
     def crearForm(self):
+        if self.sender().text() == "Crear una nueva sesion":
+            sender = "sesion"
+        elif self.sender().text() == "Crear una nueva actividad":
+            sender = "actividad"
+        self.form("insert", sender, 0)
+
+    def form(self, tipo, sender, datos):
+        #print("tipo form",tipo, "| datos", datos[1])
         self.stackedWidget_2.setCurrentWidget(self.form_crear)
         scroll = self.scrollArea_form_crear
         widget = QWidget()
@@ -386,74 +423,116 @@ class Ventana(QMainWindow):
         grid = QGridLayout()
         grid.setHorizontalSpacing(6)
 
-        if self.sender().text() == "Crear una nueva sesion":
+        if sender == "sesion":
+            datos = datos   #para evitar error de lista "datos" fuera de rango
             self.button_form_crear_regresar.clicked.connect(functools.partial(self.Abrir_Modulo_Sesiones))
-            self.label_form_crear_title.setText("Formulario Crear Sesión")
+
+            #Label nombre
             self.title_1 = QLabel("Nombre de la sesion")
-            #self.title_1.setObjectName("form_crear_1")
             self.title_1.setScaledContents(True)
             self.title_1.setWordWrap(True)
-            grid.addWidget(self.title_1, 1, 0)
-            #Input
+
+            #Input nombre sesion
             self.input_1 = QLineEdit(self)
             self.input_1.setObjectName("input_1")
-            grid.addWidget(self.input_1, 1, 1)
 
-            self.title_2 = QLabel("Actividad 2")
-            #self.title_2.setObjectName("form_crear_2")
+            #Label corte
+            self.title_2 = QLabel("Corte")
             self.title_2.setScaledContents(True)
             self.title_2.setWordWrap(True)
-            grid.addWidget(self.title_2, 2, 0)
-            #Input
-            #self.input_2 = QLineEdit("input_2")
+
+            #Select corte
             self.comboBox = QComboBox(self)
             self.comboBox.setObjectName(("comboBox"))
-            self.comboBox.addItem("1")
-            self.comboBox.addItem("2")
-            self.comboBox.addItem("3")
-            grid.addWidget(self.comboBox, 2, 1)
+            corte = ["1", "2", "3"]
+            
+            if tipo == "insert":
+                self.label_form_crear_title.setText("Formulario Crear Sesión")
+                tabla = "insert_sesiones"
+                #Select corte
+                self.comboBox.addItems(corte)
+                self.button_form_crear.clicked.connect(lambda: self.guardarForm([tabla, self.input_1.text(), self.v_id_materia, int(self.comboBox.currentText())]))
+            elif tipo == "update":
+                self.label_form_crear_title.setText("Formulario Editar Sesión")
+                tabla = "update_sesiones"
+                #Input nombre sesion
+                self.input_1.setText(datos[1])
+                #ComboBox corte
+                self.comboBox.addItem(str(datos[3]))
+                corte.remove(str(datos[3]))     #remueve el item de la bd para evitar duplicados
+                self.comboBox.addItems(corte)
 
-            tabla = "sesiones"
-            id = self.v_id_materia
-            self.button_form_crear.clicked.connect(lambda: self.guardarForm([tabla, self.input_1.text(), id, int(self.comboBox.currentText())]))
+                #print(x.index('o')) #busca elemento dentro de un array
+
+                self.button_form_crear.clicked.connect(lambda: self.guardarForm([tabla, datos[0], self.input_1.text(), int(self.comboBox.currentText())]))
+
+            grid.addWidget(self.title_1, 0, 0)
+            grid.addWidget(self.input_1, 0, 1)
+            grid.addWidget(self.title_2, 1, 0)
+            grid.addWidget(self.comboBox, 1, 1)
         
-        if self.sender().text() == "Crear una nueva actividad":
+        if sender == "actividad":
+            datos = datos   #para evitar error de lista "datos" fuera de rango
             self.button_form_crear_regresar.clicked.connect(functools.partial(self.Abrir_Modulo_Actividades))
-            self.label_form_crear_title.setText("Formulario Crear Actividad")
             tipoAct = findTipoActividad()
 
+            #label actividad
             self.title_1 = QLabel("Tipo de actividad")
-            #self.title_1.setObjectName("form_crear_1")
             self.title_1.setScaledContents(True)
             self.title_1.setWordWrap(True)
-            grid.addWidget(self.title_1, 1, 0)
-            #Input
+
+            #ComboBox tipo actividad
             self.comboBox = QComboBox(self)
             self.comboBox.setObjectName(("comboBox"))
-            for r, dat in enumerate(tipoAct):
-                self.comboBox.addItem(dat[1])
-            grid.addWidget(self.comboBox, 1, 1)
 
+            #label descripcion
             self.title_2 = QLabel("Descripción de la actividad")
-            #self.title_2.setObjectName("form_crear_2")
             self.title_2.setScaledContents(True)
             self.title_2.setWordWrap(True)
-            grid.addWidget(self.title_2, 2, 0)
-            #Input
-            #self.input_2 = QLineEdit("input_2")
+
+            #Input descripcion
             self.input_1 = QLineEdit(self)
             self.input_1.setObjectName("input_1")
-            grid.addWidget(self.input_1, 2, 1)
 
-            tabla = "actividades"
-            self.button_form_crear.clicked.connect(lambda: self.guardarForm([tabla, self.v_id_sesion, self.comboBox.currentText(), self.v_id_materia, self.v_id_usuario, self.input_1.text()]))
-        
+            if tipo == "insert":
+                self.label_form_crear_title.setText("Formulario Crear Actividad")
+                tabla = "insert_actividades"
+                #ComboBox tipo actividad
+                for r, dat in enumerate(tipoAct):
+                    self.comboBox.addItem(dat[1])
+
+                self.button_form_crear.clicked.connect(lambda: self.guardarForm([tabla, self.v_id_sesion, self.comboBox.currentText(), self.v_id_materia, self.v_id_usuario, self.input_1.text()]))
+            
+            elif tipo == "update":
+                self.label_form_crear_title.setText("Formulario Editar Actividad")
+                tabla = "update_actividades"
+                #ComboBox tipo actividad
+                for c_n, dat in enumerate(tipoAct):
+                    if dat[0] == datos[2]:      #valida id tablas(actividad => tipo actividad)
+                        tipo_activ = dat[1]
+                        print("tipo_activi",tipo_activ)
+                        self.comboBox.addItem(tipo_activ)
+                        tipoAct.remove(dat)     #remueve el item de la bd para evitar duplicados
+                        break
+
+                for r, dat in enumerate(tipoAct):
+                    self.comboBox.addItem(dat[1])
+                
+                #Input descripcion
+                self.input_1.setText(datos[5])
+
+                self.button_form_crear.clicked.connect(lambda: self.guardarForm([tabla, self.v_id_sesion, self.comboBox.currentText(), self.v_id_materia, self.v_id_usuario, self.input_1.text()]))
+
+            grid.addWidget(self.title_1, 1, 0)
+            grid.addWidget(self.comboBox, 1, 1)
+            grid.addWidget(self.title_2, 2, 0)
+            grid.addWidget(self.input_1, 2, 1)
+            
         vbox.addLayout(grid)
-        
         widget.setLayout(vbox)
         #Scroll Area Properties
-        scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
-        scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
+        scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAsNeeded)
         scroll.setWidgetResizable(True)
         scroll.setWidget(widget)
         self.show()
@@ -523,11 +602,13 @@ class Ventana(QMainWindow):
                 btn_ver.clicked.connect(functools.partial(self.Abrir_Modulo_Sesiones))
             elif tname == "table_sesiones":
                 btn_ver.clicked.connect(functools.partial(self.Abrir_Modulo_Actividades))
+                btn_editar.clicked.connect(functools.partial(self.editarForm))
             elif tname == "table_actividades":
                 n_act = str(row_number+1)
                 n_act = "Actividad "+n_act
                 self.v_table.setItem(row_number, 0, QtWidgets.QTableWidgetItem(n_act))
                 btn_ver.clicked.connect(functools.partial(self.Abrir_Modulo_Material_Actividad))
+                btn_editar.clicked.connect(functools.partial(self.editarForm))
             
             btn_ver.show()
             self.v_table.setCellWidget(row_number, 1, btn_ver)
@@ -596,7 +677,7 @@ class Ventana(QMainWindow):
                          title="Control: fileopenbox",
                          default='',
                          filetypes=extension)
-        print()                  
+        
         shutil.copyfile(partitura_Pdf, "src/pdf/pdf_profesor/partitura.pdf")
         rta=converter_pdf_to_png()
         print(rta)
@@ -636,7 +717,6 @@ class Ventana(QMainWindow):
         
         #TIPO MATERIAL - RUTA - DESCRIPCION TXT - SESION - ID DE USUARIO - ACTIVIDAD
         rta=existematerial(file_path+file_save+extension)
-        print(id_extension)
     
         i=0
         if rta==True:
@@ -651,10 +731,6 @@ class Ventana(QMainWindow):
             print("insertado material")
         
         shutil.copyfile(archivo, file_path+file_save+extension)
-
-        
-        #guardarMateria_Actividad(1,' ',self.v_id_sesion,self.v_id_usuario,2)
-        #guardarMateria_Actividad(1,2,self.v_id_sesion,self.v_id_usuario,self.v_id_actividad)
 
     def xportMidi(self):
         file_in = "src/audio/audio_voz_natural.wav"

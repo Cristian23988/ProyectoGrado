@@ -1171,8 +1171,8 @@ QPushButton{
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>649</width>
-                 <height>528</height>
+                 <width>164</width>
+                 <height>541</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout">
@@ -1460,8 +1460,8 @@ color: rgb(170, 0, 0);</string>
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>651</width>
-                 <height>511</height>
+                 <width>649</width>
+                 <height>509</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_3">

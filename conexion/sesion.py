@@ -21,7 +21,9 @@ def findById(id):
     v_lista_sesiones.clear()
     for fila in cursor1:
         v_lista_sesiones.append(fila)
+    return v_lista_sesiones
     ##conexion1.close()    
+
 #SESIONES POR MATERIA
 def findByMateria(id_materia):
     cursor1.execute(f"select * from {v_table} where {v_id_materia}={id_materia}")
@@ -36,10 +38,9 @@ def deleteById(id):
     connect.conexion1.commit()
     ##conexion1.close()    
 
-def update(id):
+def update(id, titulo, corte):
     #CAMBIAR SET para que sea dinamico en el update
-    titulo='Sesion3'
-    cursor1.execute(f"update {v_table} set {v_titulo} ='{titulo}' where {v_id_sesion}={id}")
+    cursor1.execute(f"update {v_table} set {v_titulo} ='{titulo}' , {v_corte} ='{corte}' where {v_id_sesion}={id}")
     connect.conexion1.commit()
     ##conexion1.close() 
 
