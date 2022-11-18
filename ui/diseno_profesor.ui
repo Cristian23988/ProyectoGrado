@@ -1080,8 +1080,39 @@ QPushButton{
                 <height>23</height>
                </rect>
               </property>
+              <property name="font">
+               <font>
+                <pointsize>14</pointsize>
+               </font>
+              </property>
               <property name="text">
-               <string>Actualizar examen</string>
+               <string>Boton sano</string>
+              </property>
+             </widget>
+             <widget class="QPushButton" name="button_actividades_crear">
+              <property name="geometry">
+               <rect>
+                <x>350</x>
+                <y>530</y>
+                <width>170</width>
+                <height>45</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Crear una nueva actividad</string>
+              </property>
+              <property name="icon">
+               <iconset>
+                <normaloff>../src/icons/icon_agregar.png</normaloff>../src/icons/icon_agregar.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>40</width>
+                <height>40</height>
+               </size>
+              </property>
+              <property name="autoDefault">
+               <bool>false</bool>
               </property>
              </widget>
             </widget>
@@ -1349,7 +1380,7 @@ color: rgb(170, 0, 0);</string>
              </widget>
             </widget>
             <widget class="QWidget" name="form_crear">
-             <widget class="QLabel" name="label_teoria_title_2">
+             <widget class="QLabel" name="label_form_crear_title">
               <property name="geometry">
                <rect>
                 <x>320</x>
@@ -1398,6 +1429,9 @@ color: rgb(170, 0, 0);</string>
               <property name="layoutDirection">
                <enum>Qt::LeftToRight</enum>
               </property>
+              <property name="styleSheet">
+               <string notr="true">border: 0px;</string>
+              </property>
               <property name="verticalScrollBarPolicy">
                <enum>Qt::ScrollBarAsNeeded</enum>
               </property>
@@ -1418,8 +1452,8 @@ color: rgb(170, 0, 0);</string>
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>649</width>
-                 <height>509</height>
+                 <width>651</width>
+                 <height>511</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -1432,6 +1466,19 @@ color: rgb(170, 0, 0);</string>
                 </item>
                </layout>
               </widget>
+             </widget>
+             <widget class="QPushButton" name="button_form_crear_regresar">
+              <property name="geometry">
+               <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>75</width>
+                <height>23</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Regresar</string>
+              </property>
              </widget>
             </widget>
            </widget>

@@ -4,6 +4,7 @@ from conexion.material_actividad import update as update_material
 
 cursor1=connect.conexion1.cursor()
 v_table='actividad'
+v_table_tipo_actividad='tipo_actividad'
 v_id_actividad='id'
 v_id_sesion='id_sesion'
 v_id_profesor='id_profesor'
@@ -11,13 +12,21 @@ v_id_materia='id_materia'
 v_id_tipo_actividad='id_tipo_actividad'
 v_descripcion_actividad='descripcion_actividad'
 v_lista_actividad=[]
+v_lista_tipo_actividad=[]
 
 
 def findAll():
     cursor1.execute(f"select * from {v_table}")
     v_lista_actividad.clear()
     for fila in cursor1:
-        v_lista_actividad.append(fila)  
+        v_lista_actividad.append(fila)
+
+def findTipoActividades():
+    cursor1.execute(f"select * from {v_table_tipo_actividad}")
+    v_lista_tipo_actividad.clear()
+    for fila in cursor1:
+        v_lista_tipo_actividad.append(fila)
+    return v_lista_tipo_actividad
 
 def findById(id):
     cursor1.execute(f"select * from {v_table} where {v_id_actividad}={id}")
