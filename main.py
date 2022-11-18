@@ -353,7 +353,8 @@ class Ventana(QMainWindow):
     def guardarForm(self, datos):
         print("guardar datos", datos)
         if datos[0] == "sesiones":
-            insertSesiones()
+            insertSesiones(datos[1],datos[2], datos[3])
+            print("insertadad sesion")
     
     def crearForm(self):
         self.stackedWidget_2.setCurrentWidget(self.form_crear)
@@ -366,13 +367,14 @@ class Ventana(QMainWindow):
         grid.setHorizontalSpacing(6)
 
         if self.v_table.objectName() == "table_sesiones":
-            self.title_1 = QLabel("form_crear_1")
+            self.title_1 = QLabel("Nombre de la sesion")
             #self.title_1.setObjectName("form_crear_1")
             self.title_1.setScaledContents(True)
             self.title_1.setWordWrap(True)
             grid.addWidget(self.title_1, 1, 0)
             #Input
-            self.input_1 = QLineEdit("input_1")
+            self.input_1 = QLineEdit(self)
+            self.input_1.setObjectName("input_1")
             grid.addWidget(self.input_1, 1, 1)
 
             self.title_2 = QLabel("Actividad 2")
@@ -390,9 +392,8 @@ class Ventana(QMainWindow):
             grid.addWidget(self.comboBox, 2, 1)
 
             tabla = "sesiones"
-            nombre = self.input_1.text()
             id = self.v_id_materia
-            self.button_form_crear.clicked.connect(lambda: self.button([tabla, nombre, id, int(self.comboBox.currentText())]))
+            self.button_form_crear.clicked.connect(lambda: self.guardarForm([tabla, self.input_1.text(), id, int(self.comboBox.currentText())]))
         
         vbox.addLayout(grid)
         
