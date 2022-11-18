@@ -44,7 +44,7 @@ def update(id):
     ##conexion1.close() 
 
 def insert(titulo,id_materia,corte):
-    cursor1.execute(f'insert into {v_table} ({v_titulo},{v_id_materia},{v_corte}) values("{titulo}","{id_materia},{corte}")') 
+    cursor1.execute(f'insert into {v_table} ({v_titulo},{v_id_materia},{v_corte}) values("{titulo}",{id_materia},{corte})') 
     connect.conexion1.commit()
 
 #PRUEBASFunciona
