@@ -49,7 +49,7 @@ def update(id):
 
 
 def insert(id_sesion,id_tipo_actividad,id_materia,id_profesor,descripcion_actividad):
-    cursor1.execute(f'insert into {v_table} ({v_id_sesion},{v_id_tipo_actividad},{v_id_materia},{v_id_profesor},{v_descripcion_actividad}) values({id_sesion},{id_tipo_actividad},{id_materia},{id_profesor},{descripcion_actividad})')
+    cursor1.execute(f'insert into {v_table} ({v_id_sesion},{v_id_tipo_actividad},{v_id_materia},{v_id_profesor},{v_descripcion_actividad}) values({id_sesion},{id_tipo_actividad},{id_materia},{id_profesor},"{descripcion_actividad}")')
     connect.conexion1.commit()
 
 #PRUEBASFunciona
@@ -57,5 +57,5 @@ def insert(id_sesion,id_tipo_actividad,id_materia,id_profesor,descripcion_activi
 #findById(1)
 #deleteById(5)
 #update(1)
-##insert(3,2,1,2)
+#insert(3,2,1,2,"Description of the project, functions, system operativo desployed, role employed in the project, methodology used, logros realizados,\n\nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.")
 #print(v_lista_actividad)
