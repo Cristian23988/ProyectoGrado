@@ -562,14 +562,14 @@ class Ventana(QMainWindow):
         file_path='src/material_actividad/'            
         file_save=f'archivo' 
 
-        extension = ["*.pdf","*.wav","*.png","*.jpg"]
+        eextension = ["*.pdf","*.wav","*.png","*.jpg"]
         
         archivo = eg.fileopenbox(msg="Abrir archivo",
                          title="Control: fileopenbox",
                          default='',
-                         filetypes=extension)
+                         filetypes=eextension)
         nombre, extension = os.path.splitext(archivo)         
-        shutil.copyfile(archivo, "src/pdf/pdf_profesor/partituraaa.pdf")  
+          
         id_extension=0
         
           
@@ -577,24 +577,24 @@ class Ventana(QMainWindow):
         if extension == ".pdf": id_extension=2
         if extension == ".wav": id_extension=3
         if extension == ".png" or extension == ".jpg" : id_extension=1
-        file_save=f'{file_save}'+f'{extension}' 
+        file_save=f'{file_save}' 
         
         #TIPO MATERIAL - RUTA - DESCRIPCION TXT - SESION - ID DE USUARIO - ACTIVIDAD
-        rta=existematerial(file_path+file_save)
+        rta=existematerial(file_path+file_save+extension)
         print(id_extension)
     
         i=0
         if rta==True:
             while rta==True:
-                file_save=f'{file_save}{i}.{extension}' 
+                file_save=f'{file_save}{i}{extension}' 
                 rta=existematerial(file_path+file_save) 
                 i=i+1
         if rta==False:
         #RUTA - ID DE USUARIO
             insertar_materialXactividad(id_extension,file_path+file_save,self.v_id_sesion,self.v_id_usuario,1)
             print("")
-        print(file_path+file_save)
         
+        shutil.copyfile(archivo, file_path+file_save)
 
         
         #guardarMateria_Actividad(1,' ',self.v_id_sesion,self.v_id_usuario,2)
