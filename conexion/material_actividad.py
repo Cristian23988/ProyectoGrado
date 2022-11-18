@@ -37,12 +37,16 @@ def deleteById(id):
     connect.conexion1.commit()
     ##conexion1.close()
 
-def update(id):
+def update(id_actividad, material):
     #CAMBIAR SET para que sea dinamico en el update
-    ruta='admin1'
-    cursor1.execute(f"update {v_table} set {v_ruta} ='{ruta}' where {v_id_material}={id}")
-    connect.conexion1.commit()
+    print(material)
+    for fila in material:
+        id=fila[0];tipo_material=fila[2];ruta=fila[1]
+        cursor1.execute(f"update {v_table} set {v_ruta} ='{ruta}', id_tipo_material = {tipo_material} where {v_id_material}={id} AND id_actividad={id_actividad}")
+        connect.conexion1.commit()
     ##conexion1.close() 
+
+
 
 #Crea material asociado a la actividad
 def insert(id_tipo_material,ruta,descripcion_text,id_sesion,id_usuario,id_actividad):

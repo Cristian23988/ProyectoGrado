@@ -1,4 +1,4 @@
-from conect import connect 
+from conexion.conect import connect 
 
 cursor1=connect.conexion1.cursor()
 cursor2=connect.conexion1.cursor()
@@ -53,7 +53,7 @@ def update(id_examen_rec,descripcion_examen,ruta,lista_preguntas_recep):
     connect.conexion1.commit()
     for fila in lista_preguntas_recep:
         id_pr=fila[0];desc=fila[1];rta=fila[3]
-        rtaa=cursor2.execute(f"update {v_table2} set respuesta ='{desc}', rta='{rta}' where id={id_pr} AND {v_id_examen}={id}")
+        cursor2.execute(f"update {v_table2} set respuesta ='{desc}', rta='{rta}' where id={id_pr} AND {v_id_examen}={id}")
         connect.conexion1.commit()
         
 
@@ -76,10 +76,6 @@ def update(id_examen_rec,descripcion_examen,ruta,lista_preguntas_recep):
 ##findLogin('admin','admin1')
 #rta=findById(1)
 #deleteById(5)
-id=1
-descripcion_examen='Representadas por medio de unos signos que se escriben en las líneas y espacios del pentagrama. Cada nota representa un sonido musical Marque la nota es la que se marca en color ROJO y la clave musical del pentagrama'
-ruta='src/image_preguntas/pregunta1.png'
-lista_preguntas_recep=[(1,'Nota Si y Clave Fa',1,'f'),(2,'Nota Sol y Clave Sol',1,'v'),(3,'Nota Fa y Clave Sol',1,'f'),(4,'Nota Re y Clave Fa',1,'f')]
-update(id,descripcion_examen,ruta,lista_preguntas_recep)
+
 #insert('prof','prof',2)
 #print(rta)a

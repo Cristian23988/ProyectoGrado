@@ -39,7 +39,9 @@ from conexion.sesion import findByMateria as sesionFindAll
 from conexion.actividad import findBySesion as actividadFindAll
 from conexion.material_actividad import findMaterialByActivity as materialByActividad
 from conexion.material_actividad import findById as materialById
+from conexion.preguntas import update as actualizar_preguntas
 from conexion.tipo_archivo import findById as tipoArchivo
+from conexion.actividad import update as actualizar_actividad
 s = stream.Stream()
         
 class Ventana(QMainWindow):
@@ -104,7 +106,8 @@ class Ventana(QMainWindow):
         self.button_menu_quiz.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_quiz))
         self.button_menu_profesor.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_profesor))
         self.button_menu_cerrar_sesion.clicked.connect(self.cerrarSesion)
-
+        #self.button_actualizar_examen.clicked.connect(self.actualizar_examen)
+        self.button_actualizar_examen.clicked.connect(self.actualizar_acti)
         self.button_home_teoria.clicked.connect(self.Abrir_Modulo_Teoria)
         self.button_home_practicas.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_practicas))
         self.button_home_quiz.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_quiz))
@@ -404,6 +407,26 @@ class Ventana(QMainWindow):
         playsound(ruta[0][2])
         print("Finalizado.")
 
+    def actualizar_examen(self):
+        #DEBE REBIRI ID EXAMEN
+        #DEBE REcibir campo texto_descripcion y ruta_imagen descripcion de examen
+        #DEBE REBIRI UNA LISTA CON LAS RESPUESTAS DE SELECCION MULTIPLE
+        self.v_id_examen=1
+        print(self.v_id_sesion)
+        print(self.v_id_examen)
+        id=1
+        descripcion_examen='Representadas por medio de unos signos que se escriben en las líneas y espacios del pentagrama. Cada nota representa un sonido musical Marque la nota es la que se marca en color ROJO y la clave musical del pentagrama'
+        ruta='src/image_preguntas/pregunta1.png'
+        lista_preguntas_recep=[(1,'Nota Si y Clave Fa',1,'f'),(2,'Nota Sol y Clave Sol',1,'v'),(3,'Nota Fa y Clave Sol',1,'f'),(4,'Nota Re y Clave Fa',1,'f')]
+        actualizar_preguntas(id,descripcion_examen,ruta,lista_preguntas_recep)
+
+        return "editado"
+
+    def actualizar_acti(self):
+        actualizar_actividad(1)
+        return "actualizado"
+
+        src/audio/audio_de_profesor/audio_profesor.wav
     def Reproducir_Audio(self):
         #pip uninstall playsound
         #pip install playsound==1.2.2

@@ -874,7 +874,7 @@ QPushButton{
                <rect>
                 <x>250</x>
                 <y>10</y>
-                <width>211</width>
+                <width>200</width>
                 <height>32</height>
                </rect>
               </property>
@@ -1043,6 +1043,19 @@ QPushButton{
               </property>
               <property name="text">
                <string>Gestión de Actividades</string>
+              </property>
+             </widget>
+             <widget class="QPushButton" name="button_actualizar_examen">
+              <property name="geometry">
+               <rect>
+                <x>30</x>
+                <y>440</y>
+                <width>111</width>
+                <height>23</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Actualizar examen</string>
               </property>
              </widget>
             </widget>
