@@ -109,7 +109,7 @@ class Ventana(QMainWindow):
         self.button_menu_cerrar_sesion.clicked.connect(self.cerrarSesion)
         #self.button_actualizar_examen.clicked.connect(self.actualizar_examen)
         #self.button_actualizar_examen.clicked.connect(self.actualizar_acti)
-        #self.button_actualizar_examen.clicked.connect(self.Cargar_materialxActividad)
+        self.button_actualizar_examen.clicked.connect(self.Cargar_materialxActividad)
         
         self.button_home_teoria.clicked.connect(self.Abrir_Modulo_Teoria)
         self.button_home_practicas.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_practicas))
@@ -473,20 +473,43 @@ class Ventana(QMainWindow):
 
         # Copia el archivo desde la ubicación actual a la
         # carpeta "Documentos".
+        file_path='src/material_actictividad/'            
         
+
         extension = ["*.pdf","*.wav","*.png","*.jpg"]
+        
         archivo = eg.fileopenbox(msg="Abrir archivo",
                          title="Control: fileopenbox",
                          default='',
                          filetypes=extension)
-        print(archivo)                  
-        shutil.copyfile(archivo, "src/pdf/pdf_profesor/partitura.pdf")
+                 
+        ruta=shutil.copyfile(archivo, "src/pdf/pdf_profesor/partituraaa.pdf")  
+        id_extension=0
+        if extension == "*.pdf": id_extension=2
+        if extension == "*.wav": id_extension=3
+        if extension == "*.png" or extension == "*.jpg" : id_extension=1
+        file_save=f'audio_profesor.{extension}' 
         
-        print()
+        #TIPO MATERIAL - RUTA - DESCRIPCION TXT - SESION - ID DE USUARIO - ACTIVIDAD
+        rta=existematerial(file_path+file_save)
+        print(rta)
+        print(file_path+file_save)
+        i=0
+        if rta==True:
+            while rta==True:
+                file_save=f'audio_profesor{i}.{extension}' 
+                rta=existematerial(file_path+file_save) 
+                i=i+1
+        print(rta)                               
+        if rta==False:
+        #RUTA - ID DE USUARIO
+            #id_ruta=insertar_materialXactividad(id_extension,file_path+file_save,self.v_id_sesion,self.v_id_usuario,1)
+            print("")
+        print(ruta)
 
-        self.v_id_actividad
-
-        guardarMateria_Actividad(1,2,self.v_id_sesion,self.v_id_usuario,self.v_id_actividad)
+        
+        #guardarMateria_Actividad(1,' ',self.v_id_sesion,self.v_id_usuario,2)
+        #guardarMateria_Actividad(1,2,self.v_id_sesion,self.v_id_usuario,self.v_id_actividad)
 
     def xportMidi(self):
         file_in = "src/audio/audio_voz_natural.wav"
@@ -556,7 +579,7 @@ def Grabar_Audio(self,rol):
             print(rta)                               
             if rta==False:
             #RUTA - ID DE USUARIO
-                id_ruta=insertar_materialXactividad(3,file_path+file_save,'',2,self.v_id_usuario,1)
+                id_ruta=insertar_materialXactividad(3,file_path+file_save,2,self.v_id_usuario,1)
         print(file_path+file_save)
         wv.write(file_path+file_save, recording, frequency, sampwidth=2)
         Convertir_Audio_A_MIDI(file_path+file_save,self.v_rolN)
