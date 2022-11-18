@@ -41,6 +41,7 @@ from conexion.material_actividad import findMaterialByActivity as materialByActi
 from conexion.material_actividad import findById as materialById
 from conexion.preguntas import update as actualizar_preguntas
 from conexion.tipo_archivo import findById as tipoArchivo
+from conexion.material_actividad import insert as guardarMateria_Actividad
 from conexion.actividad import update as actualizar_actividad
 s = stream.Stream()
         
@@ -107,7 +108,9 @@ class Ventana(QMainWindow):
         self.button_menu_profesor.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_profesor))
         self.button_menu_cerrar_sesion.clicked.connect(self.cerrarSesion)
         #self.button_actualizar_examen.clicked.connect(self.actualizar_examen)
-        self.button_actualizar_examen.clicked.connect(self.actualizar_acti)
+        #self.button_actualizar_examen.clicked.connect(self.actualizar_acti)
+        #self.button_actualizar_examen.clicked.connect(self.Cargar_materialxActividad)
+        
         self.button_home_teoria.clicked.connect(self.Abrir_Modulo_Teoria)
         self.button_home_practicas.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_practicas))
         self.button_home_quiz.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_quiz))
@@ -463,7 +466,27 @@ class Ventana(QMainWindow):
         rta=converter_pdf_to_png()
         print(rta)
 
+    def Cargar_materialxActividad(self):
+        import easygui as eg
+        from PIL import Image
+        import shutil
 
+        # Copia el archivo desde la ubicación actual a la
+        # carpeta "Documentos".
+        
+        extension = ["*.pdf","*.wav","*.png","*.jpg"]
+        archivo = eg.fileopenbox(msg="Abrir archivo",
+                         title="Control: fileopenbox",
+                         default='',
+                         filetypes=extension)
+        print(archivo)                  
+        shutil.copyfile(archivo, "src/pdf/pdf_profesor/partitura.pdf")
+        
+        print()
+
+        self.v_id_actividad
+
+        guardarMateria_Actividad(1,2,self.v_id_sesion,self.v_id_usuario,self.v_id_actividad)
 
     def xportMidi(self):
         file_in = "src/audio/audio_voz_natural.wav"
