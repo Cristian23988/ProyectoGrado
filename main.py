@@ -118,42 +118,31 @@ class Ventana(QMainWindow):
         self.button_menu_quiz.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_quiz))
         self.button_menu_profesor.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_profesor))
         self.button_menu_cerrar_sesion.clicked.connect(self.cerrarSesion)
-        #self.button_actualizar_examen.clicked.connect(self.actualizar_examen)
-        #self.button_actualizar_examen.clicked.connect(self.actualizar_acti)
-        #self.button_actualizar_examen.clicked.connect(self.Cargar_materialxActividad)
         
         self.button_home_teoria.clicked.connect(self.Abrir_Modulo_Teoria)
         self.button_home_practicas.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_practicas))
         self.button_home_quiz.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_quiz))
-        #Grabar y reproducir audio-----------------------
         
+        #-----------Grabar y reproducir audio-----------------------
         self.button_profesor_subir_audio.clicked.connect(self.grabar_profesor)
         #-----------Especificar audio y ruta a reproductir
         self.button_practicas_play.clicked.connect(self.Reproducir_Audio)
 
         self.button_profesor_play.clicked.connect(self.Reproducir_Audio_partitura)
-        #Carga PDF
-
-        #self.button_profesor_subir_pdf.clicked.connect(self.prueba)
+        #----------- Carga PDF
         self.button_profesor_subir_pdf.clicked.connect(self.Cargar_PDF)
-
+        #----------- comparar
         self.button_compare.clicked.connect(self.prueba_compare)
         self.id_ruta=0
-        
-        #self.botonMidi.clicked.connect(self.xportMidi)
-        #self.botonShowPartitura.clicked.connect(self.showPartitura)
-        #self.botonStop.clicked.connect(self.stop)
-        #self.botonStop.clicked.connect(self.converter_pdf_to_png())
     
+    #----------- Modulos ---------------------------------
     def Abrir_Modulo_Teoria(self):
-        
             self.stackedWidget.setCurrentWidget(self.page_teoria)
             self.stackedWidget_2.setCurrentWidget(self.materia_profesor)
             materias = materiaFindAll()
             self.v_table = self.table_temas
             self.v_table.clearContents()
             self.llenarDatosTable(materias)
-
             self.input_materias_search.setPlaceholderText("Buscar...")
             self.input_materias_search.textChanged.connect(self.searchTable)
 
@@ -175,11 +164,11 @@ class Ventana(QMainWindow):
                 self.v_table = self.table_sesiones
                 self.v_table.clearContents()
                 self.llenarDatosTable(sesiones)
-                
                 self.input_sesiones_search.setPlaceholderText("Buscar...")
                 self.input_sesiones_search.textChanged.connect(self.searchTable)
                 self.button_sesiones_crear.clicked.connect(functools.partial(self.crearForm))
                 self.button_sesiones_regresar.clicked.connect(functools.partial(self.Abrir_Modulo_Teoria))
+            
             elif self.v_id_materia == -1:
                 self.v_table.clearContents()
                 self.Abrir_Modulo_Teoria()
@@ -201,11 +190,11 @@ class Ventana(QMainWindow):
                 actividades = actividadFindAll(self.v_id_sesion)
                 self.v_table = self.table_actividades
                 self.llenarDatosTable(actividades)
-                
                 self.input_actividades_search.setPlaceholderText("Buscar...")
                 self.input_actividades_search.textChanged.connect(self.searchTable)
                 self.button_actividades_crear.clicked.connect(functools.partial(self.crearForm))
                 self.button_actividades_regresar.clicked.connect(functools.partial(self.Abrir_Modulo_Sesiones))
+            
             elif self.v_id_sesion == -1:
                 self.v_table.clearContents()
                 self.Abrir_Modulo_Sesiones()
@@ -233,6 +222,7 @@ class Ventana(QMainWindow):
             self.button_material_actividad_regresar.clicked.connect(functools.partial(self.Abrir_Modulo_Actividades))
             self.llenarMaterial(material_actividades)
 
+    #----------- DISEÑAR MATERIAL ACTIVIDAD ---------------------------------
     def llenarMaterial(self, datos):
         scroll = self.scrollArea_3
         widget = QWidget()
@@ -332,39 +322,73 @@ class Ventana(QMainWindow):
         scroll.setWidgetResizable(True)
         scroll.setWidget(widget)
         self.show()
-        
 
-    def button(self, h):
-        sender_button = self.sender().text()
-        print(sender_button)
-        print(h)
-
-    def Abrir_Modulo_Practica(self):
-        print("practica")                    
-    def Abrir_Modulo_Quiz(self):
-        print("quiz") 
-    def prueba_compare(self):
-        comparacion_practica(self)
-    def grabar_estudiante(self):
+    #----------- FUNCIONES TABLAS ---------------------------------
+    def searchTable(self, s):
+        self.v_table.setCurrentItem(None)
         
-        if (self.v_rolN=='Estudiante'):
-            termino=self.clic()
-            if (termino==False):
-                self.id_ruta=Grabar_Audio(self,self.v_rolN)
-        else:
-            print("NO ES ESTUDIANTE ")
+        if not s: 
+            return
+
+        matching_items = self.v_table.findItems(s, Qt.MatchContains)
+        if matching_items:
+            # We have found something.
+            item = matching_items[0]  # Take the first.
+            self.v_table.setCurrentItem(item)
+    
+    def llenarDatosTable(self, datos):
+        self.v_table.setRowCount(0)
+        tname = self.v_table.objectName()
+        
+        for row_number, row_data in enumerate(datos):
+            self.v_table.insertRow(row_number)
+            self.v_table.setItem(row_number, 0, QtWidgets.QTableWidgetItem(row_data[1]))
+
+            #Boton ver
+            btn_ver = QPushButton(str(row_data[0]), self)
+            btn_ver.setObjectName(str(row_data[0]))
+            btn_ver.setStyleSheet("background-color: white; color: white; font-size: 1px;")
+            btn_ver.setIcon(QIcon('src/icons/icon_ver.png'))
+            btn_ver.setIconSize(QSize(30, 30)) 
+
+            #Boton editar
+            btn_editar = QPushButton(str(row_data[0]), self)
+            btn_editar.setObjectName(str(row_data[0]))
+            btn_editar.setStyleSheet("background-color: white; color: white; font-size: 1px;")
+            btn_editar.setIcon(QIcon('src/icons/icon_editar.png'))
+            btn_editar.setIconSize(QSize(30, 30)) 
+
+            #Boton eliminar
+            btn_eliminar = QPushButton(str(row_data[0]), self)
+            btn_eliminar.setObjectName(str(row_data[0]))
+            btn_eliminar.setStyleSheet("background-color: white; color: white; font-size: 1px;")
+            btn_eliminar.setIcon(QIcon('src/icons/icon_eliminar.png'))
+            btn_eliminar.setIconSize(QSize(30, 30)) 
+
+            if tname == "table_temas":
+                btn_ver.clicked.connect(functools.partial(self.Abrir_Modulo_Sesiones))
+            elif tname == "table_sesiones":
+                btn_ver.clicked.connect(functools.partial(self.Abrir_Modulo_Actividades))
+                btn_editar.clicked.connect(functools.partial(self.editarForm))
+            elif tname == "table_actividades":
+                n_act = str(row_number+1)
+                n_act = "Actividad "+n_act
+                self.v_table.setItem(row_number, 0, QtWidgets.QTableWidgetItem(n_act))
+                btn_ver.clicked.connect(functools.partial(self.Abrir_Modulo_Material_Actividad))
+                btn_editar.clicked.connect(functools.partial(self.editarForm))
             
-    def grabar_profesor(self):
-        if (self.v_rolN=='Profesor'):
-            termino=self.clic()
-            if (termino==False):
-                self.id_ruta=Grabar_Audio(self,self.v_rolN)
-            else:
-                print("NO ES PROFESOR ")
+            btn_ver.show()
+            self.v_table.setCellWidget(row_number, 1, btn_ver)
 
+            if tname != "table_temas":
+                btn_editar.show()
+                btn_eliminar.show()
+                self.v_table.setCellWidget(row_number, 2, btn_editar)
+                self.v_table.setCellWidget(row_number, 3, btn_eliminar)
+
+    #----------- FUNCIONES FORMULARIO ---------------------------------
     def guardarForm(self, datos):
-        #print(datos)
-        #print(x.index('o'))
+        print(datos)
         if datos[0] == "insert_sesiones":
             insertSesiones(datos[1],datos[2], datos[3])
             print("insertadad sesion")
@@ -390,12 +414,14 @@ class Ventana(QMainWindow):
                 if dat[1] == datos[2]:
                     datos[2] = dat[0]
 
-            #print(datos)
             actualizar_actividad(datos[1], datos[2], datos[3])
             print("Actualizada actividad")
+            
+        #datos = [] #vacias datos
     
     def editarForm(self):
         id = int(self.sender().text())
+        datos = []
         if self.v_table.objectName() == "table_sesiones":
             sender = "sesion"
             datos = sesionFindId(id)
@@ -411,8 +437,11 @@ class Ventana(QMainWindow):
             sender = "sesion"
         elif self.sender().text() == "Crear una nueva actividad":
             sender = "actividad"
+        
+        #self.sender() = ""
         self.form("insert", sender, 0)
 
+    #----------- DISEÑAR FORMULARIO ---------------------------------
     def form(self, tipo, sender, datos):
         #print("tipo form",tipo, "| datos", datos[1])
         self.stackedWidget_2.setCurrentWidget(self.form_crear)
@@ -502,7 +531,7 @@ class Ventana(QMainWindow):
                 for r, dat in enumerate(tipoAct):
                     self.comboBox.addItem(dat[1])
 
-                self.button_form_crear.clicked.connect(lambda: self.guardarForm([tabla, self.v_id_sesion, self.comboBox.currentText(), self.v_id_materia, self.v_id_usuario, self.input_1.text()]))
+                self.button_form_crear.clicked.connect(functools.partial(self.guardarForm, [tabla, self.v_id_sesion, self.comboBox.currentText(), self.v_id_materia, self.v_id_usuario, self.input_1.text()]))
             
             elif tipo == "update":
                 self.label_form_crear_title.setText("Formulario Editar Actividad")
@@ -521,7 +550,7 @@ class Ventana(QMainWindow):
                 #Input descripcion
                 self.input_1.setText(datos[5])
 
-                self.button_form_crear.clicked.connect(lambda: self.guardarForm([tabla, datos[0], self.comboBox.currentText(), self.input_1.text()]))
+                self.button_form_crear.clicked.connect(functools.partial(self.guardarForm, [tabla, datos[0], self.comboBox.currentText(), self.input_1.text()]))
 
             grid.addWidget(self.title_1, 1, 0)
             grid.addWidget(self.comboBox, 1, 1)
@@ -536,6 +565,37 @@ class Ventana(QMainWindow):
         scroll.setWidgetResizable(True)
         scroll.setWidget(widget)
         self.show()
+
+    
+        
+
+    def button(self, h):
+        sender_button = self.sender().text()
+        print(sender_button)
+        print(h)
+
+    def Abrir_Modulo_Practica(self):
+        print("practica")                    
+    def Abrir_Modulo_Quiz(self):
+        print("quiz") 
+    def prueba_compare(self):
+        comparacion_practica(self)
+    def grabar_estudiante(self):
+        
+        if (self.v_rolN=='Estudiante'):
+            termino=self.clic()
+            if (termino==False):
+                self.id_ruta=Grabar_Audio(self,self.v_rolN)
+        else:
+            print("NO ES ESTUDIANTE ")
+            
+    def grabar_profesor(self):
+        if (self.v_rolN=='Profesor'):
+            termino=self.clic()
+            if (termino==False):
+                self.id_ruta=Grabar_Audio(self,self.v_rolN)
+            else:
+                print("NO ES PROFESOR ")
     
     def actualizar_examen(self):
         #DEBE REBIRI ID EXAMEN
@@ -556,68 +616,6 @@ class Ventana(QMainWindow):
         actualizar_actividad(1)
         return "actualizado"
         #src/audio/audio_de_profesor/audio_profesor.wav
-        
-    def searchTable(self, s):
-        self.v_table.setCurrentItem(None)
-        
-        if not s: 
-            return
-
-        matching_items = self.v_table.findItems(s, Qt.MatchContains)
-        if matching_items:
-            # We have found something.
-            item = matching_items[0]  # Take the first.
-            self.v_table.setCurrentItem(item)
-    
-    def llenarDatosTable(self, datos):
-        self.v_table.setRowCount(0)
-        tname = self.v_table.objectName()
-        
-        for row_number, row_data in enumerate(datos):
-            self.v_table.insertRow(row_number)
-            self.v_table.setItem(row_number, 0, QtWidgets.QTableWidgetItem(row_data[1]))
-
-            #Boton ver
-            btn_ver = QPushButton(str(row_data[0]), self)
-            btn_ver.setObjectName(str(row_data[0]))
-            btn_ver.setStyleSheet("background-color: white; color: white; font-size: 1px;")
-            btn_ver.setIcon(QIcon('src/icons/icon_ver.png'))
-            btn_ver.setIconSize(QSize(30, 30)) 
-
-            #Boton editar
-            btn_editar = QPushButton(str(row_data[0]), self)
-            btn_editar.setObjectName(str(row_data[0]))
-            btn_editar.setStyleSheet("background-color: white; color: white; font-size: 1px;")
-            btn_editar.setIcon(QIcon('src/icons/icon_editar.png'))
-            btn_editar.setIconSize(QSize(30, 30)) 
-
-            #Boton eliminar
-            btn_eliminar = QPushButton(str(row_data[0]), self)
-            btn_eliminar.setObjectName(str(row_data[0]))
-            btn_eliminar.setStyleSheet("background-color: white; color: white; font-size: 1px;")
-            btn_eliminar.setIcon(QIcon('src/icons/icon_eliminar.png'))
-            btn_eliminar.setIconSize(QSize(30, 30)) 
-
-            if tname == "table_temas":
-                btn_ver.clicked.connect(functools.partial(self.Abrir_Modulo_Sesiones))
-            elif tname == "table_sesiones":
-                btn_ver.clicked.connect(functools.partial(self.Abrir_Modulo_Actividades))
-                btn_editar.clicked.connect(functools.partial(self.editarForm))
-            elif tname == "table_actividades":
-                n_act = str(row_number+1)
-                n_act = "Actividad "+n_act
-                self.v_table.setItem(row_number, 0, QtWidgets.QTableWidgetItem(n_act))
-                btn_ver.clicked.connect(functools.partial(self.Abrir_Modulo_Material_Actividad))
-                btn_editar.clicked.connect(functools.partial(self.editarForm))
-            
-            btn_ver.show()
-            self.v_table.setCellWidget(row_number, 1, btn_ver)
-
-            if tname != "table_temas":
-                btn_editar.show()
-                btn_eliminar.show()
-                self.v_table.setCellWidget(row_number, 2, btn_editar)
-                self.v_table.setCellWidget(row_number, 3, btn_eliminar)
     
     def mostrarAlerta(self, title, text, descripcion):
         msg = QMessageBox()
@@ -628,42 +626,8 @@ class Ventana(QMainWindow):
         msg.setDefaultButton(QMessageBox.Ok)
         msg.setInformativeText(descripcion)
         msg.exec_()
-
-    
-    def clic(self):
-        from Metronome.main import main
-        rta=main()
-        return rta
-
-    def Reproducir_Audio_Material(self):
-        #pip uninstall playsound
-        #pip install playsound==1.2.2
-        from playsound import playsound  
-        #Definir Path de lectura (RUTA)
-        r_button = int(self.sender().text())
-        ruta = materialById(r_button)
-        print("Reproduciendo...")
-        playsound(ruta[0][2])
-        print("Finalizado.")
-
-    def Reproducir_Audio(self):
-        #pip uninstall playsound
-        #pip install playsound==1.2.2
-        from playsound import playsound  
-        #Definir Path de lectura (RUTA)
-        print("Reproduciendo...")
-        playsound('src/audio/compare/profesor/output_profesor.wav')
-        print("Finalizado.")
-
-    def Reproducir_Audio_partitura(self):
-        #pip uninstall playsound
-        #pip install playsound==1.2.2
-        from playsound import playsound  
-        #Definir Path de lectura (RUTA)
-        print("Reproduciendo...")
-        playsound('src/audio/compare/profesor/output_profesor.wav')
-        print("Finalizado.")
         
+    #----------- FUNCIONES ARCHIVOS ---------------------------------
     def Cargar_PDF(self):
         import easygui as eg
         from PIL import Image
@@ -732,6 +696,50 @@ class Ventana(QMainWindow):
         
         shutil.copyfile(archivo, file_path+file_save+extension)
 
+    def showPartitura(self):
+        from asyncio import subprocess
+        import subprocess
+        #path = 'src\pdf\tareas.pdf'
+        path = 'tareas.pdf'
+        subprocess.Popen([path], shell=True)
+        print("open partiture...")
+
+
+    #----------- FUNCIONES AUDIO ---------------------------------
+    def clic(self):
+        from Metronome.main import main
+        rta=main()
+        return rta
+
+    def Reproducir_Audio_Material(self):
+        #pip uninstall playsound
+        #pip install playsound==1.2.2
+        from playsound import playsound  
+        #Definir Path de lectura (RUTA)
+        r_button = int(self.sender().text())
+        ruta = materialById(r_button)
+        print("Reproduciendo...")
+        playsound(ruta[0][2])
+        print("Finalizado.")
+
+    def Reproducir_Audio(self):
+        #pip uninstall playsound
+        #pip install playsound==1.2.2
+        from playsound import playsound  
+        #Definir Path de lectura (RUTA)
+        print("Reproduciendo...")
+        playsound('src/audio/compare/profesor/output_profesor.wav')
+        print("Finalizado.")
+
+    def Reproducir_Audio_partitura(self):
+        #pip uninstall playsound
+        #pip install playsound==1.2.2
+        from playsound import playsound  
+        #Definir Path de lectura (RUTA)
+        print("Reproduciendo...")
+        playsound('src/audio/compare/profesor/output_profesor.wav')
+        print("Finalizado.")
+
     def xportMidi(self):
         file_in = "src/audio/audio_voz_natural.wav"
         file_out = "src/export_midi/audio_piano_midi.mid"
@@ -741,18 +749,10 @@ class Ventana(QMainWindow):
             midi.writeFile(file)
         print("Done export file MIDI")
 
-    def showPartitura(self):
-        from asyncio import subprocess
-        import subprocess
-        #path = 'src\pdf\tareas.pdf'
-        path = 'tareas.pdf'
-        subprocess.Popen([path], shell=True)
-        print("open partiture...")
-
     def stop(self):
         quit()
 
-def Grabar_Audio(self,rol):
+    def Grabar_Audio(self,rol):
         import sounddevice as sd 
         from scipy.io.wavfile import write 
         import wavio as wv  
@@ -784,7 +784,6 @@ def Grabar_Audio(self,rol):
             #RUTA - ID DE USUARIO
                 id_ruta=insertar_evidencia(file_path+file_save,self.v_id_usuario)
             
-            
         elif (self.v_rolN == 'Profesor'):
             file_save='audio_profesor.wav' 
             file_path='src/audio/audio_de_profesor/'            
@@ -807,9 +806,7 @@ def Grabar_Audio(self,rol):
         print('Finalizado con exito')  
         return id_ruta     
 
-
-
-def Convertir_Audio_A_MIDI(file_in,rol):
+    def Convertir_Audio_A_MIDI(file_in,rol):
         import librosa
         from sound_to_midi.monophonic import wave_to_midi
         print("Starting...")
@@ -828,14 +825,13 @@ def Convertir_Audio_A_MIDI(file_in,rol):
             midi.writeFile(file)
         print("Done. Exiting!")
 
-        
         if (rol == 'Estudiante'):
             Midi_to_piano_Estudiante(file_out)
         elif (rol == 'Profesor'):
             Midi_to_piano_Profesor(file_out)
         
 
-def converter_pdf_to_png():
+    def converter_pdf_to_png():
         
         import fitz
         file_path = "src/pdf/pdf_profesor/partitura.pdf"
@@ -857,11 +853,9 @@ def converter_pdf_to_png():
             Convertir_PDF_to_MIDI(imagen_png)
            
         #Se pasa la ruta del archivo png generado y se envia para convertir a midi
-        
-        
         return "generó midi"
 
-def comparacion_practica(self):
+    def comparacion_practica(self):
         Audio_base='output_profesor.wav'
         Audio_estud='output_estudiante.wav'        
         porcentaje=comparacion_wav(Audio_base,Audio_estud)
@@ -880,31 +874,29 @@ def comparacion_practica(self):
 
         #Guardar calificación con evidencia a la actividad
         insertarNota(self.v_id_usuario,1,porcentaje,1,self.id_ruta)
-        
-        #print(porcentaje)
     
-def Convertir_PDF_to_MIDI(partitura):
-        filepath=partitureConversion.main.run(partitura)
-        print ("Generó MIDI")
-        Midi_to_piano_Profesor(filepath)
+    def Convertir_PDF_to_MIDI(partitura):
+            filepath=partitureConversion.main.run(partitura)
+            print ("Generó MIDI")
+            Midi_to_piano_Profesor(filepath)
 
-def Midi_to_piano_Profesor(ruta_midi_to_piano):
-    import  midi_to_wav
-    from mido import MidiFile
-    #ruta_midi_to_piano='src/export_midi/profesor/midi_partiture.mid'
-    file_output='output_profesor.wav'
-    rol='Profesor'
-    rta=midi_to_wav.Ejemplo.run(ruta_midi_to_piano,file_output,rol) 
-    print(rta)
+    def Midi_to_piano_Profesor(ruta_midi_to_piano):
+        import  midi_to_wav
+        from mido import MidiFile
+        #ruta_midi_to_piano='src/export_midi/profesor/midi_partiture.mid'
+        file_output='output_profesor.wav'
+        rol='Profesor'
+        rta=midi_to_wav.Ejemplo.run(ruta_midi_to_piano,file_output,rol) 
+        print(rta)
 
-def Midi_to_piano_Estudiante(ruta_midi_to_piano):
-    import  midi_to_wav
-    from mido import MidiFile
-    #ruta_midi_to_piano='src/export_midi/estudiante/audio_piano_midi.mid'
-    rol='Estudiante'
-    file_output='output_estudiante.wav'
-    rta=midi_to_wav.Ejemplo.run(ruta_midi_to_piano,file_output,rol) 
-    print(rta) 
+    def Midi_to_piano_Estudiante(ruta_midi_to_piano):
+        import  midi_to_wav
+        from mido import MidiFile
+        #ruta_midi_to_piano='src/export_midi/estudiante/audio_piano_midi.mid'
+        rol='Estudiante'
+        file_output='output_estudiante.wav'
+        rta=midi_to_wav.Ejemplo.run(ruta_midi_to_piano,file_output,rol) 
+        print(rta) 
 
 def run():
     print("app running")
