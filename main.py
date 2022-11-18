@@ -114,7 +114,7 @@ class Ventana(QMainWindow):
         self.button_menu_cerrar_sesion.clicked.connect(self.cerrarSesion)
         #self.button_actualizar_examen.clicked.connect(self.actualizar_examen)
         #self.button_actualizar_examen.clicked.connect(self.actualizar_acti)
-        #self.button_actualizar_examen.clicked.connect(self.Cargar_materialxActividad)
+        self.button_actualizar_examen.clicked.connect(self.Cargar_materialxActividad)
         
         self.button_home_teoria.clicked.connect(self.Abrir_Modulo_Teoria)
         self.button_home_practicas.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_practicas))
@@ -555,11 +555,12 @@ class Ventana(QMainWindow):
         import easygui as eg
         from PIL import Image
         import shutil
+        import os.path
 
         # Copia el archivo desde la ubicación actual a la
         # carpeta "Documentos".
-        file_path='src/material_actictividad/'            
-        
+        file_path='src/material_actividad/'            
+        file_save=f'archivo' 
 
         extension = ["*.pdf","*.wav","*.png","*.jpg"]
         
@@ -567,30 +568,33 @@ class Ventana(QMainWindow):
                          title="Control: fileopenbox",
                          default='',
                          filetypes=extension)
-                 
-        ruta=shutil.copyfile(archivo, "src/pdf/pdf_profesor/partituraaa.pdf")  
+        nombre, extension = os.path.splitext(archivo)         
+        shutil.copyfile(archivo, "src/pdf/pdf_profesor/partituraaa.pdf")  
         id_extension=0
-        if extension == "*.pdf": id_extension=2
-        if extension == "*.wav": id_extension=3
-        if extension == "*.png" or extension == "*.jpg" : id_extension=1
-        file_save=f'audio_profesor.{extension}' 
+        
+          
+
+        if extension == ".pdf": id_extension=2
+        if extension == ".wav": id_extension=3
+        if extension == ".png" or extension == ".jpg" : id_extension=1
+        file_save=f'{file_save}'+f'{extension}' 
         
         #TIPO MATERIAL - RUTA - DESCRIPCION TXT - SESION - ID DE USUARIO - ACTIVIDAD
         rta=existematerial(file_path+file_save)
-        print(rta)
-        print(file_path+file_save)
+        print(id_extension)
+    
         i=0
         if rta==True:
             while rta==True:
-                file_save=f'audio_profesor{i}.{extension}' 
+                file_save=f'{file_save}{i}.{extension}' 
                 rta=existematerial(file_path+file_save) 
                 i=i+1
-        print(rta)                               
         if rta==False:
         #RUTA - ID DE USUARIO
-            #id_ruta=insertar_materialXactividad(id_extension,file_path+file_save,self.v_id_sesion,self.v_id_usuario,1)
+            insertar_materialXactividad(id_extension,file_path+file_save,self.v_id_sesion,self.v_id_usuario,1)
             print("")
-        print(ruta)
+        print(file_path+file_save)
+        
 
         
         #guardarMateria_Actividad(1,' ',self.v_id_sesion,self.v_id_usuario,2)
