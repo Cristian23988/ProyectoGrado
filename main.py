@@ -550,6 +550,15 @@ class Ventana(QMainWindow):
                 #Input descripcion
                 self.input_1.setText(datos[5])
 
+                btn_audio = QPushButton("hola", self)
+                btn_audio.setObjectName("hola")
+                btn_audio.clicked.connect(lambda: self.guardarForm([tabla, datos[0], self.comboBox.currentText(), self.input_1.text()]))
+                btn_audio.setStyleSheet("background-color: white; color: white; font-size: 1px;")
+                btn_audio.setIcon(QIcon('src/icons/icon_play.png'))
+                btn_audio.setIconSize(QSize(40, 40)) 
+                btn_audio.setGeometry(10,6,100,50)
+                btn_audio.show()
+
                 self.button_form_crear.clicked.connect(functools.partial(self.guardarForm, [tabla, datos[0], self.comboBox.currentText(), self.input_1.text()]))
 
             grid.addWidget(self.title_1, 1, 0)
