@@ -1,7 +1,7 @@
 from ctypes import pointer
 import sys
 from PyQt5.QtGui import *
-from PyQt5.QtWidgets import (QWidget, QSlider, QLineEdit, QLabel, QFrame, QGridLayout, QPushButton, QScrollArea, QApplication, QSpacerItem,
+from PyQt5.QtWidgets import (QWidget, QSlider, QLineEdit, QComboBox, QLabel, QFrame, QGridLayout, QPushButton, QScrollArea, QApplication, QSpacerItem,
                              QHBoxLayout, QVBoxLayout, QMainWindow, QSizePolicy, QMessageBox)
 from PyQt5.QtCore import *
 from PyQt5 import uic # llama al archivo disenofinal.ui
@@ -36,6 +36,7 @@ from conexion.material_actividad import insert as insertar_materialXactividad
 from conexion.user import findLogin
 from conexion.materia import findAll as materiaFindAll
 from conexion.sesion import findByMateria as sesionFindAll
+from conexion.sesion import insert as insertSesiones
 from conexion.actividad import findBySesion as actividadFindAll
 from conexion.material_actividad import findMaterialByActivity as materialByActividad
 from conexion.material_actividad import findById as materialById
@@ -43,6 +44,10 @@ from conexion.preguntas import update as actualizar_preguntas
 from conexion.tipo_archivo import findById as tipoArchivo
 from conexion.material_actividad import insert as guardarMateria_Actividad
 from conexion.actividad import update as actualizar_actividad
+from conexion.tipo_archivo import findById as tipoArchivo
+from conexion.preguntas import update as actualizar_preguntas
+
+
 s = stream.Stream()
         
 class Ventana(QMainWindow):
@@ -109,7 +114,7 @@ class Ventana(QMainWindow):
         self.button_menu_cerrar_sesion.clicked.connect(self.cerrarSesion)
         #self.button_actualizar_examen.clicked.connect(self.actualizar_examen)
         #self.button_actualizar_examen.clicked.connect(self.actualizar_acti)
-        self.button_actualizar_examen.clicked.connect(self.Cargar_materialxActividad)
+        #self.button_actualizar_examen.clicked.connect(self.Cargar_materialxActividad)
         
         self.button_home_teoria.clicked.connect(self.Abrir_Modulo_Teoria)
         self.button_home_practicas.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_practicas))
@@ -167,6 +172,7 @@ class Ventana(QMainWindow):
                 
                 self.input_sesiones_search.setPlaceholderText("Buscar...")
                 self.input_sesiones_search.textChanged.connect(self.searchTable)
+                self.button_sesiones_crear.clicked.connect(self.crearForm)
                 self.button_sesiones_regresar.clicked.connect(functools.partial(self.Abrir_Modulo_Teoria))
             elif self.v_id_materia == -1:
                 self.v_table.clearContents()
@@ -220,9 +226,9 @@ class Ventana(QMainWindow):
             self.llenarMaterial(material_actividades)
 
     def llenarMaterial(self, datos):
-        scroll = self.scrollArea_3           # Scroll Area which contains the widgets, set as the centralWidget
-        widget = QWidget()                 # Widget that contains the collection of Vertical Box
-        vbox = QVBoxLayout()               # The Vertical Box that contains the Horizontal Boxes of  labels and buttons
+        scroll = self.scrollArea_3
+        widget = QWidget()
+        vbox = QVBoxLayout()
         scroll.setGeometry(100,60,700,600)
         scroll.setWidgetResizable(True)
 
@@ -319,9 +325,10 @@ class Ventana(QMainWindow):
         scroll.setWidget(widget)
         self.show()
 
-    def button(self):
+    def button(self, h):
         sender_button = self.sender().text()
         print(sender_button)
+        print(h)
 
     def Abrir_Modulo_Practica(self):
         print("practica")                    
@@ -345,6 +352,81 @@ class Ventana(QMainWindow):
                 self.id_ruta=Grabar_Audio(self,self.v_rolN)
             else:
                 print("NO ES PROFESOR ")
+
+    def guardarForm(self, datos):
+        print("guardar datos", datos)
+        if datos[0] == "sesiones":
+            insertSesiones(datos[1],datos[2], datos[3])
+            print("insertadad sesion")
+    
+    def crearForm(self):
+        self.stackedWidget_2.setCurrentWidget(self.form_crear)
+        scroll = self.scrollArea_form_crear
+        widget = QWidget()
+        vbox = QVBoxLayout()
+        scroll.setGeometry(100,60,700,500)
+        scroll.setWidgetResizable(True)
+        grid = QGridLayout()
+        grid.setHorizontalSpacing(6)
+
+        if self.v_table.objectName() == "table_sesiones":
+            self.title_1 = QLabel("Nombre de la sesion")
+            #self.title_1.setObjectName("form_crear_1")
+            self.title_1.setScaledContents(True)
+            self.title_1.setWordWrap(True)
+            grid.addWidget(self.title_1, 1, 0)
+            #Input
+            self.input_1 = QLineEdit(self)
+            self.input_1.setObjectName("input_1")
+            grid.addWidget(self.input_1, 1, 1)
+
+            self.title_2 = QLabel("Actividad 2")
+            #self.title_2.setObjectName("form_crear_2")
+            self.title_2.setScaledContents(True)
+            self.title_2.setWordWrap(True)
+            grid.addWidget(self.title_2, 2, 0)
+            #Input
+            #self.input_2 = QLineEdit("input_2")
+            self.comboBox = QComboBox(self)
+            self.comboBox.setObjectName(("comboBox"))
+            self.comboBox.addItem("1")
+            self.comboBox.addItem("2")
+            self.comboBox.addItem("3")
+            grid.addWidget(self.comboBox, 2, 1)
+
+            tabla = "sesiones"
+            id = self.v_id_materia
+            self.button_form_crear.clicked.connect(lambda: self.guardarForm([tabla, self.input_1.text(), id, int(self.comboBox.currentText())]))
+        
+        vbox.addLayout(grid)
+        
+        widget.setLayout(vbox)
+        #Scroll Area Properties
+        scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        scroll.setWidgetResizable(True)
+        scroll.setWidget(widget)
+        self.show()
+    
+    def actualizar_examen(self):
+        #DEBE REBIRI ID EXAMEN
+        #DEBE REcibir campo texto_descripcion y ruta_imagen descripcion de examen
+        #DEBE REBIRI UNA LISTA CON LAS RESPUESTAS DE SELECCION MULTIPLE
+        self.v_id_examen=1
+        print(self.v_id_sesion)
+        print(self.v_id_examen)
+        id=1
+        descripcion_examen='Representadas por medio de unos signos que se escriben en las líneas y espacios del pentagrama. Cada nota representa un sonido musical Marque la nota es la que se marca en color ROJO y la clave musical del pentagrama'
+        ruta='src/image_preguntas/pregunta1.png'
+        lista_preguntas_recep=[(1,'Nota Si y Clave Fa',1,'f'),(2,'Nota Sol y Clave Sol',1,'v'),(3,'Nota Fa y Clave Sol',1,'f'),(4,'Nota Re y Clave Fa',1,'f')]
+        actualizar_preguntas(id,descripcion_examen,ruta,lista_preguntas_recep)
+
+        return "editado"
+    
+    def actualizar_acti(self):
+        actualizar_actividad(1)
+        return "actualizado"
+        #src/audio/audio_de_profesor/audio_profesor.wav
         
     def searchTable(self, s):
         self.v_table.setCurrentItem(None)
@@ -366,22 +448,45 @@ class Ventana(QMainWindow):
             self.v_table.insertRow(row_number)
             self.v_table.setItem(row_number, 0, QtWidgets.QTableWidgetItem(row_data[1]))
 
-            btn = QPushButton(str(row_data[0]), self)
-            btn.setObjectName(str(row_data[0]))
+            #Boton ver
+            btn_ver = QPushButton(str(row_data[0]), self)
+            btn_ver.setObjectName(str(row_data[0]))
+            btn_ver.setStyleSheet("background-color: white; color: white; font-size: 1px;")
+            btn_ver.setIcon(QIcon('src/icons/icon_ver.png'))
+            btn_ver.setIconSize(QSize(30, 30)) 
+
+            #Boton editar
+            btn_editar = QPushButton(str(row_data[0]), self)
+            btn_editar.setObjectName(str(row_data[0]))
+            btn_editar.setStyleSheet("background-color: white; color: white; font-size: 1px;")
+            btn_editar.setIcon(QIcon('src/icons/icon_editar.png'))
+            btn_editar.setIconSize(QSize(30, 30)) 
+
+            #Boton eliminar
+            btn_eliminar = QPushButton(str(row_data[0]), self)
+            btn_eliminar.setObjectName(str(row_data[0]))
+            btn_eliminar.setStyleSheet("background-color: white; color: white; font-size: 1px;")
+            btn_eliminar.setIcon(QIcon('src/icons/icon_eliminar.png'))
+            btn_eliminar.setIconSize(QSize(30, 30)) 
+
             if tname == "table_temas":
-                btn.clicked.connect(functools.partial(self.Abrir_Modulo_Sesiones))
+                btn_ver.clicked.connect(functools.partial(self.Abrir_Modulo_Sesiones))
             elif tname == "table_sesiones":
-                btn.clicked.connect(functools.partial(self.Abrir_Modulo_Actividades))
+                btn_ver.clicked.connect(functools.partial(self.Abrir_Modulo_Actividades))
             elif tname == "table_actividades":
                 n_act = str(row_number+1)
                 n_act = "Actividad "+n_act
                 self.v_table.setItem(row_number, 0, QtWidgets.QTableWidgetItem(n_act))
-                btn.clicked.connect(functools.partial(self.Abrir_Modulo_Material_Actividad))
-            btn.setStyleSheet("background-color: white; color: white; font-size: 1px;")
-            btn.setIcon(QIcon('src/icons/icon_ver.png'))
-            btn.setIconSize(QSize(30, 30)) 
-            btn.show()
-            self.v_table.setCellWidget(row_number, 1, btn)
+                btn_ver.clicked.connect(functools.partial(self.Abrir_Modulo_Material_Actividad))
+            
+            btn_ver.show()
+            self.v_table.setCellWidget(row_number, 1, btn_ver)
+
+            if tname != "table_temas":
+                btn_editar.show()
+                btn_eliminar.show()
+                self.v_table.setCellWidget(row_number, 2, btn_editar)
+                self.v_table.setCellWidget(row_number, 3, btn_eliminar)
     
     def mostrarAlerta(self, title, text, descripcion):
         msg = QMessageBox()
@@ -410,26 +515,6 @@ class Ventana(QMainWindow):
         playsound(ruta[0][2])
         print("Finalizado.")
 
-    def actualizar_examen(self):
-        #DEBE REBIRI ID EXAMEN
-        #DEBE REcibir campo texto_descripcion y ruta_imagen descripcion de examen
-        #DEBE REBIRI UNA LISTA CON LAS RESPUESTAS DE SELECCION MULTIPLE
-        self.v_id_examen=1
-        print(self.v_id_sesion)
-        print(self.v_id_examen)
-        id=1
-        descripcion_examen='Representadas por medio de unos signos que se escriben en las líneas y espacios del pentagrama. Cada nota representa un sonido musical Marque la nota es la que se marca en color ROJO y la clave musical del pentagrama'
-        ruta='src/image_preguntas/pregunta1.png'
-        lista_preguntas_recep=[(1,'Nota Si y Clave Fa',1,'f'),(2,'Nota Sol y Clave Sol',1,'v'),(3,'Nota Fa y Clave Sol',1,'f'),(4,'Nota Re y Clave Fa',1,'f')]
-        actualizar_preguntas(id,descripcion_examen,ruta,lista_preguntas_recep)
-
-        return "editado"
-
-    def actualizar_acti(self):
-        actualizar_actividad(1)
-        return "actualizado"
-
-        src/audio/audio_de_profesor/audio_profesor.wav
     def Reproducir_Audio(self):
         #pip uninstall playsound
         #pip install playsound==1.2.2
@@ -693,6 +778,5 @@ def run():
     sys.exit(app.exec_())
     
     
-if __name__ == '__main__':
-    
+if __name__ == '__main__':    
     run()
