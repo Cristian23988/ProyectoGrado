@@ -222,6 +222,7 @@ class Ventana(QMainWindow):
             if self.v_id_actividad != 0 and self.v_id_actividad != -1:
                 self.stackedWidget_2.setCurrentWidget(self.material_actividad_profesor)
                 material_actividades = actividadFindAll(self.v_id_actividad)
+                print(material_actividades)
             elif self.v_id_actividad == -1:
                 self.v_table.clearContents()
                 self.Abrir_Modulo_Actividades()
@@ -608,8 +609,9 @@ class Ventana(QMainWindow):
 
         # Copia el archivo desde la ubicación actual a la
         # carpeta "Documentos".
+        id_act = str(self.v_id_actividad)
         file_path='src/material_actividad/'            
-        file_save=f'archivo' 
+        file_save=f'archivo_actividad_'+id_act
 
         eextension = ["*.pdf","*.wav","*.png","*.jpg"]
         
@@ -620,13 +622,17 @@ class Ventana(QMainWindow):
         nombre, extension = os.path.splitext(archivo)         
           
         id_extension=0
-        
-          
 
-        if extension == ".pdf": id_extension=2
-        if extension == ".wav": id_extension=3
-        if extension == ".png" or extension == ".jpg" : id_extension=1
-        file_save=f'{file_save}' 
+        if extension == ".pdf": 
+            id_extension = 2
+            nameArchivo = "_pdf"
+        if extension == ".wav": 
+            id_extension = 3
+            nameArchivo = "_audio"
+        if extension == ".png" or extension == ".jpg" : 
+            id_extension = 1
+            nameArchivo = "_imagen"
+        file_save=f'{file_save}{nameArchivo}'
         
         #TIPO MATERIAL - RUTA - DESCRIPCION TXT - SESION - ID DE USUARIO - ACTIVIDAD
         rta=existematerial(file_path+file_save+extension)
@@ -635,7 +641,8 @@ class Ventana(QMainWindow):
         i=0
         if rta==True:
             while rta==True:
-                file_save=f'{file_save}{i}' 
+                separador = "_"
+                file_save=f'{file_save}{nameArchivo}{separador}{i}'
                 rta=existematerial(file_path+file_save+extension) 
                 i=i+1
         if rta==False:
@@ -643,7 +650,7 @@ class Ventana(QMainWindow):
             insertar_materialXactividad(id_extension,file_path+file_save+extension,self.v_id_sesion,self.v_id_usuario,self.v_id_actividad)
             print("insertado material")
         
-        shutil.copyfile(archivo, file_path+file_save)
+        shutil.copyfile(archivo, file_path+file_save+extension)
 
         
         #guardarMateria_Actividad(1,' ',self.v_id_sesion,self.v_id_usuario,2)
