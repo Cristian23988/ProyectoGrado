@@ -226,7 +226,7 @@ class Ventana(QMainWindow):
                 self.v_table.clearContents()
                 self.Abrir_Modulo_Actividades()
             
-            self.button_material_actividades_crear.clicked.connect(functools.partial(self.crearForm))
+            self.button_material_actividades_crear.clicked.connect(functools.partial(self.Cargar_materialxActividad))
             self.button_material_actividad_regresar.clicked.connect(functools.partial(self.Abrir_Modulo_Actividades))
             self.llenarMaterial(material_actividades)
 
@@ -329,7 +329,6 @@ class Ventana(QMainWindow):
         scroll.setWidgetResizable(True)
         scroll.setWidget(widget)
         self.show()
-        self.button_material_actividades_crear.clicked.connect(self.Cargar_materialxActividad)
         
 
     def button(self, h):
@@ -644,7 +643,7 @@ class Ventana(QMainWindow):
             insertar_materialXactividad(id_extension,file_path+file_save+extension,self.v_id_sesion,self.v_id_usuario,self.v_id_actividad)
             print("insertado material")
         
-        shutil.copyfile(archivo, file_path+file_save+extension)
+        shutil.copyfile(archivo, file_path+file_save)
 
         
         #guardarMateria_Actividad(1,' ',self.v_id_sesion,self.v_id_usuario,2)
