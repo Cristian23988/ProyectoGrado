@@ -363,7 +363,7 @@ class Ventana(QMainWindow):
                 print("NO ES PROFESOR ")
 
     def guardarForm(self, datos):
-        print(datos)
+        #print(datos)
         #print(x.index('o'))
         if datos[0] == "insert_sesiones":
             insertSesiones(datos[1],datos[2], datos[3])
@@ -390,8 +390,9 @@ class Ventana(QMainWindow):
                 if dat[1] == datos[2]:
                     datos[2] = dat[0]
 
-            insertar_actividad(datos[1], datos[2], datos[3], datos[4], datos[5])
-            print("insertada actividad")
+            #print(datos)
+            actualizar_actividad(datos[1], datos[2], datos[3])
+            print("Actualizada actividad")
     
     def editarForm(self):
         id = int(self.sender().text())
@@ -464,7 +465,7 @@ class Ventana(QMainWindow):
 
                 #print(x.index('o')) #busca elemento dentro de un array
 
-                self.button_form_crear.clicked.connect(lambda: self.guardarForm([tabla, datos[0], self.input_1.text(), int(self.comboBox.currentText())]))
+                self.button_form_crear.clicked.connect(lambda: self.guardarForm([tabla, datos[0], self.input_1.text(), self.comboBox.currentText()]))
 
             grid.addWidget(self.title_1, 0, 0)
             grid.addWidget(self.input_1, 0, 1)
@@ -510,7 +511,6 @@ class Ventana(QMainWindow):
                 for c_n, dat in enumerate(tipoAct):
                     if dat[0] == datos[2]:      #valida id tablas(actividad => tipo actividad)
                         tipo_activ = dat[1]
-                        print("tipo_activi",tipo_activ)
                         self.comboBox.addItem(tipo_activ)
                         tipoAct.remove(dat)     #remueve el item de la bd para evitar duplicados
                         break
@@ -521,7 +521,7 @@ class Ventana(QMainWindow):
                 #Input descripcion
                 self.input_1.setText(datos[5])
 
-                self.button_form_crear.clicked.connect(lambda: self.guardarForm([tabla, self.v_id_sesion, self.comboBox.currentText(), self.v_id_materia, self.v_id_usuario, self.input_1.text()]))
+                self.button_form_crear.clicked.connect(lambda: self.guardarForm([tabla, datos[0], self.comboBox.currentText(), self.input_1.text()]))
 
             grid.addWidget(self.title_1, 1, 0)
             grid.addWidget(self.comboBox, 1, 1)

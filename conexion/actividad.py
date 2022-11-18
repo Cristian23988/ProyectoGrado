@@ -1,5 +1,4 @@
-from conexion.conect import connect 
-
+from conexion.conect import connect
 from conexion.material_actividad import update as update_material
 
 cursor1=connect.conexion1.cursor()
@@ -50,11 +49,11 @@ def deleteById(id):
 
 def update(id, tipo, descripcion):
     #CAMBIAR SET para que sea dinamico en el update
-    cursor1.execute(f"update {v_table} set {v_id_tipo_actividad} = '{tipo}', {v_descripcion_actividad} = '{descripcion}' where {v_id_actividad}={id}")
+    cursor1.execute(f"update {v_table} set {v_id_tipo_actividad} = {tipo} , {v_descripcion_actividad} = '{descripcion}' where {v_id_actividad}={id}")
     connect.conexion1.commit()
-    materialDat=[(69,'ruta',3)]
-    update_material(id,materialDat)
-    ##conexion1.close() 
+    #materialDat=[(69,'ruta',3)]
+    #update_material(id,materialDat)
+    #conexion1.close() 
 
 
 def insert(id_sesion,id_tipo_actividad,id_materia,id_profesor,descripcion_actividad):
