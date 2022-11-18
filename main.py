@@ -117,7 +117,7 @@ class Ventana(QMainWindow):
         self.button_menu_cerrar_sesion.clicked.connect(self.cerrarSesion)
         #self.button_actualizar_examen.clicked.connect(self.actualizar_examen)
         #self.button_actualizar_examen.clicked.connect(self.actualizar_acti)
-        self.button_actualizar_examen.clicked.connect(self.Cargar_materialxActividad)
+        #self.button_actualizar_examen.clicked.connect(self.Cargar_materialxActividad)
         
         self.button_home_teoria.clicked.connect(self.Abrir_Modulo_Teoria)
         self.button_home_practicas.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_practicas))
@@ -175,7 +175,7 @@ class Ventana(QMainWindow):
                 
                 self.input_sesiones_search.setPlaceholderText("Buscar...")
                 self.input_sesiones_search.textChanged.connect(self.searchTable)
-                self.button_sesiones_crear.clicked.connect(self.crearForm)
+                self.button_sesiones_crear.clicked.connect(functools.partial(self.crearForm))
                 self.button_sesiones_regresar.clicked.connect(functools.partial(self.Abrir_Modulo_Teoria))
             elif self.v_id_materia == -1:
                 self.v_table.clearContents()
@@ -201,7 +201,7 @@ class Ventana(QMainWindow):
                 
                 self.input_actividades_search.setPlaceholderText("Buscar...")
                 self.input_actividades_search.textChanged.connect(self.searchTable)
-                self.button_actividades_crear.clicked.connect(self.crearForm)
+                self.button_actividades_crear.clicked.connect(functools.partial(self.crearForm))
                 self.button_actividades_regresar.clicked.connect(functools.partial(self.Abrir_Modulo_Sesiones))
             elif self.v_id_sesion == -1:
                 self.v_table.clearContents()
@@ -225,7 +225,8 @@ class Ventana(QMainWindow):
             elif self.v_id_actividad == -1:
                 self.v_table.clearContents()
                 self.Abrir_Modulo_Actividades()
-
+            
+            self.button_material_actividades_crear.clicked.connect(functools.partial(self.crearForm))
             self.button_material_actividad_regresar.clicked.connect(functools.partial(self.Abrir_Modulo_Actividades))
             self.llenarMaterial(material_actividades)
 
@@ -233,7 +234,7 @@ class Ventana(QMainWindow):
         scroll = self.scrollArea_3
         widget = QWidget()
         vbox = QVBoxLayout()
-        scroll.setGeometry(100,60,700,600)
+        scroll.setGeometry(100,60,700,530)
         scroll.setWidgetResizable(True)
 
         for row_number, row_data in enumerate(datos):            
@@ -328,6 +329,8 @@ class Ventana(QMainWindow):
         scroll.setWidgetResizable(True)
         scroll.setWidget(widget)
         self.show()
+        self.button_material_actividades_crear.clicked.connect(self.Cargar_materialxActividad)
+        
 
     def button(self, h):
         sender_button = self.sender().text()
@@ -383,7 +386,7 @@ class Ventana(QMainWindow):
         grid = QGridLayout()
         grid.setHorizontalSpacing(6)
 
-        if self.v_table.objectName() == "table_sesiones":
+        if self.sender().text() == "Crear una nueva sesion":
             self.button_form_crear_regresar.clicked.connect(functools.partial(self.Abrir_Modulo_Sesiones))
             self.label_form_crear_title.setText("Formulario Crear Sesión")
             self.title_1 = QLabel("Nombre de la sesion")
@@ -414,8 +417,9 @@ class Ventana(QMainWindow):
             id = self.v_id_materia
             self.button_form_crear.clicked.connect(lambda: self.guardarForm([tabla, self.input_1.text(), id, int(self.comboBox.currentText())]))
         
-        if self.v_table.objectName() == "table_actividades":
-            self.button_actividades_regresar.clicked.connect(functools.partial(self.Abrir_Modulo_Actividades))
+        if self.sender().text() == "Crear una nueva actividad":
+            self.button_form_crear_regresar.clicked.connect(functools.partial(self.Abrir_Modulo_Actividades))
+            self.label_form_crear_title.setText("Formulario Crear Actividad")
             tipoAct = findTipoActividad()
 
             self.title_1 = QLabel("Tipo de actividad")
@@ -637,8 +641,8 @@ class Ventana(QMainWindow):
                 i=i+1
         if rta==False:
         #RUTA - ID DE USUARIO
-            insertar_materialXactividad(id_extension,file_path+file_save+extension,self.v_id_sesion,self.v_id_usuario,1)
-            print("")
+            insertar_materialXactividad(id_extension,file_path+file_save+extension,self.v_id_sesion,self.v_id_usuario,self.v_id_actividad)
+            print("insertado material")
         
         shutil.copyfile(archivo, file_path+file_save)
 

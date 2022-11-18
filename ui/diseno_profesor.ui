@@ -1071,30 +1071,12 @@ QPushButton{
                <string>Gestión de Actividades</string>
               </property>
              </widget>
-             <widget class="QPushButton" name="button_actualizar_examen">
-              <property name="geometry">
-               <rect>
-                <x>30</x>
-                <y>440</y>
-                <width>111</width>
-                <height>23</height>
-               </rect>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>14</pointsize>
-               </font>
-              </property>
-              <property name="text">
-               <string>Boton sano</string>
-              </property>
-             </widget>
              <widget class="QPushButton" name="button_actividades_crear">
               <property name="geometry">
                <rect>
                 <x>350</x>
                 <y>530</y>
-                <width>170</width>
+                <width>181</width>
                 <height>45</height>
                </rect>
               </property>
@@ -1163,7 +1145,7 @@ QPushButton{
                 <x>100</x>
                 <y>60</y>
                 <width>651</width>
-                <height>581</height>
+                <height>530</height>
                </rect>
               </property>
               <property name="layoutDirection">
@@ -1190,7 +1172,7 @@ QPushButton{
                  <x>0</x>
                  <y>0</y>
                  <width>649</width>
-                 <height>579</height>
+                 <height>528</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout">
@@ -1377,6 +1359,32 @@ color: rgb(170, 0, 0);</string>
                 </item>
                </layout>
               </widget>
+             </widget>
+             <widget class="QPushButton" name="button_material_actividades_crear">
+              <property name="geometry">
+               <rect>
+                <x>300</x>
+                <y>610</y>
+                <width>251</width>
+                <height>45</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Crear una nuevo material de actividad</string>
+              </property>
+              <property name="icon">
+               <iconset>
+                <normaloff>../src/icons/icon_agregar.png</normaloff>../src/icons/icon_agregar.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>40</width>
+                <height>40</height>
+               </size>
+              </property>
+              <property name="autoDefault">
+               <bool>false</bool>
+              </property>
              </widget>
             </widget>
             <widget class="QWidget" name="form_crear">
