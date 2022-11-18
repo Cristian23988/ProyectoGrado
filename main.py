@@ -586,12 +586,12 @@ class Ventana(QMainWindow):
         i=0
         if rta==True:
             while rta==True:
-                file_save=f'{file_save}{i}{extension}' 
-                rta=existematerial(file_path+file_save) 
+                file_save=f'{file_save}{i}' 
+                rta=existematerial(file_path+file_save+extension) 
                 i=i+1
         if rta==False:
         #RUTA - ID DE USUARIO
-            insertar_materialXactividad(id_extension,file_path+file_save,self.v_id_sesion,self.v_id_usuario,1)
+            insertar_materialXactividad(id_extension,file_path+file_save+extension,self.v_id_sesion,self.v_id_usuario,1)
             print("")
         
         shutil.copyfile(archivo, file_path+file_save)
