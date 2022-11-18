@@ -594,7 +594,7 @@ class Ventana(QMainWindow):
             insertar_materialXactividad(id_extension,file_path+file_save+extension,self.v_id_sesion,self.v_id_usuario,1)
             print("")
         
-        shutil.copyfile(archivo, file_path+file_save)
+        shutil.copyfile(archivo, file_path+file_save+extension)
 
         
         #guardarMateria_Actividad(1,' ',self.v_id_sesion,self.v_id_usuario,2)
