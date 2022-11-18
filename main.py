@@ -44,6 +44,8 @@ from conexion.preguntas import update as actualizar_preguntas
 from conexion.tipo_archivo import findById as tipoArchivo
 from conexion.material_actividad import insert as guardarMateria_Actividad
 from conexion.actividad import update as actualizar_actividad
+from conexion.actividad import insert as insertar_actividad
+from conexion.actividad import findTipoActividades as findTipoActividad
 from conexion.tipo_archivo import findById as tipoArchivo
 from conexion.preguntas import update as actualizar_preguntas
 
@@ -56,6 +58,7 @@ class Ventana(QMainWindow):
         super(Ventana, self).__init__()
         uic.loadUi("ui/login.ui", self)  #P1: mostraba la GUI  disenofinal.ui
         self.button_login.clicked.connect(lambda:self.logIn(self.input_login_correo.text(),self.input_login_contrasena.text()))
+        v_id_usuario = 0
         v_usuarioN = ""
         v_rolN = ""
         v_table = None
@@ -198,6 +201,7 @@ class Ventana(QMainWindow):
                 
                 self.input_actividades_search.setPlaceholderText("Buscar...")
                 self.input_actividades_search.textChanged.connect(self.searchTable)
+                self.button_actividades_crear.clicked.connect(self.crearForm)
                 self.button_actividades_regresar.clicked.connect(functools.partial(self.Abrir_Modulo_Sesiones))
             elif self.v_id_sesion == -1:
                 self.v_table.clearContents()
@@ -358,6 +362,16 @@ class Ventana(QMainWindow):
         if datos[0] == "sesiones":
             insertSesiones(datos[1],datos[2], datos[3])
             print("insertadad sesion")
+        
+        if datos[0] == "actividades":
+            tipoAct = findTipoActividad()
+            for r, dat in enumerate(tipoAct):
+                #selecciona el id de acuerdo al texto
+                if dat[1] == datos[2]:
+                    datos[2] = dat[0]
+
+            insertar_actividad(datos[1], datos[2], datos[3], datos[4], datos[5])
+            print("insertadad actividad")
     
     def crearForm(self):
         self.stackedWidget_2.setCurrentWidget(self.form_crear)
@@ -370,6 +384,8 @@ class Ventana(QMainWindow):
         grid.setHorizontalSpacing(6)
 
         if self.v_table.objectName() == "table_sesiones":
+            self.button_form_crear_regresar.clicked.connect(functools.partial(self.Abrir_Modulo_Sesiones))
+            self.label_form_crear_title.setText("Formulario Crear Sesión")
             self.title_1 = QLabel("Nombre de la sesion")
             #self.title_1.setObjectName("form_crear_1")
             self.title_1.setScaledContents(True)
@@ -397,6 +413,36 @@ class Ventana(QMainWindow):
             tabla = "sesiones"
             id = self.v_id_materia
             self.button_form_crear.clicked.connect(lambda: self.guardarForm([tabla, self.input_1.text(), id, int(self.comboBox.currentText())]))
+        
+        if self.v_table.objectName() == "table_actividades":
+            self.button_actividades_regresar.clicked.connect(functools.partial(self.Abrir_Modulo_Actividades))
+            tipoAct = findTipoActividad()
+
+            self.title_1 = QLabel("Tipo de actividad")
+            #self.title_1.setObjectName("form_crear_1")
+            self.title_1.setScaledContents(True)
+            self.title_1.setWordWrap(True)
+            grid.addWidget(self.title_1, 1, 0)
+            #Input
+            self.comboBox = QComboBox(self)
+            self.comboBox.setObjectName(("comboBox"))
+            for r, dat in enumerate(tipoAct):
+                self.comboBox.addItem(dat[1])
+            grid.addWidget(self.comboBox, 1, 1)
+
+            self.title_2 = QLabel("Descripción de la actividad")
+            #self.title_2.setObjectName("form_crear_2")
+            self.title_2.setScaledContents(True)
+            self.title_2.setWordWrap(True)
+            grid.addWidget(self.title_2, 2, 0)
+            #Input
+            #self.input_2 = QLineEdit("input_2")
+            self.input_1 = QLineEdit(self)
+            self.input_1.setObjectName("input_1")
+            grid.addWidget(self.input_1, 2, 1)
+
+            tabla = "actividades"
+            self.button_form_crear.clicked.connect(lambda: self.guardarForm([tabla, self.v_id_sesion, self.comboBox.currentText(), self.v_id_materia, self.v_id_usuario, self.input_1.text()]))
         
         vbox.addLayout(grid)
         
