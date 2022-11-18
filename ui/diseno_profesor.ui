@@ -872,7 +872,7 @@ QPushButton{
              <widget class="QLabel" name="label_sesiones_title">
               <property name="geometry">
                <rect>
-                <x>250</x>
+                <x>320</x>
                 <y>10</y>
                 <width>200</width>
                 <height>32</height>
@@ -886,7 +886,7 @@ QPushButton{
               </property>
               <property name="styleSheet">
                <string notr="true">QLabel{
-	qproperty-geometry: rect(250 10 200 32);
+	qproperty-geometry: rect(320 10 200 32);
 }</string>
               </property>
               <property name="text">
@@ -952,6 +952,32 @@ QPushButton{
               </property>
               <property name="text">
                <string>Regresar</string>
+              </property>
+             </widget>
+             <widget class="QPushButton" name="button_sesiones_crear">
+              <property name="geometry">
+               <rect>
+                <x>350</x>
+                <y>530</y>
+                <width>170</width>
+                <height>45</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Crear una nueva sesion</string>
+              </property>
+              <property name="icon">
+               <iconset>
+                <normaloff>../src/icons/icon_agregar.png</normaloff>../src/icons/icon_agregar.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>40</width>
+                <height>40</height>
+               </size>
+              </property>
+              <property name="autoDefault">
+               <bool>false</bool>
               </property>
              </widget>
             </widget>
@@ -1317,6 +1343,92 @@ color: rgb(170, 0, 0);</string>
                    </widget>
                   </item>
                  </layout>
+                </item>
+               </layout>
+              </widget>
+             </widget>
+            </widget>
+            <widget class="QWidget" name="form_crear">
+             <widget class="QLabel" name="label_teoria_title_2">
+              <property name="geometry">
+               <rect>
+                <x>320</x>
+                <y>10</y>
+                <width>250</width>
+                <height>32</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <family>Inter</family>
+                <pointsize>16</pointsize>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QLabel{
+	qproperty-geometry: rect(320 10 250 32);
+}</string>
+              </property>
+              <property name="text">
+               <string>Formulario Crear</string>
+              </property>
+             </widget>
+             <widget class="QPushButton" name="button_form_crear">
+              <property name="geometry">
+               <rect>
+                <x>400</x>
+                <y>600</y>
+                <width>75</width>
+                <height>23</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Guardar</string>
+              </property>
+             </widget>
+             <widget class="QScrollArea" name="scrollArea_form_crear">
+              <property name="geometry">
+               <rect>
+                <x>100</x>
+                <y>60</y>
+                <width>651</width>
+                <height>511</height>
+               </rect>
+              </property>
+              <property name="layoutDirection">
+               <enum>Qt::LeftToRight</enum>
+              </property>
+              <property name="verticalScrollBarPolicy">
+               <enum>Qt::ScrollBarAsNeeded</enum>
+              </property>
+              <property name="horizontalScrollBarPolicy">
+               <enum>Qt::ScrollBarAsNeeded</enum>
+              </property>
+              <property name="sizeAdjustPolicy">
+               <enum>QAbstractScrollArea::AdjustToContents</enum>
+              </property>
+              <property name="widgetResizable">
+               <bool>true</bool>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+              <widget class="QWidget" name="scrollAreaWidgetContents_6">
+               <property name="geometry">
+                <rect>
+                 <x>0</x>
+                 <y>0</y>
+                 <width>649</width>
+                 <height>509</height>
+                </rect>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_3">
+                <item>
+                 <widget class="QLabel" name="label_3">
+                  <property name="text">
+                   <string>ya esta bien</string>
+                  </property>
+                 </widget>
                 </item>
                </layout>
               </widget>
