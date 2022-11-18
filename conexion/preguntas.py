@@ -82,4 +82,4 @@ ruta='src/image_preguntas/pregunta1.png'
 lista_preguntas_recep=[(1,'Nota Si y Clave Fa',1,'f'),(2,'Nota Sol y Clave Sol',1,'v'),(3,'Nota Fa y Clave Sol',1,'f'),(4,'Nota Re y Clave Fa',1,'f')]
 update(id,descripcion_examen,ruta,lista_preguntas_recep)
 #insert('prof','prof',2)
-#print(rta)
+#print(rta)a
