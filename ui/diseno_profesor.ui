@@ -1151,6 +1151,9 @@ QPushButton{
               <property name="layoutDirection">
                <enum>Qt::LeftToRight</enum>
               </property>
+              <property name="styleSheet">
+               <string notr="true">border: 0px</string>
+              </property>
               <property name="verticalScrollBarPolicy">
                <enum>Qt::ScrollBarAsNeeded</enum>
               </property>
@@ -1171,8 +1174,8 @@ QPushButton{
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>649</width>
-                 <height>528</height>
+                 <width>651</width>
+                 <height>530</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout">
@@ -1337,7 +1340,7 @@ qproperty-geometry: rect(290 210 80 30);</string>
                   <item row="0" column="2">
                    <widget class="QPushButton" name="button_teoria_ingresar_4">
                     <property name="styleSheet">
-                     <string notr="true">background-color: rgb(170, 0, 0);
+                     <string notr="true">background-color: rgb(195, 44, 45);
 color: rgb(170, 0, 0);</string>
                     </property>
                     <property name="text">
@@ -1391,9 +1394,9 @@ color: rgb(170, 0, 0);</string>
              <widget class="QLabel" name="label_form_crear_title">
               <property name="geometry">
                <rect>
-                <x>320</x>
+                <x>290</x>
                 <y>10</y>
-                <width>250</width>
+                <width>300</width>
                 <height>32</height>
                </rect>
               </property>
@@ -1401,11 +1404,13 @@ color: rgb(170, 0, 0);</string>
                <font>
                 <family>Inter</family>
                 <pointsize>16</pointsize>
+                <weight>50</weight>
+                <bold>false</bold>
                </font>
               </property>
               <property name="styleSheet">
                <string notr="true">QLabel{
-	qproperty-geometry: rect(320 10 250 32);
+	qproperty-geometry: rect(290 10 300 32);
 }</string>
               </property>
               <property name="text">
@@ -1415,17 +1420,19 @@ color: rgb(170, 0, 0);</string>
              <widget class="QScrollArea" name="scrollArea_form_crear">
               <property name="geometry">
                <rect>
-                <x>100</x>
-                <y>60</y>
-                <width>651</width>
-                <height>511</height>
+                <x>230</x>
+                <y>70</y>
+                <width>400</width>
+                <height>500</height>
                </rect>
               </property>
               <property name="layoutDirection">
                <enum>Qt::LeftToRight</enum>
               </property>
               <property name="styleSheet">
-               <string notr="true">border: 0px;</string>
+               <string notr="true">QScrollArea{
+	border: 0px;
+}</string>
               </property>
               <property name="verticalScrollBarPolicy">
                <enum>Qt::ScrollBarAsNeeded</enum>
@@ -1447,13 +1454,19 @@ color: rgb(170, 0, 0);</string>
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>651</width>
-                 <height>511</height>
+                 <width>400</width>
+                 <height>500</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_3">
                 <item>
                  <widget class="QLabel" name="label_3">
+                  <property name="font">
+                   <font>
+                    <weight>50</weight>
+                    <bold>false</bold>
+                   </font>
+                  </property>
                   <property name="text">
                    <string>ya esta bien</string>
                   </property>

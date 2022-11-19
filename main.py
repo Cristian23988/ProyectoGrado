@@ -1,7 +1,8 @@
 from ctypes import pointer
 import sys
 from PyQt5.QtGui import *
-from PyQt5.QtWidgets import (QWidget, QSlider, QLineEdit, QComboBox, QLabel, QFrame, QGridLayout, QPushButton, QScrollArea, QApplication, QSpacerItem,
+from PyQt5.QtGui import QPixmap
+from PyQt5.QtWidgets import (QWidget, QSlider, QLineEdit, QComboBox, QLabel, QPlainTextEdit, QFrame, QGridLayout, QPushButton, QScrollArea, QApplication, QSpacerItem,
                              QHBoxLayout, QVBoxLayout, QMainWindow, QSizePolicy, QMessageBox)
 from PyQt5.QtCore import *
 from PyQt5 import uic # llama al archivo disenofinal.ui
@@ -255,12 +256,26 @@ class Ventana(QMainWindow):
                 space = QSpacerItem(40, 20, QSizePolicy.Expanding)
                 count_items = 0
                 
+                
                 if tipo_material != "" and tipo_material[0][1] == "Imagen":
-                    pixmap = QPixmap(datos_material[r][2])                
+                    pixmap = QPixmap(datos_material[r][2])
                     image = QLabel()
                     image.setPixmap(pixmap)
+                    image.setMaximumHeight(200)
+                    image.setMaximumWidth(600)
+                    image.setScaledContents(True)
                     grid_2.addWidget(image, count_items, 0)
-                    grid_2.addItem(space, count_items, 1)
+
+                    #boton eliminar
+                    btn = QPushButton(str(datos[row_number][0]), self)
+                    btn.setObjectName(str(datos[row_number][0]))
+                    btn.clicked.connect(functools.partial(self.button))
+                    btn.setStyleSheet("background-color: rgb(195, 44, 45); color: rgb(195, 44, 45); font-size: 1px; padding: 5px")
+                    btn.setIcon(QIcon('src/icons/icon_eliminar.png'))
+                    btn.setIconSize(QSize(30, 30)) 
+                    btn.show()
+                    grid_2.addWidget(btn, count_items, 1)
+                    grid_2.addItem(space, count_items, 2)
                     count_items += 1
                     
                 if tipo_material != "" and tipo_material[0][1] == "Audio":
@@ -448,14 +463,14 @@ class Ventana(QMainWindow):
         scroll = self.scrollArea_form_crear
         widget = QWidget()
         vbox = QVBoxLayout()
-        scroll.setGeometry(100,60,700,500)
         scroll.setWidgetResizable(True)
         grid = QGridLayout()
-        grid.setHorizontalSpacing(6)
+        grid.setHorizontalSpacing(1)
         #button guardar
         btn_guardar = QPushButton("Guardar", self)
 
         if sender == "sesion":
+            scroll.setGeometry(230,80,400,200)
             datos = datos   #para evitar error de lista "datos" fuera de rango
             self.button_form_crear_regresar.clicked.connect(functools.partial(self.Abrir_Modulo_Sesiones))
 
@@ -463,6 +478,7 @@ class Ventana(QMainWindow):
             self.title_1 = QLabel("Nombre de la sesion")
             self.title_1.setScaledContents(True)
             self.title_1.setWordWrap(True)
+            self.title_1.setBold(True)
 
             #Input nombre sesion
             self.input_1 = QLineEdit(self)
@@ -472,6 +488,7 @@ class Ventana(QMainWindow):
             self.title_2 = QLabel("Corte")
             self.title_2.setScaledContents(True)
             self.title_2.setWordWrap(True)
+            self.title_2.setBold(True)
 
             #Select corte
             self.comboBox = QComboBox(self)
@@ -500,11 +517,12 @@ class Ventana(QMainWindow):
                 btn_guardar.clicked.connect(lambda: self.guardarForm([tabla, datos[0], self.input_1.text(), self.comboBox.currentText()]))
 
             grid.addWidget(self.title_1, 0, 0)
-            grid.addWidget(self.input_1, 0, 1)
-            grid.addWidget(self.title_2, 1, 0)
-            grid.addWidget(self.comboBox, 1, 1)
+            grid.addWidget(self.input_1, 1, 0)
+            grid.addWidget(self.title_2, 2, 0)
+            grid.addWidget(self.comboBox, 3, 0)
         
         if sender == "actividad":
+            scroll.setGeometry(230,80,400,300)
             datos = datos   #para evitar error de lista "datos" fuera de rango
             self.button_form_crear_regresar.clicked.connect(functools.partial(self.Abrir_Modulo_Actividades))
             tipoAct = findTipoActividad()
@@ -513,6 +531,7 @@ class Ventana(QMainWindow):
             self.title_1 = QLabel("Tipo de actividad")
             self.title_1.setScaledContents(True)
             self.title_1.setWordWrap(True)
+            self.title_1.setBold(True)
 
             #ComboBox tipo actividad
             self.comboBox = QComboBox(self)
@@ -522,10 +541,14 @@ class Ventana(QMainWindow):
             self.title_2 = QLabel("Descripción de la actividad")
             self.title_2.setScaledContents(True)
             self.title_2.setWordWrap(True)
+            self.title_2.setBold(True)
 
             #Input descripcion
-            self.input_1 = QLineEdit(self)
+            self.input_1 = QPlainTextEdit(self)
             self.input_1.setObjectName("input_1")
+            #self.input_1.resize(50,50)
+            self.input_1.setGeometry(5,5,40,50)
+
 
             if tipo == "insert":
                 self.label_form_crear_title.setText("Formulario Crear Actividad")
@@ -552,15 +575,15 @@ class Ventana(QMainWindow):
                     self.comboBox.addItem(dat[1])
                 
                 #Input descripcion
-                self.input_1.setText(datos[5])
+                self.input_1.insertPlainText(datos[5])
 
                 #button guardar
                 btn_guardar.clicked.connect(lambda: self.guardarForm([tabla, datos[0], self.comboBox.currentText(), self.input_1.text()]))
                 
-            grid.addWidget(self.title_1, 1, 0)
-            grid.addWidget(self.comboBox, 1, 1)
+            grid.addWidget(self.title_1, 0, 0)
+            grid.addWidget(self.comboBox, 1, 0)
             grid.addWidget(self.title_2, 2, 0)
-            grid.addWidget(self.input_1, 2, 1)
+            grid.addWidget(self.input_1, 3, 0)
             
         btn_guardar.setGeometry(5,5,75,25)
         btn_guardar.setParent(self.frame_button_crear)
