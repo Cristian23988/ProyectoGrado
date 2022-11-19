@@ -47,7 +47,6 @@ def update(id_actividad, material):
     ##conexion1.close() 
 
 
-
 #Crea material asociado a la actividad
 def insert(id_tipo_material,ruta,id_sesion,id_usuario,id_actividad):
     cursor1.execute(f"""insert into {v_table} ({v_id_tipo_material},{v_ruta},{v_id_sesion},{v_id_usuario},{v_id_actividad}) 
