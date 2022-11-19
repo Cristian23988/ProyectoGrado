@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 17-11-2022 a las 04:11:07
+-- Tiempo de generación: 19-11-2022 a las 04:39:47
 -- Versión del servidor: 10.4.17-MariaDB
 -- Versión de PHP: 8.0.2
 
@@ -41,11 +41,7 @@ CREATE TABLE `actividad` (
 --
 
 INSERT INTO `actividad` (`id`, `id_sesion`, `id_tipo_actividad`, `id_materia`, `id_profesor`, `descripcion_actividad`) VALUES
-(1, 1, 2, 1, 14, 'Description of the project, functions, system operativo desployed, role employed in the project, methodology used, logros realizados,\\n\\nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.'),
-(5, 1, 1, 1, 2, 'Description of the project, functions, system operativo desployed, role employed in the project, methodology used, logros realizados,\\n\\nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.'),
-(6, 2, 2, 1, 2, 'Description of the project, functions, system operativo desployed, role employed in the project, methodology used, logros realizados,\\n\\nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.'),
-(7, 2, 1, 1, 2, 'Description of the project, functions, system operativo desployed, role employed in the project, methodology used, logros realizados,\\n\\nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.'),
-(10, 1, 2, 1, 2, 'Description of the project, functions, system operativo desployed, role employed in the project, methodology used, logros realizados,\\n\\nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.');
+(11, 3, 2, 1, 2, 'Description of the project, functions, system operativo desployed, role employed in the project, methodology used, logros realizados,\n\nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.');
 
 -- --------------------------------------------------------
 
@@ -83,17 +79,6 @@ CREATE TABLE `estudiante_nota_clase` (
   `id_evidencia` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Volcado de datos para la tabla `estudiante_nota_clase`
---
-
-INSERT INTO `estudiante_nota_clase` (`id`, `id_estudiante`, `id_actividad`, `puntaje`, `intentos`, `id_evidencia`) VALUES
-(20, 12, 1, '98%', 1, 22),
-(21, 13, 1, '93%', 1, 23),
-(22, 12, 1, '97%', 1, 25),
-(23, 12, 1, '97%', 1, 26),
-(24, 12, 1, '72%', 1, 27);
-
 -- --------------------------------------------------------
 
 --
@@ -117,6 +102,20 @@ INSERT INTO `evidencia_estudiante` (`id`, `ruta`, `id_estudiante`) VALUES
 (25, 'src/audio/audio_de_estudiante/voz_solfeo2.wav', 12),
 (26, 'src/audio/audio_de_estudiante/voz_solfeo3.wav', 12),
 (27, 'src/audio/audio_de_estudiante/voz_solfeo4.wav', 12);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `examen_multiple`
+--
+
+CREATE TABLE `examen_multiple` (
+  `id` int(11) NOT NULL,
+  `id_sesion` int(11) NOT NULL,
+  `texto_descripcion` text NOT NULL,
+  `ruta_imagen_descripcion` varchar(60) NOT NULL,
+  `rta_correcta` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -154,13 +153,18 @@ CREATE TABLE `material` (
   `id_actividad` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- --------------------------------------------------------
+
 --
--- Volcado de datos para la tabla `material`
+-- Estructura de tabla para la tabla `respuestas`
 --
 
-INSERT INTO `material` (`id`, `id_tipo_material`, `ruta`, `id_sesion`, `id_usuario`, `id_actividad`) VALUES
-(67, 3, 'src/audio/audio_de_profesor/audio_profesor.wav', 2, 14, 1),
-(69, 1, 'src/images/image_quiz.jpg', 1, 2, 1);
+CREATE TABLE `respuestas` (
+  `id` int(11) NOT NULL,
+  `respuesta` text NOT NULL,
+  `id_examen` int(11) NOT NULL,
+  `rta` varchar(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -200,9 +204,8 @@ CREATE TABLE `sesion` (
 --
 
 INSERT INTO `sesion` (`id`, `title`, `id_materia`, `corte`) VALUES
-(1, 'Sesion1', 1, 1),
-(2, 'Sesion2', 1, 1),
-(3, 'Sesion3', 1, 2);
+(3, 'Sesion3', 1, 2),
+(6, '123213', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -306,6 +309,13 @@ ALTER TABLE `evidencia_estudiante`
   ADD KEY `id_estudiante` (`id_estudiante`);
 
 --
+-- Indices de la tabla `examen_multiple`
+--
+ALTER TABLE `examen_multiple`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_sesion` (`id_sesion`);
+
+--
 -- Indices de la tabla `materia`
 --
 ALTER TABLE `materia`
@@ -321,6 +331,13 @@ ALTER TABLE `material`
   ADD KEY `id_sesion` (`id_sesion`),
   ADD KEY `id_usuario` (`id_usuario`),
   ADD KEY `id_actividad` (`id_actividad`);
+
+--
+-- Indices de la tabla `respuestas`
+--
+ALTER TABLE `respuestas`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_examen` (`id_examen`);
 
 --
 -- Indices de la tabla `rol`
@@ -362,7 +379,7 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `actividad`
 --
 ALTER TABLE `actividad`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `estudiante_materia`
@@ -383,6 +400,12 @@ ALTER TABLE `evidencia_estudiante`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
+-- AUTO_INCREMENT de la tabla `examen_multiple`
+--
+ALTER TABLE `examen_multiple`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
 -- AUTO_INCREMENT de la tabla `materia`
 --
 ALTER TABLE `materia`
@@ -392,7 +415,13 @@ ALTER TABLE `materia`
 -- AUTO_INCREMENT de la tabla `material`
 --
 ALTER TABLE `material`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=91;
+
+--
+-- AUTO_INCREMENT de la tabla `respuestas`
+--
+ALTER TABLE `respuestas`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `rol`
@@ -404,7 +433,7 @@ ALTER TABLE `rol`
 -- AUTO_INCREMENT de la tabla `sesion`
 --
 ALTER TABLE `sesion`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `tipo_actividad`
@@ -459,6 +488,12 @@ ALTER TABLE `evidencia_estudiante`
   ADD CONSTRAINT `evidencia_estudiante_ibfk_1` FOREIGN KEY (`id_estudiante`) REFERENCES `usuario` (`id_Usuario`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Filtros para la tabla `examen_multiple`
+--
+ALTER TABLE `examen_multiple`
+  ADD CONSTRAINT `examen_multiple_ibfk_3` FOREIGN KEY (`id_sesion`) REFERENCES `sesion` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Filtros para la tabla `materia`
 --
 ALTER TABLE `materia`
@@ -472,6 +507,12 @@ ALTER TABLE `material`
   ADD CONSTRAINT `material_ibfk_2` FOREIGN KEY (`id_sesion`) REFERENCES `sesion` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `material_ibfk_3` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_Usuario`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `material_ibfk_4` FOREIGN KEY (`id_actividad`) REFERENCES `actividad` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `respuestas`
+--
+ALTER TABLE `respuestas`
+  ADD CONSTRAINT `respuestas_ibfk_1` FOREIGN KEY (`id_examen`) REFERENCES `examen_multiple` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `sesion`
