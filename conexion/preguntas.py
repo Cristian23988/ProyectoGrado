@@ -6,6 +6,7 @@ v_table='examen_multiple'
 v_table2='respuestas'
 v_id_exa='id'
 v_id_sesion='id_sesion'
+v_id_actividad='id_actividad'
 v_id_examen='id_examen'
 v_id_usuario='id_Usuario'
 v_lista_examen=[]
@@ -49,6 +50,13 @@ def findById(id):
     for fila2 in cursor2:
         v_lista_preguntas.append(fila2)  
     return v_lista_examen, v_lista_preguntas
+
+
+def findByExameneXActividad(id_actividad, id_sesion):
+    cursor2.execute(f"select * from {v_table}  where {v_id_sesion}={id_sesion} AND {v_id_actividad}={id_actividad}")
+    return v_lista_examen
+
+
 
 def deleteById(id):
 
