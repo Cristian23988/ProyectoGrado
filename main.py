@@ -27,33 +27,32 @@ from partitureConversion.note import Note
 from random import randint
 import threading
 import time
-from partitureConversion.MIDIUtil.src.midiutil.MidiFile3 import MIDIFile
-from Comparacion.compare import comparacion_wav
-from conexion.evidencia_estudiante import insert as insertar_evidencia
-from conexion.evidencia_estudiante import findByRuta as existeEvidencia
-from conexion.material_actividad import findByRuta as existematerial
-from conexion.notas import insert as insertarNota
-from conexion.material_actividad import insert as insertar_materialXactividad
 from conexion.user import findLogin
 from conexion.materia import findAll as materiaFindAll
-from conexion.sesion import findByMateria as sesionFindAll
+from conexion.sesion import findAll as sesionFindAll
 from conexion.sesion import findById as sesionFindId
 from conexion.sesion import insert as insertSesiones
 from conexion.sesion import update as updateSesiones
 from conexion.actividad import findBySesion as actividadFindAll
-from conexion.material_actividad import findMaterialByActivity as materialByActividad
-from conexion.material_actividad import findById as materialById
-from conexion.material_actividad import deleteById as deleteMaterial
-from conexion.preguntas import update as actualizar_preguntas
-from conexion.tipo_archivo import findById as tipoArchivo
-from conexion.material_actividad import insert as guardarMateria_Actividad
 from conexion.actividad import update as actualizar_actividad
 from conexion.actividad import insert as insertar_actividad
 from conexion.actividad import findById as actividadFindId
 from conexion.actividad import findTipoActividades as findTipoActividad
+from conexion.material_actividad import findMaterialByActivity as materialByActividad
+from conexion.material_actividad import findById as materialById
+from conexion.material_actividad import deleteById as deleteMaterial
+from conexion.material_actividad import findByRuta as existematerial
+from conexion.preguntas import update as actualizar_preguntas
+from conexion.tipo_archivo import findById as tipoArchivo
+from conexion.material_actividad import insert as guardarMateria_Actividad
 from conexion.tipo_archivo import findById as tipoArchivo
 from conexion.preguntas import update as actualizar_preguntas
-
+from conexion.evidencia_estudiante import insert as insertar_evidencia
+from conexion.evidencia_estudiante import findByRuta as existeEvidencia
+from conexion.notas import insert as insertarNota
+from conexion.material_actividad import insert as insertar_materialXactividad
+from partitureConversion.MIDIUtil.src.midiutil.MidiFile3 import MIDIFile
+from Comparacion.compare import comparacion_wav
 
 s = stream.Stream()
         
