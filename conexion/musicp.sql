@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.4
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 19-11-2022 a las 08:42:59
--- Versión del servidor: 10.4.17-MariaDB
--- Versión de PHP: 8.0.2
+-- Tiempo de generación: 19-11-2022 a las 19:59:50
+-- Versión del servidor: 10.4.24-MariaDB
+-- Versión de PHP: 8.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -53,7 +53,8 @@ INSERT INTO `actividad` (`id`, `id_sesion`, `id_tipo_actividad`, `id_materia`, `
 (24, 10, 2, 1, 2, '1.2	DOBLE BARRA\r\nSon dos líneas una más aguda y la otra más gruesa que indican el final de una obra.\r\n'),
 (25, 10, 2, 1, 2, '2.	TIEMPOS Y PARTES DEL COMPAS\r\nCada compa está dividido en periodos de tiempo de igual duración llamados “Pulsos” estos se representan por medio de números fraccionarios.\r\n'),
 (26, 10, 2, 1, 2, '3.	ALTERACIONES\r\nLas alteraciones son símbolos musicales que modifican el sonido de una nota musical.\r\n'),
-(27, 11, 1, 1, 2, 'Realizar un solfeo');
+(27, 7, 1, 1, 2, 'Realizar un solfeo'),
+(29, 7, 4, 1, 2, 'Realizar Examen teorico');
 
 -- --------------------------------------------------------
 
@@ -116,11 +117,18 @@ INSERT INTO `evidencia_estudiante` (`id`, `ruta`, `id_estudiante`) VALUES
 
 CREATE TABLE `examen_multiple` (
   `id` int(11) NOT NULL,
-  `id_sesion` int(11) NOT NULL,
+  `id_actividad` int(11) NOT NULL,
   `texto_descripcion` text NOT NULL,
   `ruta_imagen_descripcion` varchar(60) NOT NULL,
-  `rta_correcta` int(11) NOT NULL
+  `id_sesion` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `examen_multiple`
+--
+
+INSERT INTO `examen_multiple` (`id`, `id_actividad`, `texto_descripcion`, `ruta_imagen_descripcion`, `id_sesion`) VALUES
+(8, 29, 'TAREAS 1\r\nRepresentadas por medio de unos signos que se escriben en las líneas y espacios del pentagrama. Cada nota representa un sonido musical.\r\n\r\nSeleccione la opción que coincide con la nota que está en color ROJO y la clave musical del pentagrama.', 'src/image_preguntas/pregunta1.png', 10);
 
 -- --------------------------------------------------------
 
@@ -175,7 +183,30 @@ INSERT INTO `material` (`id`, `id_tipo_material`, `ruta`, `id_sesion`, `id_usuar
 (103, 1, 'src/material_actividad/archivo_actividad_3_imagen_2.png', 10, 2, 24),
 (104, 1, 'src/material_actividad/archivo_actividad_3_imagen_3.png', 10, 2, 25),
 (105, 1, 'src/material_actividad/archivo_actividad_3_imagen_4.png', 10, 2, 26),
-(109, 3, 'src/audio/audio_de_profesor/audio_profesor0.wav', 11, 2, 27);
+(110, 3, 'src/audio/audio_de_profesor/audio_profesor0.wav', 7, 2, 27),
+(112, 1, 'src/image_preguntas/pregunta1.png', 7, 2, 29);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `nota_quiz`
+--
+
+CREATE TABLE `nota_quiz` (
+  `id` int(11) NOT NULL,
+  `id_estudiante` int(11) NOT NULL,
+  `id_actividad` int(11) NOT NULL,
+  `puntaje` varchar(11) NOT NULL,
+  `id_sesion` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `nota_quiz`
+--
+
+INSERT INTO `nota_quiz` (`id`, `id_estudiante`, `id_actividad`, `puntaje`, `id_sesion`) VALUES
+(1, 12, 15, '3.0', 7),
+(2, 13, 15, '3.0', 7);
 
 -- --------------------------------------------------------
 
@@ -187,8 +218,18 @@ CREATE TABLE `respuestas` (
   `id` int(11) NOT NULL,
   `respuesta` text NOT NULL,
   `id_examen` int(11) NOT NULL,
-  `rta` varchar(1) NOT NULL
+  `rta` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `respuestas`
+--
+
+INSERT INTO `respuestas` (`id`, `respuesta`, `id_examen`, `rta`) VALUES
+(7, 'Nota Si y Clave Fa', 8, 0),
+(8, 'Nota Sol y Clave Sol', 8, 1),
+(9, 'Nota Fa y Clave Sol', 8, 0),
+(10, 'Nota Re y Clave Fa', 8, 0);
 
 -- --------------------------------------------------------
 
@@ -249,8 +290,10 @@ CREATE TABLE `tipo_actividad` (
 --
 
 INSERT INTO `tipo_actividad` (`id`, `descripcion_actividad`) VALUES
-(1, 'Quiz'),
-(2, 'Practica');
+(1, 'Quiz_Solfeo'),
+(2, 'Practica'),
+(3, 'Teoria'),
+(4, 'Quiz_Teorico');
 
 -- --------------------------------------------------------
 
@@ -337,6 +380,7 @@ ALTER TABLE `evidencia_estudiante`
 --
 ALTER TABLE `examen_multiple`
   ADD PRIMARY KEY (`id`),
+  ADD KEY `id_actividad` (`id_actividad`),
   ADD KEY `id_sesion` (`id_sesion`);
 
 --
@@ -355,6 +399,15 @@ ALTER TABLE `material`
   ADD KEY `id_sesion` (`id_sesion`),
   ADD KEY `id_usuario` (`id_usuario`),
   ADD KEY `id_actividad` (`id_actividad`);
+
+--
+-- Indices de la tabla `nota_quiz`
+--
+ALTER TABLE `nota_quiz`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_estudiante` (`id_estudiante`),
+  ADD KEY `id_actividad` (`id_actividad`),
+  ADD KEY `id_sesion` (`id_sesion`);
 
 --
 -- Indices de la tabla `respuestas`
@@ -403,7 +456,7 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `actividad`
 --
 ALTER TABLE `actividad`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT de la tabla `estudiante_materia`
@@ -427,7 +480,7 @@ ALTER TABLE `evidencia_estudiante`
 -- AUTO_INCREMENT de la tabla `examen_multiple`
 --
 ALTER TABLE `examen_multiple`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `materia`
@@ -439,13 +492,19 @@ ALTER TABLE `materia`
 -- AUTO_INCREMENT de la tabla `material`
 --
 ALTER TABLE `material`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=110;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=113;
+
+--
+-- AUTO_INCREMENT de la tabla `nota_quiz`
+--
+ALTER TABLE `nota_quiz`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `respuestas`
 --
 ALTER TABLE `respuestas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `rol`
@@ -463,7 +522,7 @@ ALTER TABLE `sesion`
 -- AUTO_INCREMENT de la tabla `tipo_actividad`
 --
 ALTER TABLE `tipo_actividad`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `tipo_archivo`
@@ -515,7 +574,8 @@ ALTER TABLE `evidencia_estudiante`
 -- Filtros para la tabla `examen_multiple`
 --
 ALTER TABLE `examen_multiple`
-  ADD CONSTRAINT `examen_multiple_ibfk_3` FOREIGN KEY (`id_sesion`) REFERENCES `sesion` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `examen_multiple_ibfk_1` FOREIGN KEY (`id_actividad`) REFERENCES `actividad` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `examen_multiple_ibfk_2` FOREIGN KEY (`id_sesion`) REFERENCES `sesion` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `materia`
@@ -531,6 +591,14 @@ ALTER TABLE `material`
   ADD CONSTRAINT `material_ibfk_2` FOREIGN KEY (`id_sesion`) REFERENCES `sesion` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `material_ibfk_3` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_Usuario`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `material_ibfk_4` FOREIGN KEY (`id_actividad`) REFERENCES `actividad` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `nota_quiz`
+--
+ALTER TABLE `nota_quiz`
+  ADD CONSTRAINT `nota_quiz_ibfk_1` FOREIGN KEY (`id_estudiante`) REFERENCES `usuario` (`id_Usuario`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `nota_quiz_ibfk_2` FOREIGN KEY (`id_sesion`) REFERENCES `sesion` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `nota_quiz_ibfk_3` FOREIGN KEY (`id_actividad`) REFERENCES `actividad` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `respuestas`

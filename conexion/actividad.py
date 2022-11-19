@@ -50,6 +50,7 @@ def deleteById(id):
     deleteByIdxxActividad(id)
     #material
     deleteByIdXActividad(id)
+    #examen
     deleteExamenById_Actividad(id)
     cursor1.execute(f"delete from {v_table} where {v_id_actividad}={id}")
     connect.conexion1.commit()
@@ -86,7 +87,7 @@ def insert(id_sesion,id_tipo_actividad,id_materia,id_profesor,descripcion_activi
 #PRUEBASFunciona
 #findAll()
 #findById(1)
-#deleteById(5)
+#deleteById(28)
 #update(1)
 #insert(3,2,1,2,"Description of the project, functions, system operativo desployed, role employed in the project, methodology used, logros realizados,\n\nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.")
 #print(v_lista_actividad)

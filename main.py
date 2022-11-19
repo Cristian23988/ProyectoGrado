@@ -221,6 +221,7 @@ class Ventana(QMainWindow):
                 material_actividades = materialByActividad(self.v_id_actividad)
             elif self.v_id_actividad == -1:
                 self.v_table.clearContents()
+                
                 self.Abrir_Modulo_Actividades()
             
             self.button_material_actividades_crear.clicked.connect(functools.partial(self.Cargar_materialxActividad))
