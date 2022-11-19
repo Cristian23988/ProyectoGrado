@@ -43,6 +43,7 @@ from conexion.sesion import update as updateSesiones
 from conexion.actividad import findBySesion as actividadFindAll
 from conexion.material_actividad import findMaterialByActivity as materialByActividad
 from conexion.material_actividad import findById as materialById
+from conexion.material_actividad import deleteById as deleteMaterial
 from conexion.preguntas import update as actualizar_preguntas
 from conexion.tipo_archivo import findById as tipoArchivo
 from conexion.material_actividad import insert as guardarMateria_Actividad
@@ -214,6 +215,7 @@ class Ventana(QMainWindow):
         
             if self.v_id_actividad != 0 and self.v_id_actividad != -1:
                 self.stackedWidget_2.setCurrentWidget(self.material_actividad_profesor)
+                self.v_table = "table_material_actividad"
                 material_actividades = actividadFindAll(self.v_id_actividad)
             elif self.v_id_actividad == -1:
                 self.v_table.clearContents()
@@ -269,7 +271,7 @@ class Ventana(QMainWindow):
                     #boton eliminar
                     btn = QPushButton(str(datos_material[r][0]), self)
                     btn.setObjectName(str(datos_material[r][0]))
-                    btn.clicked.connect(functools.partial(self.button))
+                    btn.clicked.connect(functools.partial(self.eliminar))
                     btn.setStyleSheet("background-color: rgb(195, 44, 45); color: rgb(195, 44, 45); font-size: 1px; padding: 5px")
                     btn.setIcon(QIcon('src/icons/icon_eliminar.png'))
                     btn.setIconSize(QSize(30, 30)) 
@@ -290,7 +292,7 @@ class Ventana(QMainWindow):
                     #boton eliminar
                     btn = QPushButton(str(datos_material[r][0]), self)
                     btn.setObjectName(str(datos_material[r][0]))
-                    btn.clicked.connect(functools.partial(self.button))
+                    btn.clicked.connect(functools.partial(self.eliminar))
                     btn.setStyleSheet("background-color: rgb(195, 44, 45); color: rgb(195, 44, 45); font-size: 1px; padding: 5px")
                     btn.setIcon(QIcon('src/icons/icon_eliminar.png'))
                     btn.setIconSize(QSize(30, 30)) 
@@ -299,45 +301,6 @@ class Ventana(QMainWindow):
                     grid_2.addItem(space, count_items, 2)
             
                 vbox.addLayout(grid_2)
-
-            grid = QGridLayout()
-            grid.setHorizontalSpacing(6)
-
-            #Horizontal spacer
-            space = QSpacerItem(40, 20, QSizePolicy.Expanding)
-            grid.addItem(space, 0, 0)
-
-            #Boton agregar
-            btn = QPushButton(str(datos[row_number][0]), self)
-            btn.setObjectName(str(datos[row_number][0]))
-            btn.clicked.connect(functools.partial(self.button))
-            btn.setStyleSheet("background-color: rgb(96, 189, 218); color: rgb(96, 189, 218); font-size: 1px;")
-            btn.setIcon(QIcon('src/icons/icon_home.png'))
-            btn.setIconSize(QSize(50, 50)) 
-            btn.show()
-            grid.addWidget(btn, 0, 1)
-            
-            #Boton actualizar
-            btn = QPushButton(str(datos[row_number][0]), self)
-            btn.setObjectName(str(datos[row_number][0]))
-            btn.clicked.connect(functools.partial(self.button))
-            btn.setStyleSheet("background-color: rgb(86, 188, 75); color: rgb(86, 188, 75); font-size: 1px;")
-            btn.setIcon(QIcon('src/icons/icon_home.png'))
-            btn.setIconSize(QSize(50, 50)) 
-            btn.show()
-            grid.addWidget(btn, 0, 2)
-
-            #boton eliminar
-            btn = QPushButton(str(datos[row_number][0]), self)
-            btn.setObjectName(str(datos[row_number][0]))
-            btn.clicked.connect(functools.partial(self.button))
-            btn.setStyleSheet("background-color: rgb(170, 0, 0); color: rgb(170, 0, 0); font-size: 1px;")
-            btn.setIcon(QIcon('src/icons/icon_home.png'))
-            btn.setIconSize(QSize(50, 50)) 
-            btn.show()
-            grid.addWidget(btn, 0, 3)
-            grid.addItem(space, 0, 4)
-            vbox.addLayout(grid)
 
         widget.setLayout(vbox)
         #Scroll Area Properties
@@ -410,7 +373,7 @@ class Ventana(QMainWindow):
                 self.v_table.setCellWidget(row_number, 2, btn_editar)
                 self.v_table.setCellWidget(row_number, 3, btn_eliminar)
 
-    #----------- FUNCIONES FORMULARIO ---------------------------------
+    #----------- FUNCIONES CRUD ---------------------------------
     def guardarForm(self, datos):
         print(datos)
         if datos[0] == "insert_sesiones":
@@ -455,6 +418,24 @@ class Ventana(QMainWindow):
             datos = actividadFindId(id)
         
         self.form("update", sender, datos[0])
+    
+    def eliminar(self):
+        import os
+        id = int(self.sender().text())
+        datos = []
+        print("id elim",id)
+        
+        if self.v_table == "table_material_actividad":
+            datos = materialById(id)
+        
+            if datos != []:
+                deleteMaterial(datos[0][0])
+            
+            if os.path.exists(datos[0][2]):
+                os.remove(datos[0][2])
+            else:
+                print("The file does not exist")
+                
     
     def crearForm(self):
         if self.sender().text() == "Crear una nueva sesion":
