@@ -32,6 +32,13 @@ def findMaterialByActivity(id):
         v_lista_material.append(fila)
     return v_lista_material
 
+def findMaterialBySesion(id):
+    cursor1.execute(f"select * from {v_table} where {v_id_sesion}={id}")
+    v_lista_material.clear()
+    for fila in cursor1:
+        v_lista_material.append(fila)
+    return v_lista_material
+
 def deleteById(id):
     cursor1.execute(f"delete from {v_table} where {v_id_material}={id}")
     connect.conexion1.commit()

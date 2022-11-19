@@ -45,6 +45,7 @@ from conexion.material_actividad import findById as materialById
 from conexion.material_actividad import deleteById as deleteMaterial
 from conexion.material_actividad import findByRuta as existematerial
 from conexion.material_actividad import insert as guardarMateria_Actividad
+from conexion.material_actividad import findMaterialBySesion as findMaterialBySesion
 from conexion.preguntas import update as actualizar_preguntas
 from conexion.tipo_archivo import findById as tipoArchivo
 from conexion.material_actividad import insert as insertar_materialXactividad
@@ -433,29 +434,37 @@ class Ventana(QMainWindow):
          
         #DATO CURIOSO NO DEJA BORRAR MATERIAL CON EL .OBJECTNAME PERO SI DATOS DE LAS LISTAS
         #SIN EL OBJECTNAME SI BORRA LAS IMAGENES PERO SE DAÑA CON LOS ITEMS DE LA TABLA
-        if self.v_table.objectName() == "table_material_actividad":
-            datos_actividades = materialById(id)
-        
-            if datos_actividades != []:
-                deleteMaterial(datos_actividades[0][0])
-                self.borrarArchivosLocal(datos_actividades[0][2])
-        
-        if self.v_table.objectName() == "table_actividades":
-            datos_actividades = actividadFindId(id)
+        if self.v_table == "table_material_actividad":
             datos_material = materialById(id)
+        
+            if datos_material != []:
+                deleteMaterial(datos_material[0][0])
+                self.borrarArchivosLocal(datos_material[0][2])
+        
+        elif self.v_table.objectName() == "table_actividades":
+            datos_actividades = actividadFindId(id)
             rta=self.mostrarAlertaSiNo(f"Eliminar actividad","","Seguro que desea eliminar esta actividad?")
             if rta==True:
+                datos_material = materialByActividad(id)
                 deleteActiById(id)
+                for row, dat in enumerate(datos_material):
+                    self.borrarArchivosLocal(dat[2])
+                print("Eliminado")    
 
             elif rta==False:
                 print("No elimina")    
+            
+
 
             print(datos_actividades)
 
-        if self.v_table.objectName() == "table_sesiones":
+        elif self.v_table.objectName() == "table_sesiones":
             rta=self.mostrarAlertaSiNo(f"Eliminar Sesión","","Seguro que desea eliminar esta sesión?")
-            if rta==True:            
+            if rta==True:           
+                datos_material = findMaterialBySesion(id) 
                 deleteSesionesId(id)
+                for row, dat in enumerate(datos_material):
+                    self.borrarArchivosLocal(dat[2])
                 print("Eliminado")    
             elif rta==False:
                 print("No elimina")    
@@ -579,7 +588,7 @@ class Ventana(QMainWindow):
                     self.comboBox.addItem(dat[1])
 
                 #button guardar
-                btn_guardar.clicked.connect(lambda: self.guardarForm([tabla, self.v_id_sesion, self.comboBox.currentText(), self.v_id_materia, self.v_id_usuario, self.input_1.text()]))
+                btn_guardar.clicked.connect(lambda: self.guardarForm([tabla, self.v_id_sesion, self.comboBox.currentText(), self.v_id_materia, self.v_id_usuario, self.input_1.toPlainText()]))
             
             elif tipo == "update":
                 self.label_form_crear_title.setText("Formulario Editar Actividad")
@@ -600,7 +609,7 @@ class Ventana(QMainWindow):
                 
 
                 #button guardar
-                btn_guardar.clicked.connect(lambda: self.guardarForm([tabla, datos[0], self.comboBox.currentText(), self.input_1.text()]))
+                btn_guardar.clicked.connect(lambda: self.guardarForm([tabla, datos[0], self.comboBox.currentText(), self.input_1.toPlainText()]))
             
                 
             grid.addWidget(self.title_1, 0, 0)
