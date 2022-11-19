@@ -218,7 +218,7 @@ class Ventana(QMainWindow):
             if self.v_id_actividad != 0 and self.v_id_actividad != -1:
                 self.stackedWidget_2.setCurrentWidget(self.material_actividad_profesor)
                 self.v_table = "table_material_actividad"
-                material_actividades = actividadFindAll(self.v_id_sesion)
+                material_actividades = materialByActividad(self.v_id_actividad)
             elif self.v_id_actividad == -1:
                 self.v_table.clearContents()
                 self.Abrir_Modulo_Actividades()
@@ -229,6 +229,7 @@ class Ventana(QMainWindow):
 
     #----------- DISEÑAR MATERIAL ACTIVIDAD ---------------------------------
     def llenarMaterial(self, datos):
+        datos_actividad = actividadFindId(datos[0][5])
         print(datos)
         scroll = self.scrollArea_3
         widget = QWidget()
@@ -237,15 +238,14 @@ class Ventana(QMainWindow):
         scroll.setWidgetResizable(True)
 
         for row_number, row_data in enumerate(datos):            
-            datos_material = materialByActividad(datos[row_number][0])
-            print(datos_material)
+            datos_material = datos
             tit = str(row_number+1)
             title = QLabel("Actividad "+tit)
             title.setScaledContents(True)
             title.setWordWrap(True)
             vbox.addWidget(title)
 
-            descripcion = QLabel(datos[row_number][5])
+            descripcion = QLabel(datos_actividad[0][5])
             descripcion.setScaledContents(True)
             descripcion.setWordWrap(True)
             vbox.addWidget(descripcion)
