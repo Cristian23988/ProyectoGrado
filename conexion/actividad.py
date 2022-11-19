@@ -1,6 +1,7 @@
 from conexion.conect import connect
 from conexion.material_actividad import update as update_material
 from conexion.material_actividad import deleteByIdXActividad
+from conexion.preguntas import deleteExamenById_Actividad
 from conexion.notas import deleteByIdxxActividad
 
 cursor1=connect.conexion1.cursor()
@@ -49,6 +50,7 @@ def deleteById(id):
     deleteByIdxxActividad(id)
     #material
     deleteByIdXActividad(id)
+    deleteExamenById_Actividad(id)
     cursor1.execute(f"delete from {v_table} where {v_id_actividad}={id}")
     connect.conexion1.commit()
     
@@ -64,6 +66,9 @@ def deletexSesion(id):
     connect.conexion1.commit()
     ##conexion1.close()    
 
+def GetActividadXSesionYTipoActividad(id_sesion,id_tipoactividad):
+    cursor1.execute(f"SELECT * FROM {v_table} WHERE  {v_id_sesion} = {id_sesion} and {v_id_tipo_actividad} = {id_tipoactividad}")
+    connect.conexion1.commit()
 
 def update(id, tipo, descripcion):
     #CAMBIAR SET para que sea dinamico en el update
@@ -71,7 +76,7 @@ def update(id, tipo, descripcion):
     connect.conexion1.commit()
     #materialDat=[(69,'ruta',3)]
     #update_material(id,materialDat)
-    #conexion1.close() 
+    #conexion1.close() s
 
 
 def insert(id_sesion,id_tipo_actividad,id_materia,id_profesor,descripcion_actividad):

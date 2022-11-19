@@ -27,6 +27,14 @@ def findByIdSesion(id_sesion):
     for fila in cursor1:
         v_lista_examen.append(fila) 
     return v_lista_examen
+
+def findByIdActividad(id_actividad):
+    
+    cursor1.execute(f"select * from {v_table} where id_actividad={id_actividad}")
+    v_lista_examen.clear()
+    for fila in cursor1:
+        v_lista_examen.append(fila) 
+    return v_lista_examen
         
 #TRAE TEXTO DE PREGUNTA Y LAS PREGUNTAS ASOCIADAS A ESE EXAMEN
 #La pregunta y sus respectivas respuestas
@@ -58,6 +66,18 @@ def deleteById_sesion(id):
     cursor1.execute(f"delete from {v_table} where id_sesion={id}")
     connect.conexion1.commit()
     ##conexion1.close() 
+
+def deleteExamenById_Actividad(id):
+    lista_examenes=findByIdActividad(id)
+    id_examenes=0
+    for fila in lista_examenes:
+        id_examenes=fila[0]
+        cursor1.execute(f"delete from respuestas where id_examen={id_examenes}")
+        connect.conexion1.commit()
+    cursor1.execute(f"delete from {v_table} where id_actividad={id}")
+    connect.conexion1.commit()
+    ##conexion1.close() 
+    
 
 #UPDATE DEBE RECIBIR ID DE EL EXAMEN
 def update(id_examen_rec,descripcion_examen,ruta,lista_preguntas_recep):       
