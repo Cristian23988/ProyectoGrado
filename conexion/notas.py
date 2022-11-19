@@ -90,9 +90,13 @@ def findBySesion(id_sesion):
 
 
 def deleteById(id):
-    cursor1.execute(f"delete from {v_table} where v_{v_id_sesion}={id}")
+    cursor1.execute(f"delete from {v_table} where {v_id_sesion}={id}")
     connect.conexion1.commit()
-    ##conexion1.close()    
+    ##conexion1.close()   
+     
+def deleteByIdxxActividad(id):
+    cursor1.execute(f"delete from {v_table} where {v_actividad}={id}")
+    connect.conexion1.commit()
 
 def update(id):
     #CAMBIAR SET para que sea dinamico en el update
