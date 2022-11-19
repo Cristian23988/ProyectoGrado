@@ -420,21 +420,30 @@ class Ventana(QMainWindow):
         self.form("update", sender, datos[0])
     
     def eliminar(self):
-        import os
         id = int(self.sender().text())
-        datos = []
+        datos_sesiones = []
+        datos_actividades = []
+        datos_material = []
         print("id elim",id)
         
         if self.v_table == "table_material_actividad":
-            datos = materialById(id)
+            datos_actividades = materialById(id)
         
-            if datos != []:
-                deleteMaterial(datos[0][0])
+            if datos_actividades != []:
+                deleteMaterial(datos_actividades[0][0])
+                self.borrarArchivosLocal(datos_actividades[0][2])
+        
+        if self.v_table == "table_actividad":
+            datos_actividades = actividadFindId(id)
+            datos_material = materialById(id)
+            print(datos_material)
             
-            if os.path.exists(datos[0][2]):
-                os.remove(datos[0][2])
-            else:
-                print("The file does not exist")
+    def borrarArchivosLocal(self, rutaArchivo):
+        import os
+        if os.path.exists(rutaArchivo):
+            os.remove(rutaArchivo)
+        else:
+            print("The file does not exist")
                 
     
     def crearForm(self):
