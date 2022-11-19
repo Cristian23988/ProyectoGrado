@@ -37,6 +37,11 @@ def deleteById(id):
     connect.conexion1.commit()
     ##conexion1.close()
 
+def deleteByIdXActividad(id):
+    cursor1.execute(f"delete from {v_table} where {v_id_actividad}={id}")
+    connect.conexion1.commit()
+    ##conexion1.close()
+
 def update(id_actividad, material):
     #CAMBIAR SET para que sea dinamico en el update
     print(material)
