@@ -1,5 +1,5 @@
-from conect import connect
-from material_actividad import update as update_material
+from conexion.conect import connect
+from conexion.material_actividad import update as update_material
 
 cursor1=connect.conexion1.cursor()
 v_table='actividad'

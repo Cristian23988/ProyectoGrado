@@ -1,6 +1,6 @@
-from conect import connect 
-from preguntas import deleteById_sesion as DeleteP
-from actividad import deletexSesion as detele_material_actividadxSesion
+from conexion.conect import connect 
+from conexion.preguntas import deleteById_sesion as DeleteP
+from conexion.actividad import deletexSesion as detele_material_actividadxSesion
 
 cursor1=connect.conexion1.cursor()
 v_table='sesion'

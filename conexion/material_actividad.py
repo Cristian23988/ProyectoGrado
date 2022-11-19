@@ -1,4 +1,4 @@
-from conect import connect 
+from conexion.conect import connect 
 
 cursor1=connect.conexion1.cursor()
 v_table='material'
