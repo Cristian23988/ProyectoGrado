@@ -47,9 +47,9 @@ def findBySesion(id):
 def deleteById(id):
     #notas
     deleteByIdxxActividad(id)
-    #material<
+    #material
     deleteByIdXActividad(id)
-    cursor1.execute(f"delete from {v_table} where v_{v_id_actividad}={id}")
+    cursor1.execute(f"delete from {v_table} where {v_id_actividad}={id}")
     connect.conexion1.commit()
     
 

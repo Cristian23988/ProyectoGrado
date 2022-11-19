@@ -391,7 +391,7 @@ QPushButton{
 }</string>
         </property>
         <property name="currentIndex">
-         <number>0</number>
+         <number>2</number>
         </property>
         <widget class="QWidget" name="page_home">
          <property name="styleSheet">
@@ -914,6 +914,9 @@ QPushButton{
               </property>
              </widget>
              <widget class="QPushButton" name="button_sesiones_crear">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <property name="geometry">
                <rect>
                 <x>350</x>
@@ -1031,6 +1034,9 @@ QPushButton{
               </property>
              </widget>
              <widget class="QPushButton" name="button_actividades_crear">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <property name="geometry">
                <rect>
                 <x>350</x>
@@ -1133,8 +1139,8 @@ QPushButton{
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>164</width>
-                 <height>541</height>
+                 <width>651</width>
+                 <height>530</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout">
@@ -1413,8 +1419,8 @@ color: rgb(170, 0, 0);</string>
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>398</width>
-                 <height>498</height>
+                 <width>400</width>
+                 <height>500</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_3">

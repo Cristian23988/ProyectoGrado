@@ -89,13 +89,13 @@ def findBySesion(id_sesion):
 
 
 
-def deleteById(id):
-    cursor1.execute(f"delete from {v_table} where {v_id_sesion}={id}")
-    connect.conexion1.commit()
-    ##conexion1.close()   
+# def deleteById(id):
+#     cursor1.execute(f"delete from {v_table} where {v_id_sesion}={id}")
+#     connect.conexion1.commit()
+#     ##conexion1.close()   
      
 def deleteByIdxxActividad(id):
-    cursor1.execute(f"delete from {v_table} where {v_actividad}={id}")
+    cursor1.execute(f"delete from {v_table} where {v_id_actividad}={id}")
     connect.conexion1.commit()
 
 def update(id):

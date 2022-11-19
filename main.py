@@ -28,29 +28,31 @@ from random import randint
 import threading
 import time
 from conexion.user import findLogin
-from conexion.materia import findAll as materiaFindAll
-from conexion.sesion import findAll as sesionFindAll
+from conexion.materia import findByIdUsuario as materiaFindAll
+from conexion.sesion import findByMateria as sesionFindAll
 from conexion.sesion import findById as sesionFindId
 from conexion.sesion import insert as insertSesiones
 from conexion.sesion import update as updateSesiones
+from conexion.sesion import deleteById as deleteSesionesId
 from conexion.actividad import findBySesion as actividadFindAll
 from conexion.actividad import update as actualizar_actividad
 from conexion.actividad import insert as insertar_actividad
 from conexion.actividad import findById as actividadFindId
 from conexion.actividad import findTipoActividades as findTipoActividad
+from conexion.actividad import deleteById as deleteActiById
 from conexion.material_actividad import findMaterialByActivity as materialByActividad
 from conexion.material_actividad import findById as materialById
 from conexion.material_actividad import deleteById as deleteMaterial
 from conexion.material_actividad import findByRuta as existematerial
+from conexion.material_actividad import insert as guardarMateria_Actividad
 from conexion.preguntas import update as actualizar_preguntas
 from conexion.tipo_archivo import findById as tipoArchivo
-from conexion.material_actividad import insert as guardarMateria_Actividad
+from conexion.material_actividad import insert as insertar_materialXactividad
 from conexion.tipo_archivo import findById as tipoArchivo
 from conexion.preguntas import update as actualizar_preguntas
 from conexion.evidencia_estudiante import insert as insertar_evidencia
 from conexion.evidencia_estudiante import findByRuta as existeEvidencia
 from conexion.notas import insert as insertarNota
-from conexion.material_actividad import insert as insertar_materialXactividad
 from partitureConversion.MIDIUtil.src.midiutil.MidiFile3 import MIDIFile
 from Comparacion.compare import comparacion_wav
 
@@ -140,7 +142,7 @@ class Ventana(QMainWindow):
     def Abrir_Modulo_Teoria(self):
             self.stackedWidget.setCurrentWidget(self.page_teoria)
             self.stackedWidget_2.setCurrentWidget(self.materia_profesor)
-            materias = materiaFindAll()
+            materias = materiaFindAll(self.v_id_usuario)
             self.v_table = self.table_temas
             self.v_table.clearContents()
             self.llenarDatosTable(materias)
@@ -356,12 +358,14 @@ class Ventana(QMainWindow):
             elif tname == "table_sesiones":
                 btn_ver.clicked.connect(functools.partial(self.Abrir_Modulo_Actividades))
                 btn_editar.clicked.connect(functools.partial(self.editarForm))
+                btn_eliminar.clicked.connect(functools.partial(self.eliminar))
             elif tname == "table_actividades":
                 n_act = str(row_number+1)
                 n_act = "Actividad "+n_act
                 self.v_table.setItem(row_number, 0, QtWidgets.QTableWidgetItem(n_act))
                 btn_ver.clicked.connect(functools.partial(self.Abrir_Modulo_Material_Actividad))
-                btn_editar.clicked.connect(functools.partial(self.editarForm))
+                btn_editar.clicked.connect(functools.partial(self.editarForm))                
+                btn_eliminar.clicked.connect(functools.partial(self.eliminar))
             
             btn_ver.show()
             self.v_table.setCellWidget(row_number, 1, btn_ver)
@@ -424,18 +428,34 @@ class Ventana(QMainWindow):
         datos_actividades = []
         datos_material = []
         print("id elim",id)
+        print("tabla de dato a eliminar ", self.v_table.objectName())
         
-        if self.v_table == "table_material_actividad":
+        if self.v_table.objectName() == "table_material_actividad":
             datos_actividades = materialById(id)
         
             if datos_actividades != []:
                 deleteMaterial(datos_actividades[0][0])
                 self.borrarArchivosLocal(datos_actividades[0][2])
         
-        if self.v_table == "table_actividad":
+        if self.v_table.objectName() == "table_actividades":
             datos_actividades = actividadFindId(id)
             datos_material = materialById(id)
-            print(datos_material)
+            rta=self.mostrarAlertaSiNo(f"Eliminar actividad","","Seguro que desea eliminar esta actividad?")
+            if rta==True:
+                deleteActiById(id)
+
+            elif rta==False:
+                print("No elimina")    
+
+            print(datos_actividades)
+
+        if self.v_table.objectName() == "table_sesiones":
+            rta=self.mostrarAlertaSiNo(f"Eliminar Sesión","","Seguro que desea eliminar esta sesión?")
+            if rta==True:            
+                deleteSesionesId(id)
+                print("Eliminado")    
+            elif rta==False:
+                print("No elimina")    
             
     def borrarArchivosLocal(self, rutaArchivo):
         import os
@@ -546,8 +566,7 @@ class Ventana(QMainWindow):
             self.input_1.setObjectName("input_1")
             #self.input_1.resize(50,50)
             self.input_1.setGeometry(5,5,40,50)
-
-
+            print(tipo)
             if tipo == "insert":
                 self.label_form_crear_title.setText("Formulario Crear Actividad")
                 tabla = "insert_actividades"
@@ -574,9 +593,11 @@ class Ventana(QMainWindow):
                 
                 #Input descripcion
                 self.input_1.insertPlainText(datos[5])
+                
 
                 #button guardar
                 btn_guardar.clicked.connect(lambda: self.guardarForm([tabla, datos[0], self.comboBox.currentText(), self.input_1.text()]))
+            
                 
             grid.addWidget(self.title_1, 0, 0)
             grid.addWidget(self.comboBox, 1, 0)
@@ -655,6 +676,14 @@ class Ventana(QMainWindow):
         msg.setDefaultButton(QMessageBox.Ok)
         msg.setInformativeText(descripcion)
         msg.exec_()
+
+    def mostrarAlertaSiNo(self, title, text, descripcion):
+            reply=QMessageBox.question(self, 'Quit', 'Are you sure you want to quit?',                                                           
+            QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+            if reply == QMessageBox.Yes:
+                return True
+            else:
+                return False
         
     #----------- FUNCIONES ARCHIVOS ---------------------------------
     def Cargar_PDF(self):
