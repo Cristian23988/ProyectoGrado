@@ -1,4 +1,6 @@
-from conexion.conect import connect 
+from conect import connect 
+from preguntas import deleteById_sesion as DeleteP
+from actividad import deletexSesion as detele_material_actividadxSesion
 
 cursor1=connect.conexion1.cursor()
 v_table='sesion'
@@ -34,7 +36,9 @@ def findByMateria(id_materia):
     ##conexion1.close()    
 
 def deleteById(id):
-    cursor1.execute(f"delete from {v_table} where v_{v_id_sesion}={id}")
+    DeleteP(id)
+    detele_material_actividadxSesion(id)
+    cursor1.execute(f"delete from {v_table} where {v_id_sesion}={id}")
     connect.conexion1.commit()
     ##conexion1.close()    
 
@@ -51,7 +55,7 @@ def insert(titulo,id_materia,corte):
 #PRUEBASFunciona
 #findAll()
 #findById(1)
-#deleteById(5)
+deleteById(2)
 #update(5)
 #insert('Sesion3','1')
 ##findByMateria(1)

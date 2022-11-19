@@ -1,4 +1,4 @@
-from conexion.conect import connect 
+from conect import connect 
 
 cursor1=connect.conexion1.cursor()
 cursor2=connect.conexion1.cursor()
@@ -43,9 +43,21 @@ def findById(id):
     return v_lista_examen, v_lista_preguntas
 
 def deleteById(id):
+
     cursor1.execute(f"delete from {v_table} where {v_id_usuario}={id}")
     connect.conexion1.commit()
     ##conexion1.close()    
+
+def deleteById_sesion(id):
+    lista_examenes=findByIdSesion(id)
+    id_examenes=0
+    for fila in lista_examenes:
+        id_examenes=fila[0]
+        cursor1.execute(f"delete from respuestas where id_examen={id_examenes}")
+        connect.conexion1.commit()
+    cursor1.execute(f"delete from {v_table} where id_sesion={id}")
+    connect.conexion1.commit()
+    ##conexion1.close() 
 
 #UPDATE DEBE RECIBIR ID DE EL EXAMEN
 def update(id_examen_rec,descripcion_examen,ruta,lista_preguntas_recep):       
