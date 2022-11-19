@@ -217,7 +217,7 @@ class Ventana(QMainWindow):
             if self.v_id_actividad != 0 and self.v_id_actividad != -1:
                 self.stackedWidget_2.setCurrentWidget(self.material_actividad_profesor)
                 self.v_table = "table_material_actividad"
-                material_actividades = actividadFindAll(self.v_id_actividad)
+                material_actividades = actividadFindAll(self.v_id_sesion)
             elif self.v_id_actividad == -1:
                 self.v_table.clearContents()
                 self.Abrir_Modulo_Actividades()
@@ -228,6 +228,7 @@ class Ventana(QMainWindow):
 
     #----------- DISEÑAR MATERIAL ACTIVIDAD ---------------------------------
     def llenarMaterial(self, datos):
+        print(datos)
         scroll = self.scrollArea_3
         widget = QWidget()
         vbox = QVBoxLayout()
@@ -236,6 +237,7 @@ class Ventana(QMainWindow):
 
         for row_number, row_data in enumerate(datos):            
             datos_material = materialByActividad(datos[row_number][0])
+            print(datos_material)
             tit = str(row_number+1)
             title = QLabel("Actividad "+tit)
             title.setScaledContents(True)
@@ -428,8 +430,9 @@ class Ventana(QMainWindow):
         datos_actividades = []
         datos_material = []
         print("id elim",id)
-        print("tabla de dato a eliminar ", self.v_table.objectName())
-        
+         
+        #DATO CURIOSO NO DEJA BORRAR MATERIAL CON EL .OBJECTNAME PERO SI DATOS DE LAS LISTAS
+        #SIN EL OBJECTNAME SI BORRA LAS IMAGENES PERO SE DAÑA CON LOS ITEMS DE LA TABLA
         if self.v_table.objectName() == "table_material_actividad":
             datos_actividades = materialById(id)
         
@@ -568,6 +571,7 @@ class Ventana(QMainWindow):
             self.input_1.setGeometry(5,5,40,50)
             print(tipo)
             if tipo == "insert":
+                
                 self.label_form_crear_title.setText("Formulario Crear Actividad")
                 tabla = "insert_actividades"
                 #ComboBox tipo actividad
