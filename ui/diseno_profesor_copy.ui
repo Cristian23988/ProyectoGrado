@@ -50,7 +50,7 @@ QPushButton{
      </property>
      <property name="styleSheet">
       <string notr="true">#fondo_menu{
-	background-color: rgb(10, 160, 250);
+	background-color: rgb(63, 81, 86);
 	border-radius: 20px;
 }
 
