@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 19-11-2022 a las 04:39:47
+-- Tiempo de generación: 19-11-2022 a las 08:42:59
 -- Versión del servidor: 10.4.17-MariaDB
 -- Versión de PHP: 8.0.2
 
@@ -41,7 +41,19 @@ CREATE TABLE `actividad` (
 --
 
 INSERT INTO `actividad` (`id`, `id_sesion`, `id_tipo_actividad`, `id_materia`, `id_profesor`, `descripcion_actividad`) VALUES
-(11, 3, 2, 1, 2, 'Description of the project, functions, system operativo desployed, role employed in the project, methodology used, logros realizados,\n\nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.');
+(15, 7, 2, 1, 2, '1. EL PENTAGRAMA\r\nRepresentado por cinco líneas y cuatro espacios.'),
+(16, 7, 2, 1, 2, '2. LAS CLAVES MUSICALES\r\nRepresentados por signos que definen el orden de las notas que se encuentran en el pentagrama.\r\n'),
+(17, 7, 2, 1, 2, '2.1 UBICACIÓN DE LAS CLAVES EN EL PENTAGRAMA'),
+(18, 7, 2, 1, 2, '2.2 PUNTO DE ORIGEN DE LAS CLAVES MUSICALES.'),
+(19, 7, 2, 1, 2, '3. LAS NOTAS MUSICALES\r\nRepresentadas por medio de unos signos que se escriben en las líneas y espacios del pentagrama. Cada nota representa un sonido musical.\r\n'),
+(20, 7, 2, 1, 2, '3.1 LINEAS ADICIONALES\r\nSon pequeñas líneas que se colocan en parte inferior o superior del pentagrama.\r\n'),
+(21, 8, 2, 1, 2, '1. Las figuras musicales son siete catalogadas desde mayor a menor duración.'),
+(22, 8, 2, 1, 2, '1.2 Valor de duración de cada figura musical y su silencio que equivale a la misma duración de la figura.'),
+(23, 10, 2, 1, 2, 'Es la unidad de tiempo en que se divide una frase u obra musical.\r\n\r\n1.	LINEAS DIVISORIAS\r\nSe representa por medio de una línea para separar cada compa en el pentagrama.\r\n'),
+(24, 10, 2, 1, 2, '1.2	DOBLE BARRA\r\nSon dos líneas una más aguda y la otra más gruesa que indican el final de una obra.\r\n'),
+(25, 10, 2, 1, 2, '2.	TIEMPOS Y PARTES DEL COMPAS\r\nCada compa está dividido en periodos de tiempo de igual duración llamados “Pulsos” estos se representan por medio de números fraccionarios.\r\n'),
+(26, 10, 2, 1, 2, '3.	ALTERACIONES\r\nLas alteraciones son símbolos musicales que modifican el sonido de una nota musical.\r\n'),
+(27, 11, 1, 1, 2, 'Realizar un solfeo');
 
 -- --------------------------------------------------------
 
@@ -54,15 +66,6 @@ CREATE TABLE `estudiante_materia` (
   `id_estudiante` int(11) NOT NULL,
   `id_materia` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Volcado de datos para la tabla `estudiante_materia`
---
-
-INSERT INTO `estudiante_materia` (`id`, `id_estudiante`, `id_materia`) VALUES
-(4, 10, 1),
-(5, 12, 1),
-(6, 13, 1);
 
 -- --------------------------------------------------------
 
@@ -78,6 +81,13 @@ CREATE TABLE `estudiante_nota_clase` (
   `intentos` int(11) NOT NULL,
   `id_evidencia` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `estudiante_nota_clase`
+--
+
+INSERT INTO `estudiante_nota_clase` (`id`, `id_estudiante`, `id_actividad`, `puntaje`, `intentos`, `id_evidencia`) VALUES
+(26, 12, 27, '91%', 1, 29);
 
 -- --------------------------------------------------------
 
@@ -96,12 +106,7 @@ CREATE TABLE `evidencia_estudiante` (
 --
 
 INSERT INTO `evidencia_estudiante` (`id`, `ruta`, `id_estudiante`) VALUES
-(22, 'src/audio/audio_de_estudiante/voz_solfeo.wav', 12),
-(23, 'src/audio/audio_de_estudiante/voz_solfeo0.wav', 13),
-(24, 'src/audio/audio_de_estudiante/voz_solfeo1.wav', 12),
-(25, 'src/audio/audio_de_estudiante/voz_solfeo2.wav', 12),
-(26, 'src/audio/audio_de_estudiante/voz_solfeo3.wav', 12),
-(27, 'src/audio/audio_de_estudiante/voz_solfeo4.wav', 12);
+(29, 'src/audio/audio_de_estudiante/voz_solfeo0.wav', 12);
 
 -- --------------------------------------------------------
 
@@ -152,6 +157,25 @@ CREATE TABLE `material` (
   `id_usuario` int(11) NOT NULL,
   `id_actividad` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `material`
+--
+
+INSERT INTO `material` (`id`, `id_tipo_material`, `ruta`, `id_sesion`, `id_usuario`, `id_actividad`) VALUES
+(94, 1, 'src/material_actividad/archivo_actividad_1_imagen_4.png', 7, 2, 18),
+(95, 1, 'src/material_actividad/archivo_actividad_1_imagen_5.png', 7, 2, 19),
+(96, 1, 'src/material_actividad/archivo_actividad_1_imagen_6.png', 7, 2, 20),
+(97, 1, 'src/material_actividad/archivo_actividad_1_imagen_2.png', 7, 2, 16),
+(98, 1, 'src/material_actividad/archivo_actividad_1_imagen_1.png', 7, 2, 15),
+(99, 1, 'src/material_actividad/archivo_actividad_1_imagen_3.png', 7, 2, 17),
+(100, 1, 'src/material_actividad/archivo_actividad_2_imagen_1.png', 8, 2, 21),
+(101, 1, 'src/material_actividad/archivo_actividad_2_imagen_2.png', 8, 2, 22),
+(102, 1, 'src/material_actividad/archivo_actividad_3_imagen_1.png', 10, 2, 23),
+(103, 1, 'src/material_actividad/archivo_actividad_3_imagen_2.png', 10, 2, 24),
+(104, 1, 'src/material_actividad/archivo_actividad_3_imagen_3.png', 10, 2, 25),
+(105, 1, 'src/material_actividad/archivo_actividad_3_imagen_4.png', 10, 2, 26),
+(109, 3, 'src/audio/audio_de_profesor/audio_profesor0.wav', 11, 2, 27);
 
 -- --------------------------------------------------------
 
@@ -204,8 +228,10 @@ CREATE TABLE `sesion` (
 --
 
 INSERT INTO `sesion` (`id`, `title`, `id_materia`, `corte`) VALUES
-(3, 'Sesion3', 1, 2),
-(6, '123213', 1, 1);
+(7, 'ESCRITURA MUSICAL', 1, 1),
+(8, 'FIGURAS MUSICALES', 1, 1),
+(10, 'EL COMPAS', 1, 1),
+(11, 'SOLFEO', 1, 3);
 
 -- --------------------------------------------------------
 
@@ -265,10 +291,8 @@ CREATE TABLE `usuario` (
 
 INSERT INTO `usuario` (`id_Usuario`, `username`, `password`, `rol`) VALUES
 (2, 'profesor', '1234', 2),
-(10, 'estudiante', '1234', 3),
 (12, 'Cristian', '1234', 3),
-(13, 'Manuel', '1234', 3),
-(14, 'doc', '1234', 2);
+(13, 'Manuel', '1234', 3);
 
 --
 -- Índices para tablas volcadas
@@ -379,7 +403,7 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `actividad`
 --
 ALTER TABLE `actividad`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT de la tabla `estudiante_materia`
@@ -391,13 +415,13 @@ ALTER TABLE `estudiante_materia`
 -- AUTO_INCREMENT de la tabla `estudiante_nota_clase`
 --
 ALTER TABLE `estudiante_nota_clase`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT de la tabla `evidencia_estudiante`
 --
 ALTER TABLE `evidencia_estudiante`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT de la tabla `examen_multiple`
@@ -415,7 +439,7 @@ ALTER TABLE `materia`
 -- AUTO_INCREMENT de la tabla `material`
 --
 ALTER TABLE `material`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=91;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=110;
 
 --
 -- AUTO_INCREMENT de la tabla `respuestas`
@@ -433,7 +457,7 @@ ALTER TABLE `rol`
 -- AUTO_INCREMENT de la tabla `sesion`
 --
 ALTER TABLE `sesion`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `tipo_actividad`

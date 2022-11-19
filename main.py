@@ -639,7 +639,7 @@ class Ventana(QMainWindow):
         if (self.v_rolN=='Estudiante'):
             termino=self.clic()
             if (termino==False):
-                self.id_ruta=Grabar_Audio(self,self.v_rolN)
+                self.id_ruta=self.Grabar_Audio()
         else:
             print("NO ES ESTUDIANTE ")
             
@@ -647,7 +647,7 @@ class Ventana(QMainWindow):
         if (self.v_rolN=='Profesor'):
             termino=self.clic()
             if (termino==False):
-                self.id_ruta=Grabar_Audio(self,self.v_rolN)
+                self.id_ruta=self.Grabar_Audio()
             else:
                 print("NO ES PROFESOR ")
     
@@ -814,10 +814,11 @@ class Ventana(QMainWindow):
     def stop(self):
         quit()
 
-    def Grabar_Audio(self,rol):
+    def Grabar_Audio(self):
         import sounddevice as sd 
         from scipy.io.wavfile import write 
         import wavio as wv  
+        rol=self.v_rolN
         print('Grabando...')       
         frequency = 44400        
         duration = 5 
@@ -861,14 +862,14 @@ class Ventana(QMainWindow):
             print(rta)                               
             if rta==False:
             #RUTA - ID DE USUARIO
-                id_ruta=insertar_materialXactividad(3,file_path+file_save,2,self.v_id_usuario,1)
+                id_ruta=insertar_materialXactividad(3,file_path+file_save,11,self.v_id_usuario,27)
         print(file_path+file_save)
         wv.write(file_path+file_save, recording, frequency, sampwidth=2)
         Convertir_Audio_A_MIDI(file_path+file_save,self.v_rolN)
         print('Finalizado con exito')  
         return id_ruta     
 
-    def Convertir_Audio_A_MIDI(file_in,rol):
+def Convertir_Audio_A_MIDI(file_in,rol):
         import librosa
         from sound_to_midi.monophonic import wave_to_midi
         print("Starting...")
@@ -893,7 +894,7 @@ class Ventana(QMainWindow):
             Midi_to_piano_Profesor(file_out)
         
 
-    def converter_pdf_to_png():
+def converter_pdf_to_png():
         
         import fitz
         file_path = "src/pdf/pdf_profesor/partitura.pdf"
@@ -917,7 +918,7 @@ class Ventana(QMainWindow):
         #Se pasa la ruta del archivo png generado y se envia para convertir a midi
         return "generó midi"
 
-    def comparacion_practica(self):
+def comparacion_practica(self):
         Audio_base='output_profesor.wav'
         Audio_estud='output_estudiante.wav'        
         porcentaje=comparacion_wav(Audio_base,Audio_estud)
@@ -935,14 +936,14 @@ class Ventana(QMainWindow):
         print(porcentaje)
 
         #Guardar calificación con evidencia a la actividad
-        insertarNota(self.v_id_usuario,1,porcentaje,1,self.id_ruta)
+        insertarNota(self.v_id_usuario,27,porcentaje,1,self.id_ruta)
     
-    def Convertir_PDF_to_MIDI(partitura):
+def Convertir_PDF_to_MIDI(partitura):
             filepath=partitureConversion.main.run(partitura)
             print ("Generó MIDI")
             Midi_to_piano_Profesor(filepath)
 
-    def Midi_to_piano_Profesor(ruta_midi_to_piano):
+def Midi_to_piano_Profesor(ruta_midi_to_piano):
         import  midi_to_wav
         from mido import MidiFile
         #ruta_midi_to_piano='src/export_midi/profesor/midi_partiture.mid'
@@ -951,7 +952,7 @@ class Ventana(QMainWindow):
         rta=midi_to_wav.Ejemplo.run(ruta_midi_to_piano,file_output,rol) 
         print(rta)
 
-    def Midi_to_piano_Estudiante(ruta_midi_to_piano):
+def Midi_to_piano_Estudiante(ruta_midi_to_piano):
         import  midi_to_wav
         from mido import MidiFile
         #ruta_midi_to_piano='src/export_midi/estudiante/audio_piano_midi.mid'
