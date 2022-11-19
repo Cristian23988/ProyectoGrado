@@ -1,5 +1,7 @@
 from conexion.conect import connect
 from conexion.material_actividad import update as update_material
+from conexion.material_actividad import deleteByIdXActividad
+from conexion.notas import deleteByIdxxActividad
 
 cursor1=connect.conexion1.cursor()
 v_table='actividad'
@@ -43,10 +45,14 @@ def findBySesion(id):
     return v_lista_actividad
 
 def deleteById(id):
+    #notas
+    deleteByIdxxActividad(id)
+    #material
+    deleteByIdXActividad(id)
     cursor1.execute(f"delete from {v_table} where v_{v_id_actividad}={id}")
     connect.conexion1.commit()
     
-    
+
 def deletexSesion(id):
     listaactividad=findBySesion(id)
     id_acti=0
