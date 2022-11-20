@@ -785,7 +785,7 @@ QPushButton{
              <string notr="true"/>
             </property>
             <property name="currentIndex">
-             <number>2</number>
+             <number>4</number>
             </property>
             <widget class="QWidget" name="materia_profesor">
              <widget class="QTableWidget" name="table_temas">
@@ -1836,8 +1836,8 @@ color: rgb(170, 0, 0);</string>
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>400</width>
-                 <height>500</height>
+                 <width>398</width>
+                 <height>498</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_3">
