@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 20-11-2022 a las 02:15:30
+-- Tiempo de generación: 20-11-2022 a las 02:45:41
 -- Versión del servidor: 10.4.24-MariaDB
 -- Versión de PHP: 8.1.6
 
@@ -41,20 +41,23 @@ CREATE TABLE `actividad` (
 --
 
 INSERT INTO `actividad` (`id`, `id_sesion`, `id_tipo_actividad`, `id_materia`, `id_profesor`, `descripcion_actividad`) VALUES
-(15, 7, 2, 1, 2, '1. EL PENTAGRAMA\r\nRepresentado por cinco líneas y cuatro espacios.'),
-(16, 7, 2, 1, 2, '2. LAS CLAVES MUSICALES\r\nRepresentados por signos que definen el orden de las notas que se encuentran en el pentagrama.\r\n'),
-(17, 7, 2, 1, 2, '2.1 UBICACIÓN DE LAS CLAVES EN EL PENTAGRAMA'),
-(18, 7, 2, 1, 2, '2.2 PUNTO DE ORIGEN DE LAS CLAVES MUSICALES.'),
-(19, 7, 2, 1, 2, '3. LAS NOTAS MUSICALES\r\nRepresentadas por medio de unos signos que se escriben en las líneas y espacios del pentagrama. Cada nota representa un sonido musical.\r\n'),
-(20, 7, 2, 1, 2, '3.1 LINEAS ADICIONALES\r\nSon pequeñas líneas que se colocan en parte inferior o superior del pentagrama.\r\n'),
-(21, 8, 2, 1, 2, '1. Las figuras musicales son siete catalogadas desde mayor a menor duración.'),
-(22, 8, 2, 1, 2, '1.2 Valor de duración de cada figura musical y su silencio que equivale a la misma duración de la figura.'),
-(23, 10, 2, 1, 2, 'Es la unidad de tiempo en que se divide una frase u obra musical.\r\n\r\n1.	LINEAS DIVISORIAS\r\nSe representa por medio de una línea para separar cada compa en el pentagrama.\r\n'),
-(24, 10, 2, 1, 2, '1.2	DOBLE BARRA\r\nSon dos líneas una más aguda y la otra más gruesa que indican el final de una obra.\r\n'),
-(25, 10, 2, 1, 2, '2.	TIEMPOS Y PARTES DEL COMPAS\r\nCada compa está dividido en periodos de tiempo de igual duración llamados “Pulsos” estos se representan por medio de números fraccionarios.\r\n'),
-(26, 10, 2, 1, 2, '3.	ALTERACIONES\r\nLas alteraciones son símbolos musicales que modifican el sonido de una nota musical.\r\n'),
-(27, 7, 1, 1, 2, 'Realizar un solfeo'),
-(29, 7, 4, 1, 2, 'Realizar Examen teorico');
+(15, 7, 3, 1, 2, '1. EL PENTAGRAMA\r\nRepresentado por cinco líneas y cuatro espacios.'),
+(16, 7, 3, 1, 2, '2. LAS CLAVES MUSICALES\r\nRepresentados por signos que definen el orden de las notas que se encuentran en el pentagrama.\r\n'),
+(17, 7, 3, 1, 2, '2.1 UBICACIÓN DE LAS CLAVES EN EL PENTAGRAMA'),
+(18, 7, 3, 1, 2, '2.2 PUNTO DE ORIGEN DE LAS CLAVES MUSICALES.'),
+(19, 7, 3, 1, 2, '3. LAS NOTAS MUSICALES\r\nRepresentadas por medio de unos signos que se escriben en las líneas y espacios del pentagrama. Cada nota representa un sonido musical.\r\n'),
+(20, 7, 3, 1, 2, '3.1 LINEAS ADICIONALES\r\nSon pequeñas líneas que se colocan en parte inferior o superior del pentagrama.\r\n'),
+(21, 8, 3, 1, 2, '1. Las figuras musicales son siete catalogadas desde mayor a menor duración.'),
+(22, 8, 3, 1, 2, '1.2 Valor de duración de cada figura musical y su silencio que equivale a la misma duración de la figura.'),
+(23, 10, 3, 1, 2, 'Es la unidad de tiempo en que se divide una frase u obra musical.\r\n\r\n1.	LINEAS DIVISORIAS\r\nSe representa por medio de una línea para separar cada compa en el pentagrama.\r\n'),
+(24, 10, 3, 1, 2, '1.2	DOBLE BARRA\r\nSon dos líneas una más aguda y la otra más gruesa que indican el final de una obra.\r\n'),
+(25, 10, 3, 1, 2, '2.	TIEMPOS Y PARTES DEL COMPAS\r\nCada compa está dividido en periodos de tiempo de igual duración llamados “Pulsos” estos se representan por medio de números fraccionarios.\r\n'),
+(26, 10, 3, 1, 2, '3.	ALTERACIONES\r\nLas alteraciones son símbolos musicales que modifican el sonido de una nota musical.\r\n'),
+(27, 11, 1, 1, 2, 'Realizar un solfeo'),
+(29, 7, 4, 1, 2, 'Realizar Examen teorico'),
+(30, 11, 2, 1, 2, 'PRACTICA\r\n\r\nSolfeo 1'),
+(31, 11, 2, 1, 2, 'PRACTICA\r\n\r\nSolfeo 2'),
+(32, 8, 4, 1, 2, 'Realizar examen teorico');
 
 -- --------------------------------------------------------
 
@@ -83,13 +86,6 @@ CREATE TABLE `estudiante_nota_clase` (
   `id_evidencia` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Volcado de datos para la tabla `estudiante_nota_clase`
---
-
-INSERT INTO `estudiante_nota_clase` (`id`, `id_estudiante`, `id_actividad`, `puntaje`, `intentos`, `id_evidencia`) VALUES
-(26, 12, 27, '91%', 1, 29);
-
 -- --------------------------------------------------------
 
 --
@@ -102,13 +98,6 @@ CREATE TABLE `evidencia_estudiante` (
   `id_estudiante` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Volcado de datos para la tabla `evidencia_estudiante`
---
-
-INSERT INTO `evidencia_estudiante` (`id`, `ruta`, `id_estudiante`) VALUES
-(29, 'src/audio/audio_de_estudiante/voz_solfeo0.wav', 12);
-
 -- --------------------------------------------------------
 
 --
@@ -120,16 +109,17 @@ CREATE TABLE `examen_multiple` (
   `id_actividad` int(11) NOT NULL,
   `texto_descripcion` text NOT NULL,
   `ruta_imagen_descripcion` varchar(60) NOT NULL,
-  `id_sesion` int(11) NOT NULL
+  `id_sesion` int(11) NOT NULL,
+  `id_tipo_material` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `examen_multiple`
 --
 
-INSERT INTO `examen_multiple` (`id`, `id_actividad`, `texto_descripcion`, `ruta_imagen_descripcion`, `id_sesion`) VALUES
-(8, 29, 'TAREAS 1\r\nRepresentadas por medio de unos signos que se escriben en las líneas y espacios del pentagrama. Cada nota representa un sonido musical.\r\n\r\nSeleccione la opción que coincide con la nota que está en color ROJO y la clave musical del pentagrama.', 'src/image_preguntas/pregunta1.png', 7),
-(9, 22, 'Seleccione la opción con el tiempo correspondiente a la figura musical y el silencio de la figura.', 'src/image_preguntas/pregunta2.png', 8);
+INSERT INTO `examen_multiple` (`id`, `id_actividad`, `texto_descripcion`, `ruta_imagen_descripcion`, `id_sesion`, `id_tipo_material`) VALUES
+(8, 29, 'TAREAS 1\r\nRepresentadas por medio de unos signos que se escriben en las líneas y espacios del pentagrama. Cada nota representa un sonido musical.\r\n\r\nSeleccione la opción que coincide con la nota que está en color ROJO y la clave musical del pentagrama.', 'src/image_preguntas/pregunta1.png', 7, 1),
+(9, 32, 'Seleccione la opción con el tiempo correspondiente a la figura musical y el silencio de la figura.', 'src/image_preguntas/pregunta2.png', 8, 1);
 
 -- --------------------------------------------------------
 
@@ -184,8 +174,7 @@ INSERT INTO `material` (`id`, `id_tipo_material`, `ruta`, `id_sesion`, `id_usuar
 (103, 1, 'src/material_actividad/archivo_actividad_3_imagen_2.png', 10, 2, 24),
 (104, 1, 'src/material_actividad/archivo_actividad_3_imagen_3.png', 10, 2, 25),
 (105, 1, 'src/material_actividad/archivo_actividad_3_imagen_4.png', 10, 2, 26),
-(110, 3, 'src/audio/audio_de_profesor/audio_profesor0.wav', 7, 2, 27),
-(112, 1, 'src/image_preguntas/pregunta1.png', 7, 2, 29);
+(110, 3, 'src/audio/audio_de_profesor/audio_profesor0.wav', 7, 2, 27);
 
 -- --------------------------------------------------------
 
@@ -387,7 +376,8 @@ ALTER TABLE `evidencia_estudiante`
 ALTER TABLE `examen_multiple`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_actividad` (`id_actividad`),
-  ADD KEY `id_sesion` (`id_sesion`);
+  ADD KEY `id_sesion` (`id_sesion`),
+  ADD KEY `id_tipo_material` (`id_tipo_material`);
 
 --
 -- Indices de la tabla `materia`
@@ -462,7 +452,7 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `actividad`
 --
 ALTER TABLE `actividad`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT de la tabla `estudiante_materia`
@@ -581,7 +571,8 @@ ALTER TABLE `evidencia_estudiante`
 --
 ALTER TABLE `examen_multiple`
   ADD CONSTRAINT `examen_multiple_ibfk_1` FOREIGN KEY (`id_actividad`) REFERENCES `actividad` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `examen_multiple_ibfk_2` FOREIGN KEY (`id_sesion`) REFERENCES `sesion` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `examen_multiple_ibfk_2` FOREIGN KEY (`id_sesion`) REFERENCES `sesion` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `examen_multiple_ibfk_3` FOREIGN KEY (`id_tipo_material`) REFERENCES `tipo_archivo` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `materia`
