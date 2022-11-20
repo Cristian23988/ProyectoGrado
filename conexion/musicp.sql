@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 20-11-2022 a las 02:45:41
+-- Tiempo de generación: 20-11-2022 a las 05:49:23
 -- Versión del servidor: 10.4.24-MariaDB
 -- Versión de PHP: 8.1.6
 
@@ -69,7 +69,15 @@ CREATE TABLE `estudiante_materia` (
   `id` int(11) NOT NULL,
   `id_estudiante` int(11) NOT NULL,
   `id_materia` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `estudiante_materia`
+--
+
+INSERT INTO `estudiante_materia` (`id`, `id_estudiante`, `id_materia`) VALUES
+(1, 12, 1),
+(2, 13, 1);
 
 -- --------------------------------------------------------
 
@@ -455,12 +463,6 @@ ALTER TABLE `actividad`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
--- AUTO_INCREMENT de la tabla `estudiante_materia`
---
-ALTER TABLE `estudiante_materia`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
 -- AUTO_INCREMENT de la tabla `estudiante_nota_clase`
 --
 ALTER TABLE `estudiante_nota_clase`
@@ -476,7 +478,7 @@ ALTER TABLE `evidencia_estudiante`
 -- AUTO_INCREMENT de la tabla `examen_multiple`
 --
 ALTER TABLE `examen_multiple`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `materia`
@@ -500,7 +502,7 @@ ALTER TABLE `nota_quiz`
 -- AUTO_INCREMENT de la tabla `respuestas`
 --
 ALTER TABLE `respuestas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT de la tabla `rol`
@@ -549,8 +551,8 @@ ALTER TABLE `actividad`
 -- Filtros para la tabla `estudiante_materia`
 --
 ALTER TABLE `estudiante_materia`
-  ADD CONSTRAINT `estudiante_materia_ibfk_1` FOREIGN KEY (`id_estudiante`) REFERENCES `usuario` (`id_Usuario`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `estudiante_materia_ibfk_2` FOREIGN KEY (`id_materia`) REFERENCES `materia` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `estudiante_materia_ibfk_1` FOREIGN KEY (`id_materia`) REFERENCES `materia` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `estudiante_materia_ibfk_2` FOREIGN KEY (`id_estudiante`) REFERENCES `usuario` (`id_Usuario`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `estudiante_nota_clase`
