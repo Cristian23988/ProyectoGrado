@@ -903,6 +903,7 @@ class Ventana(QMainWindow):
             grid.addItem(grid_2, 12, 0)
             grid.addWidget(self.title_3, 13, 0)
             grid.addItem(grid_3, 14, 0)
+            
 
         btn_guardar.setGeometry(5,5,75,25)
         btn_guardar.setParent(self.frame_button_crear)
