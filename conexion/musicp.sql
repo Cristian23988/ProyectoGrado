@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.0.4
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 20-11-2022 a las 06:58:37
--- Versión del servidor: 10.4.24-MariaDB
--- Versión de PHP: 8.1.6
+-- Tiempo de generación: 20-11-2022 a las 19:32:08
+-- Versión del servidor: 10.4.17-MariaDB
+-- Versión de PHP: 8.0.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -53,11 +53,10 @@ INSERT INTO `actividad` (`id`, `id_sesion`, `id_tipo_actividad`, `id_materia`, `
 (24, 10, 3, 1, 2, '1.2	DOBLE BARRA\r\nSon dos líneas una más aguda y la otra más gruesa que indican el final de una obra.\r\n'),
 (25, 10, 3, 1, 2, '2.	TIEMPOS Y PARTES DEL COMPAS\r\nCada compa está dividido en periodos de tiempo de igual duración llamados “Pulsos” estos se representan por medio de números fraccionarios.\r\n'),
 (26, 10, 3, 1, 2, '3.	ALTERACIONES\r\nLas alteraciones son símbolos musicales que modifican el sonido de una nota musical.\r\n'),
-(27, 11, 1, 1, 2, 'Realizar un solfeo'),
 (29, 7, 4, 1, 2, 'Realizar Examen teorico'),
 (30, 11, 2, 1, 2, 'PRACTICA\r\n\r\nSolfeo 1'),
-(31, 11, 2, 1, 2, 'PRACTICA\r\n\r\nSolfeo 2'),
-(32, 8, 4, 1, 2, 'Realizar examen teorico');
+(32, 8, 4, 1, 2, 'Realizar examen teorico'),
+(33, 11, 1, 1, 2, 'Realizar Solfeo');
 
 -- --------------------------------------------------------
 
@@ -94,6 +93,13 @@ CREATE TABLE `estudiante_nota_clase` (
   `id_evidencia` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Volcado de datos para la tabla `estudiante_nota_clase`
+--
+
+INSERT INTO `estudiante_nota_clase` (`id`, `id_estudiante`, `id_actividad`, `puntaje`, `intentos`, `id_evidencia`) VALUES
+(28, 12, 33, '92%', 1, 37);
+
 -- --------------------------------------------------------
 
 --
@@ -105,6 +111,18 @@ CREATE TABLE `evidencia_estudiante` (
   `ruta` varchar(100) NOT NULL,
   `id_estudiante` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `evidencia_estudiante`
+--
+
+INSERT INTO `evidencia_estudiante` (`id`, `ruta`, `id_estudiante`) VALUES
+(32, 'src/audio/audio_de_estudiante/voz_solfeo.wav', 12),
+(33, 'src/audio/audio_de_estudiante/voz_solfeo0.wav', 12),
+(34, 'src/audio/audio_de_estudiante/voz_solfeo1.wav', 12),
+(35, 'src/audio/audio_de_estudiante/voz_solfeo2.wav', 12),
+(36, 'src/audio/audio_de_estudiante/voz_solfeo3.wav', 12),
+(37, 'src/audio/audio_de_estudiante/voz_solfeo4.wav', 12);
 
 -- --------------------------------------------------------
 
@@ -182,7 +200,8 @@ INSERT INTO `material` (`id`, `id_tipo_material`, `ruta`, `id_sesion`, `id_usuar
 (103, 1, 'src/material_actividad/archivo_actividad_3_imagen_2.png', 10, 2, 24),
 (104, 1, 'src/material_actividad/archivo_actividad_3_imagen_3.png', 10, 2, 25),
 (105, 1, 'src/material_actividad/archivo_actividad_3_imagen_4.png', 10, 2, 26),
-(110, 3, 'src/audio/audio_de_profesor/audio_profesor0.wav', 7, 2, 27);
+(120, 3, 'src/audio/audio_de_profesor/audio_profesor0.wav', 11, 2, 30),
+(123, 3, 'src/audio/audio_de_profesor/audio_profesor.wav', 11, 2, 33);
 
 -- --------------------------------------------------------
 
@@ -216,7 +235,7 @@ CREATE TABLE `respuestas` (
   `id` int(11) NOT NULL,
   `respuesta` text NOT NULL,
   `id_examen` int(11) NOT NULL,
-  `rta` varchar(15) NOT NULL
+  `rta` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -224,15 +243,15 @@ CREATE TABLE `respuestas` (
 --
 
 INSERT INTO `respuestas` (`id`, `respuesta`, `id_examen`, `rta`) VALUES
-(7, 'Nota Si y Clave Fa', 8, 'False'),
-(8, 'Nota Sol y Clave Sol', 8, 'True'),
-(9, 'Nota Fa y Clave Sol', 8, 'False'),
-(10, 'Nota Re y Clave Fa', 8, 'False'),
-(11, '1/8 Tiempo', 9, 'True'),
-(12, '1/16', 9, 'False'),
-(13, '1 Tiempo', 9, 'False'),
-(14, '1/2 Tiempo', 9, 'False'),
-(15, '4 Tiempos', 9, 'False');
+(7, 'Nota Si y Clave Fa', 8, 0),
+(8, 'Nota Sol y Clave Sol', 8, 1),
+(9, 'Nota Fa y Clave Sol', 8, 0),
+(10, 'Nota Re y Clave Fa', 8, 0),
+(11, '1/8 Tiempo', 9, 1),
+(12, '1/16', 9, 0),
+(13, '1 Tiempo', 9, 0),
+(14, '1/2 Tiempo', 9, 0),
+(15, '4 Tiempos', 9, 0);
 
 -- --------------------------------------------------------
 
@@ -460,25 +479,25 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `actividad`
 --
 ALTER TABLE `actividad`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT de la tabla `estudiante_nota_clase`
 --
 ALTER TABLE `estudiante_nota_clase`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT de la tabla `evidencia_estudiante`
 --
 ALTER TABLE `evidencia_estudiante`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT de la tabla `examen_multiple`
 --
 ALTER TABLE `examen_multiple`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `materia`
@@ -490,7 +509,7 @@ ALTER TABLE `materia`
 -- AUTO_INCREMENT de la tabla `material`
 --
 ALTER TABLE `material`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=113;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=124;
 
 --
 -- AUTO_INCREMENT de la tabla `nota_quiz`
@@ -502,7 +521,7 @@ ALTER TABLE `nota_quiz`
 -- AUTO_INCREMENT de la tabla `respuestas`
 --
 ALTER TABLE `respuestas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT de la tabla `rol`

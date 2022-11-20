@@ -339,7 +339,8 @@ class Ventana(QMainWindow):
         
         btn_comparar = QPushButton("Comparar", self)
         btn_comparar.setObjectName("Enviar")
-        btn_comparar.clicked.connect(lambda: self.prueba_compare())
+        
+        btn_comparar.clicked.connect(lambda: self.comparar())
         btn_comparar.setStyleSheet("background-color: white; color: black; font-size: 8px;")
         btn_comparar.setIcon(QIcon('src/icons/icon_agregar.png'))
         btn_comparar.setIconSize(QSize(40, 40)) 
@@ -1054,6 +1055,12 @@ class Ventana(QMainWindow):
                 return True
             else:
                 return False
+    def comparar(self):
+        rta= self.mostrarAlertaSiNo("Enviar audio","","Seguro quiere enviar?")
+        if rta==True:
+            self.prueba_compare()
+        else:
+            pass
         
     #----------- FUNCIONES ARCHIVOS ---------------------------------
     def Cargar_PDF(self):
@@ -1231,7 +1238,7 @@ class Ventana(QMainWindow):
         rol=self.v_rolN
         print('Grabando...')       
         frequency = 44400        
-        duration = 5 
+        duration = 9 
         recording = sd.rec(int(duration * frequency), 
                         samplerate = frequency, channels = 1)         
         sd.wait()         
@@ -1332,6 +1339,7 @@ def converter_pdf_to_png():
         return "generó midi"
 
 def comparacion_practica(self):
+    
         Audio_base='output_profesor.wav'
         Audio_estud='output_estudiante.wav'        
         porcentaje=comparacion_wav(Audio_base,Audio_estud)
