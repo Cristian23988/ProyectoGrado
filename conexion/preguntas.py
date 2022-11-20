@@ -11,6 +11,7 @@ v_id_examen='id_examen'
 v_id_usuario='id_Usuario'
 v_lista_examen=[]
 v_lista_preguntas=[]
+v_lista_examenyptas=[]
 
 
 def findAll():
@@ -53,8 +54,27 @@ def findById(id):
 
 
 def findByExameneXActividad(id_actividad, id_sesion):
-    cursor2.execute(f"select * from {v_table}  where {v_id_sesion}={id_sesion} AND {v_id_actividad}={id_actividad}")
-    return v_lista_examen
+    cursor1.execute(f"select * from {v_table}  where {v_id_sesion}={id_sesion} AND {v_id_actividad}={id_actividad}")
+    v_lista_examen.clear()
+    for fila in cursor1:
+            v_lista_examen.append(fila) 
+    v_lista_preguntas.clear()
+    for fila2 in v_lista_examen:
+        #cursor2.execute(f"select r.id,r.respuesta, r.rta from {v_table2} r where r.{v_id_examen}={fila2[0]}")
+        #v_lista_preguntas.append(fila2) 
+        prgById(fila2[0])
+    
+    return v_lista_examen, v_lista_preguntas
+    #return v_lista_examenyptas
+    
+def prgById(id_examen):
+    cursor2.execute(f"select r.id,r.respuesta, r.id_examen, r.rta from {v_table2} r where r.{v_id_examen}={id_examen}")
+    for fila2 in cursor2:   
+        v_lista_preguntas.append(fila2) 
+    return v_lista_preguntas
+
+
+    
 
 
 
@@ -119,3 +139,7 @@ def update(id_examen_rec,descripcion_examen,ruta,lista_preguntas_recep):
 
 #insert('prof','prof',2)
 #print(rta)a
+#findById(8)
+
+#findByExameneXActividad(29,10)
+#print(v_lista_preguntas)

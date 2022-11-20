@@ -2,7 +2,7 @@ from ctypes import pointer
 import sys
 from PyQt5.QtGui import *
 from PyQt5.QtGui import QPixmap, QFont
-from PyQt5.QtWidgets import (QWidget, QSlider, QLineEdit, QComboBox, QLabel, QPlainTextEdit, QFrame, QGridLayout, QPushButton, QScrollArea, QApplication, QSpacerItem,
+from PyQt5.QtWidgets import (QWidget, QSlider, QLineEdit, QComboBox, QRadioButton, QCheckBox, QLabel, QPlainTextEdit, QFrame, QGridLayout, QPushButton, QScrollArea, QApplication, QSpacerItem,
                              QHBoxLayout, QVBoxLayout, QMainWindow, QSizePolicy, QMessageBox)
 from PyQt5.QtCore import *
 from PyQt5 import uic # llama al archivo disenofinal.ui
@@ -40,6 +40,7 @@ from conexion.actividad import insert as insertar_actividad
 from conexion.actividad import findById as actividadFindId
 from conexion.actividad import findTipoActividades as findTipoActividad
 from conexion.actividad import deleteById as deleteActiById
+from conexion.actividad import GetActividadXSesionYTipoActividad as findActividadSesionTipo
 from conexion.material_actividad import findMaterialByActivity as materialByActividad
 from conexion.material_actividad import findById as materialById
 from conexion.material_actividad import deleteById as deleteMaterial
@@ -47,9 +48,9 @@ from conexion.material_actividad import findByRuta as existematerial
 from conexion.material_actividad import insert as guardarMateria_Actividad
 from conexion.material_actividad import findMaterialBySesion as findMaterialBySesion
 from conexion.preguntas import update as actualizar_preguntas
+from conexion.preguntas import findByExameneXActividad as findExamenAct
 from conexion.tipo_archivo import findById as tipoArchivo
 from conexion.material_actividad import insert as insertar_materialXactividad
-from conexion.tipo_archivo import findById as tipoArchivo
 from conexion.preguntas import update as actualizar_preguntas
 from conexion.evidencia_estudiante import insert as insertar_evidencia
 from conexion.evidencia_estudiante import findByRuta as existeEvidencia
@@ -71,6 +72,7 @@ class Ventana(QMainWindow):
         v_table = None
         v_id_materia = 0
         v_id_sesion = 0
+        v_tipo_actividad = 0
         v_id_actividad = 0
 
     def logIn(self,userName,password):
@@ -177,7 +179,7 @@ class Ventana(QMainWindow):
                 self.v_table.clearContents()
                 self.Abrir_Modulo_Teoria()
     
-    def Abrir_Modulo_Actividades(self):
+    def Abrir_Modulo_Tipo_Actividades(self):
         sender_button = self.sender().text()
         if sender_button == "Regresar":
             sender_button = str(self.v_id_sesion)
@@ -190,14 +192,50 @@ class Ventana(QMainWindow):
                 self.mostrarAlerta("Error","Incorrecta celda seleccionada","Por favor seleccione solo el código")
         
             if self.v_id_sesion != 0 and self.v_id_sesion != -1:
+                self.stackedWidget_2.setCurrentWidget(self.tipo_actividades_profesor)
+                #actividades = actividadFindAll(self.v_id_sesion)
+                self.v_table = "table_tipo_actividades"
+                #self.llenarDatosTable(actividades)
+                #self.input_actividades_search.setPlaceholderText("Buscar...")
+                #self.input_actividades_search.textChanged.connect(self.searchTable)
+                self.button_tipo_actividad_1.clicked.connect(lambda: self.Abrir_Modulo_Actividades(self.v_id_sesion, 3))
+                self.button_tipo_actividad_2.clicked.connect(lambda: self.Abrir_Modulo_Actividades(self.v_id_sesion, 2))
+                self.button_tipo_actividad_3.clicked.connect(lambda: self.Abrir_Modulo_Actividades(self.v_id_sesion, 4))
+                self.button_tipo_actividad_4.clicked.connect(lambda: self.Abrir_Modulo_Actividades(self.v_id_sesion, 1))
+                self.button_tipo_actividades_regresar.clicked.connect(functools.partial(self.Abrir_Modulo_Sesiones))
+            
+            elif self.v_id_sesion == -1:
+                self.v_table.clearContents()
+                self.Abrir_Modulo_Sesiones()
+    
+    def Abrir_Modulo_Actividades(self, id, tipo):
+        if id != 0 and tipo != 0:
+            print("actividad", id,"tipo",tipo)
+            self.v_tipo_actividad = tipo
+            sender_button = id
+        else:
+            sender_button = "Regresar"
+            
+        if sender_button == "Regresar":
+            sender_button = str(self.v_id_sesion)
+            
+        if sender_button != "Regresar":
+            try:
+                self.v_id_sesion = int(sender_button)
+            except:
+                self.v_id_sesion = -1
+                self.mostrarAlerta("Error","Incorrecta celda seleccionada","Por favor seleccione solo el código")
+
+            if self.v_id_sesion != 0 and self.v_id_sesion != -1:
                 self.stackedWidget_2.setCurrentWidget(self.actividades_profesor)
-                actividades = actividadFindAll(self.v_id_sesion)
+                print(self.v_id_sesion, self.v_tipo_actividad)
+                actividades = findActividadSesionTipo(self.v_id_sesion, self.v_tipo_actividad)
                 self.v_table = self.table_actividades
                 self.llenarDatosTable(actividades)
                 self.input_actividades_search.setPlaceholderText("Buscar...")
                 self.input_actividades_search.textChanged.connect(self.searchTable)
                 self.button_actividades_crear.clicked.connect(functools.partial(self.crearForm))
-                self.button_actividades_regresar.clicked.connect(functools.partial(self.Abrir_Modulo_Sesiones))
+                self.button_actividades_regresar.clicked.connect(functools.partial(self.Abrir_Modulo_Tipo_Actividades))
             
             elif self.v_id_sesion == -1:
                 self.v_table.clearContents()
@@ -220,18 +258,22 @@ class Ventana(QMainWindow):
                 self.v_table = "table_material_actividad"
                 material_actividades = materialByActividad(self.v_id_actividad)
             elif self.v_id_actividad == -1:
-                self.v_table.clearContents()
-                
-                self.Abrir_Modulo_Actividades()
+                #self.v_table.clearContents()
+                self.Abrir_Modulo_Actividades(self.v_id_sesion, self.v_tipo_actividad)
             
             self.button_material_actividades_crear.clicked.connect(functools.partial(self.Cargar_materialxActividad))
-            self.button_material_actividad_regresar.clicked.connect(functools.partial(self.Abrir_Modulo_Actividades))
+            self.button_material_actividad_regresar.clicked.connect(lambda: self.Abrir_Modulo_Actividades(self.v_id_sesion, self.v_tipo_actividad))
             self.llenarMaterial(material_actividades)
 
     #----------- DISEÑAR MATERIAL ACTIVIDAD ---------------------------------
     def llenarMaterial(self, datos):
-        datos_actividad = actividadFindId(datos[0][5])
-        print(datos)
+        if self.v_tipo_actividad == 3:
+            self.llenarMaterialTeoria(datos)
+        elif self.v_tipo_actividad == 4:
+            self.llenarMaterialQuiz(datos)
+    
+    def llenarMaterialTeoria(self, datos):
+        print("llenar material",datos)
         scroll = self.scrollArea_3
         widget = QWidget()
         vbox = QVBoxLayout()
@@ -241,12 +283,13 @@ class Ventana(QMainWindow):
         for row_number, row_data in enumerate(datos):            
             datos_material = datos
             tit = str(row_number+1)
-            title = QLabel("Actividad "+tit)
+            title = QLabel("Material "+tit)
+
             title.setScaledContents(True)
             title.setWordWrap(True)
             vbox.addWidget(title)
 
-            descripcion = QLabel(datos_actividad[0][5])
+            descripcion = QLabel(str(datos[0][5]))
             descripcion.setScaledContents(True)
             descripcion.setWordWrap(True)
             vbox.addWidget(descripcion)
@@ -262,17 +305,9 @@ class Ventana(QMainWindow):
                 #Horizontal spacer
                 space = QSpacerItem(40, 20, QSizePolicy.Expanding)
                 count_items = 0
+                c_items = 0
                 
-                
-                if tipo_material != "" and tipo_material[0][1] == "Imagen":
-                    pixmap = QPixmap(datos_material[r][2])
-                    image = QLabel()
-                    image.setPixmap(pixmap)
-                    image.setMaximumHeight(200)
-                    image.setMaximumWidth(600)
-                    image.setScaledContents(True)
-                    grid_2.addWidget(image, count_items, 0)
-
+                if tipo_material != "" and self.v_rolN == "Profesor":
                     #boton eliminar
                     btn = QPushButton(str(datos_material[r][0]), self)
                     btn.setObjectName(str(datos_material[r][0]))
@@ -281,8 +316,22 @@ class Ventana(QMainWindow):
                     btn.setIcon(QIcon('src/icons/icon_eliminar.png'))
                     btn.setIconSize(QSize(30, 30)) 
                     btn.show()
-                    grid_2.addWidget(btn, count_items, 1)
-                    grid_2.addItem(space, count_items, 2)
+
+                if tipo_material != "" and tipo_material[0][1] == "Imagen":
+                    pixmap = QPixmap(datos_material[r][2])
+                    image = QLabel()
+                    image.setPixmap(pixmap)
+                    image.setMaximumHeight(200)
+                    image.setMaximumWidth(600)
+                    image.setScaledContents(True)
+
+                    grid_2.addWidget(image, count_items, c_items)
+                    c_items += 1
+                    if self.v_rolN == "Profesor":
+                        grid_2.addWidget(btn, count_items, c_items)
+                        c_items += 1
+                    grid_2.addItem(space, count_items, c_items)
+                    c_items = 0
                     count_items += 1
                     
                 if tipo_material != "" and tipo_material[0][1] == "Audio":
@@ -293,19 +342,122 @@ class Ventana(QMainWindow):
                     btn_audio.setIcon(QIcon('src/icons/icon_play.png'))
                     btn_audio.setIconSize(QSize(40, 40)) 
                     btn_audio.show()
+
                     grid_2.addWidget(btn_audio, count_items, 0)
-                    #boton eliminar
-                    btn = QPushButton(str(datos_material[r][0]), self)
-                    btn.setObjectName(str(datos_material[r][0]))
-                    btn.clicked.connect(functools.partial(self.eliminar))
-                    btn.setStyleSheet("background-color: rgb(195, 44, 45); color: rgb(195, 44, 45); font-size: 1px; padding: 5px")
-                    btn.setIcon(QIcon('src/icons/icon_eliminar.png'))
-                    btn.setIconSize(QSize(30, 30)) 
-                    btn.show()
-                    grid_2.addWidget(btn, count_items, 1)
+                    c_items += 1
+                    if self.v_rolN == "Profesor":
+                        grid_2.addWidget(btn, count_items, c_items)
+                        c_items += 1
+                    grid_2.addItem(space, count_items, c_items)
+                    c_items = 0
+                    grid_2.addItem(space, count_items, 2)
+                
+                if tipo_material != "" and tipo_material[0][1] == "PDF":
+                    btn_audio = QPushButton(str(datos_material[r][0]), self)
+                    btn_audio.setObjectName(str(datos_material[r][0]))
+                    btn_audio.clicked.connect(lambda: self.showPartitura(datos_material[r][2]))
+                    btn_audio.setStyleSheet("background-color: white; color: white; font-size: 1px;")
+                    btn_audio.setIcon(QIcon('src/icons/icon_play.png'))
+                    btn_audio.setIconSize(QSize(40, 40)) 
+                    btn_audio.show()
+
+                    grid_2.addWidget(btn_audio, count_items, 0)
+                    c_items += 1
+                    if self.v_rolN == "Profesor":
+                        grid_2.addWidget(btn, count_items, c_items)
+                        c_items += 1
+                    grid_2.addItem(space, count_items, c_items)
+                    c_items = 0
                     grid_2.addItem(space, count_items, 2)
             
                 vbox.addLayout(grid_2)
+
+        widget.setLayout(vbox)
+        #Scroll Area Properties
+        scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        scroll.setWidgetResizable(True)
+        scroll.setWidget(widget)
+        self.show()
+    
+    def llenarMaterialQuiz(self, datos):
+        datos, datos_exam = findExamenAct(self.v_id_actividad, self.v_id_sesion)
+        print("llenar material quiz",datos_exam)
+        scroll = self.scrollArea_3
+        widget = QWidget()
+        vbox = QVBoxLayout()
+        scroll.setGeometry(100,60,700,530)
+        scroll.setWidgetResizable(True)
+
+        for row_number, row_data in enumerate(datos):
+            print("kkkkkkkkkkkkkk",row_data[2])
+            tit = str(row_number+1)
+            title = QLabel("Material Quiz"+tit)
+
+            title.setScaledContents(True)
+            title.setWordWrap(True)
+            vbox.addWidget(title)
+
+            descripcion = QLabel(row_data[2])
+            descripcion.setScaledContents(True)
+            descripcion.setWordWrap(True)
+            vbox.addWidget(descripcion)
+
+            grid_2 = QGridLayout()
+            grid_2.setHorizontalSpacing(6)
+            #Horizontal spacer
+            space = QSpacerItem(40, 20, QSizePolicy.Expanding)
+            count_items = 0
+            c_items = 0
+            #boton eliminar
+            btn = QPushButton(str(row_data[0]), self)
+            btn.setObjectName(str(row_data[0]))
+            btn.clicked.connect(functools.partial(self.eliminar))
+            btn.setStyleSheet("background-color: rgb(195, 44, 45); color: rgb(195, 44, 45); font-size: 1px; padding: 5px")
+            btn.setIcon(QIcon('src/icons/icon_eliminar.png'))
+            btn.setIconSize(QSize(30, 30)) 
+
+            print("inagegegeg",row_data[3])
+            if row_data[3] != "":
+                pixmap = QPixmap(str(row_data[3]))
+                image = QLabel()
+                image.setPixmap(pixmap)
+                image.setMaximumHeight(200)
+                image.setMaximumWidth(600)
+                image.setScaledContents(True)
+
+                grid_2.addWidget(image, count_items, c_items)
+                c_items += 1
+                if self.v_rolN == "Profesor":
+                    btn.show()
+                    grid_2.addWidget(btn, count_items, c_items)
+                    c_items += 1
+                grid_2.addItem(space, count_items, c_items)
+                c_items = 0
+                count_items += 1
+
+            for r, r_data in enumerate(datos_exam):
+                #print("aaaaaaaaa", r_data)
+                btn.show()
+                grid_2.addWidget(btn, count_items, 0)
+                c_items += 1
+                count_items += 1
+                b = QRadioButton(r_data[1], self)
+                b.toggled.connect(self.button)
+                #b.setMaximumHeight(20)
+                #b.setMaximumWidth(60)
+
+                #grid_2.addWidget(b, count_items, 0)
+                #count_items += 1
+                #c_items += 1
+                #if self.v_rolN == "Profesor":
+                #btn.show()
+                #grid_2.addWidget(btn, count_items, 0)
+                #c_items += 1
+                #grid_2.addItem(space, count_items, c_items)
+                #c_items = 0
+                #count_items += 1
+            vbox.addLayout(grid_2)
 
         widget.setLayout(vbox)
         #Scroll Area Properties
@@ -360,7 +512,7 @@ class Ventana(QMainWindow):
             if tname == "table_temas":
                 btn_ver.clicked.connect(functools.partial(self.Abrir_Modulo_Sesiones))
             elif tname == "table_sesiones":
-                btn_ver.clicked.connect(functools.partial(self.Abrir_Modulo_Actividades))
+                btn_ver.clicked.connect(functools.partial(self.Abrir_Modulo_Tipo_Actividades))
                 btn_editar.clicked.connect(functools.partial(self.editarForm))
                 btn_eliminar.clicked.connect(functools.partial(self.eliminar))
             elif tname == "table_actividades":
@@ -555,7 +707,7 @@ class Ventana(QMainWindow):
         if sender == "actividad":
             scroll.setGeometry(230,80,400,300)
             datos = datos   #para evitar error de lista "datos" fuera de rango
-            self.button_form_crear_regresar.clicked.connect(functools.partial(self.Abrir_Modulo_Actividades))
+            self.button_form_crear_regresar.clicked.connect(lambda: self.Abrir_Modulo_Actividades(self.v_id_sesion, self.v_tipo_actividad))
             tipoAct = findTipoActividad()
 
             #label actividad
@@ -644,6 +796,7 @@ class Ventana(QMainWindow):
         print("quiz") 
     def prueba_compare(self):
         comparacion_practica(self)
+
     def grabar_estudiante(self):
         
         if (self.v_rolN=='Estudiante'):
@@ -768,14 +921,14 @@ class Ventana(QMainWindow):
         
         shutil.copyfile(archivo, file_path+file_save+extension)
 
-    def showPartitura(self):
-        from asyncio import subprocess
-        import subprocess
-        #path = 'src\pdf\tareas.pdf'
-        path = 'tareas.pdf'
-        subprocess.Popen([path], shell=True)
+    def showPartitura(self, pdf):
+        import webbrowser
+        from pathlib import Path
+        #rut = 'src/pdf/fire.pdf'
+        mypath = Path().absolute()
+        path = mypath/pdf
+        webbrowser.open_new(path)
         print("open partiture...")
-
 
     #----------- FUNCIONES AUDIO ---------------------------------
     def clic(self):

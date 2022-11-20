@@ -69,7 +69,10 @@ def deletexSesion(id):
 
 def GetActividadXSesionYTipoActividad(id_sesion,id_tipoactividad):
     cursor1.execute(f"SELECT * FROM {v_table} WHERE  {v_id_sesion} = {id_sesion} and {v_id_tipo_actividad} = {id_tipoactividad}")
-    connect.conexion1.commit()
+    v_lista_actividad.clear()
+    for fila in cursor1:
+        v_lista_actividad.append(fila)  
+    return v_lista_actividad
 
 def update(id, tipo, descripcion):
     #CAMBIAR SET para que sea dinamico en el update
