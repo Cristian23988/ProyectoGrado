@@ -387,7 +387,6 @@ class Ventana(QMainWindow):
     
     def llenarMaterialQuiz(self, datos):
         datos, datos_exam = findExamenAct(self.v_id_actividad, self.v_id_sesion)
-        print("llenar material quiz",datos)
         print("llenar material quiz",datos_exam)
         scroll = self.scrollArea_3
         widget = QWidget()
@@ -441,27 +440,26 @@ class Ventana(QMainWindow):
                 c_items = 0
                 count_items += 1
             
-            for r, r_data in enumerate(datos_exam):
-                if datos[row_number][0] == r_data[2]:
-                    b = QRadioButton(r_data[1], self)
-                    b.toggled.connect(self.button)
+            for r, r_data in enumerate(datos_exam):             
+                b = QRadioButton(r_data[1], self)
+                b.toggled.connect(self.button)
 
-                    grid_2.addWidget(b, count_items, 0)
+                grid_2.addWidget(b, count_items, 0)
+                c_items += 1
+                if self.v_rolN == "Profesor":
+                    #boton eliminar
+                    btn_2 = QPushButton(str(r_data[0]), self)
+                    btn_2.setObjectName(str(r_data[0]))
+                    btn_2.clicked.connect(functools.partial(self.eliminar))
+                    btn_2.setStyleSheet("background-color: rgb(195, 44, 45); color: rgb(195, 44, 45); font-size: 1px; padding: 5px")
+                    btn_2.setIcon(QIcon('src/icons/icon_eliminar.png'))
+                    btn_2.setIconSize(QSize(30, 30)) 
+                    btn_2.show()
+                    grid_2.addWidget(btn_2, count_items, c_items)
                     c_items += 1
-                    if self.v_rolN == "Profesor":
-                        #boton eliminar
-                        btn_2 = QPushButton(str(r_data[0]), self)
-                        btn_2.setObjectName(str(r_data[0]))
-                        btn_2.clicked.connect(functools.partial(self.eliminar))
-                        btn_2.setStyleSheet("background-color: rgb(195, 44, 45); color: rgb(195, 44, 45); font-size: 1px; padding: 5px")
-                        btn_2.setIcon(QIcon('src/icons/icon_eliminar.png'))
-                        btn_2.setIconSize(QSize(30, 30)) 
-                        btn_2.show()
-                        grid_2.addWidget(btn_2, count_items, c_items)
-                        c_items += 1
-                    grid_2.addItem(space, count_items, c_items)
-                    c_items = 0
-                    count_items += 1
+                grid_2.addItem(space, count_items, c_items)
+                c_items = 0
+                count_items += 1
             vbox.addLayout(grid_2)
 
         widget.setLayout(vbox)
@@ -539,7 +537,6 @@ class Ventana(QMainWindow):
 
     #----------- FUNCIONES CRUD ---------------------------------
     def guardarForm(self, datos):
-        import shutil
         print(datos)
         if datos[0] == "insert_sesiones":
             insertSesiones(datos[1],datos[2], datos[3])
@@ -576,7 +573,6 @@ class Ventana(QMainWindow):
             
             rta=self.mostrarAlertaSiNo(f"Insertar Examen","","Seguro que desea insertar examen?")
             if rta==True:
-                shutil.copyfile(self.v_archivo_Origen, datos[4])
                 insertExamen(datos[1],datos[2],datos[3],datos[4],datos[5])
             elif rta==False:
                 print("No inserta")   
