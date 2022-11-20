@@ -83,6 +83,7 @@ def findBySesion(id_sesion):
     v_lista_notas_quiz.clear()
     for fila in cursor1:
         v_lista_notas_quiz.append(fila)
+    return v_lista_notas_quiz
 
 
 def insert(id_estudiante,id_actividad,puntaje,intentos,id_sesion):

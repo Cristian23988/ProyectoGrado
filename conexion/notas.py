@@ -67,6 +67,25 @@ def findByActividad(id_actividad):
     v_lista_estudiantes.clear()
     for fila in cursor1:
         v_lista_estudiantes.append(fila)
+    
+def findBymateria(id_materia):
+    ordenGet= 'est.username estudiante, e.puntaje puntaje, prof.username profesor, m.ruta '
+    tables=f"{v_table} e,{v_actividad} a ,{v_material} m, {v_usuario} est, {v_usuario} prof, {v_materia} mm, estudiante_materia em"
+    validaciones=f"""e.id_estudiante=est.id_Usuario
+                    and em.id_materia=m.id
+                    and em.id_estudiante=est.id_Usuario
+                    and mm.id=a.id_materia
+                    and mm.id_profesor=prof.id_Usuario
+                    and e.id_actividad=a.id
+                    and m.id_actividad=e.id_actividad                    
+                    and m.id_tipo_material in (1,3)
+                    and a.id_materia={id_materia}"""
+    sql=f"select {ordenGet} from {tables} WHERE {validaciones}"
+    cursor1.execute(sql)
+    v_lista_estudiantes.clear()
+    for fila in cursor1:
+        v_lista_estudiantes.append(fila)
+    return v_lista_estudiantes
 
 
 #Traer material o archivos de un actividad y evidencia de una nota ya calificada X SESION
