@@ -43,14 +43,14 @@ QPushButton{
      <property name="geometry">
       <rect>
        <x>9</x>
-       <y>10</y>
-       <width>160</width>
+       <y>20</y>
+       <width>131</width>
        <height>671</height>
       </rect>
      </property>
      <property name="styleSheet">
       <string notr="true">#fondo_menu{
-	background-color: rgb(63, 81, 86);
+	background-color: rgb(37, 161, 148);
 	border-radius: 20px;
 }
 
@@ -63,12 +63,9 @@ QVBoxLayout{
 }
 
 QPushButton{
-	background-color: rgb(255, 255, 255);
+	background-color: transparent;
 	text-align: left;
 	color: white;
-	padding: 5px;
-	border-radius: 12px;
-	font-weight: bold;
 }
 
 QLabel{
@@ -85,7 +82,7 @@ QLabel{
      <widget class="QLabel" name="icon_user">
       <property name="geometry">
        <rect>
-        <x>40</x>
+        <x>30</x>
         <y>40</y>
         <width>71</width>
         <height>71</height>
@@ -107,8 +104,8 @@ QLabel{
      <widget class="QLabel" name="icon_unimayor">
       <property name="geometry">
        <rect>
-        <x>40</x>
-        <y>570</y>
+        <x>30</x>
+        <y>560</y>
         <width>71</width>
         <height>71</height>
        </rect>
@@ -129,9 +126,9 @@ QLabel{
      <widget class="QLabel" name="label_userName">
       <property name="geometry">
        <rect>
-        <x>30</x>
+        <x>20</x>
         <y>130</y>
-        <width>110</width>
+        <width>91</width>
         <height>16</height>
        </rect>
       </property>
@@ -149,7 +146,7 @@ QLabel{
        <rect>
         <x>30</x>
         <y>160</y>
-        <width>100</width>
+        <width>71</width>
         <height>20</height>
        </rect>
       </property>
@@ -165,16 +162,16 @@ QLabel{
      <widget class="QPushButton" name="button_menu_teoria">
       <property name="geometry">
        <rect>
-        <x>20</x>
+        <x>18</x>
         <y>261</y>
-        <width>125</width>
-        <height>45</height>
+        <width>101</width>
+        <height>48</height>
        </rect>
       </property>
       <property name="font">
        <font>
-        <weight>75</weight>
-        <bold>true</bold>
+        <family>Inter</family>
+        <pointsize>10</pointsize>
        </font>
       </property>
       <property name="layoutDirection">
@@ -184,7 +181,7 @@ QLabel{
        <bool>false</bool>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: transparent;</string>
+       <string notr="true"/>
       </property>
       <property name="text">
        <string>Teoría</string>
@@ -203,16 +200,18 @@ QLabel{
      <widget class="QPushButton" name="button_menu_quiz">
       <property name="geometry">
        <rect>
-        <x>20</x>
+        <x>18</x>
         <y>363</y>
-        <width>125</width>
-        <height>45</height>
+        <width>101</width>
+        <height>48</height>
        </rect>
       </property>
       <property name="font">
        <font>
-        <weight>75</weight>
-        <bold>true</bold>
+        <family>Inter</family>
+        <pointsize>10</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
        </font>
       </property>
       <property name="layoutDirection">
@@ -222,7 +221,7 @@ QLabel{
        <bool>false</bool>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: transparent;</string>
+       <string notr="true"/>
       </property>
       <property name="text">
        <string>Quiz</string>
@@ -241,16 +240,16 @@ QLabel{
      <widget class="QPushButton" name="button_menu_home">
       <property name="geometry">
        <rect>
-        <x>20</x>
+        <x>10</x>
         <y>210</y>
-        <width>125</width>
-        <height>40</height>
+        <width>109</width>
+        <height>48</height>
        </rect>
       </property>
       <property name="font">
        <font>
-        <weight>75</weight>
-        <bold>true</bold>
+        <family>Inter</family>
+        <pointsize>10</pointsize>
        </font>
       </property>
       <property name="layoutDirection">
@@ -260,7 +259,7 @@ QLabel{
        <bool>false</bool>
       </property>
       <property name="styleSheet">
-       <string notr="true">color: rgb(71, 71, 71);</string>
+       <string notr="true">background-color: transparent;</string>
       </property>
       <property name="text">
        <string>Home</string>
@@ -279,16 +278,16 @@ QLabel{
      <widget class="QPushButton" name="button_menu_practicas">
       <property name="geometry">
        <rect>
-        <x>20</x>
+        <x>18</x>
         <y>312</y>
-        <width>125</width>
-        <height>45</height>
+        <width>101</width>
+        <height>48</height>
        </rect>
       </property>
       <property name="font">
        <font>
-        <weight>75</weight>
-        <bold>true</bold>
+        <family>Inter</family>
+        <pointsize>10</pointsize>
        </font>
       </property>
       <property name="layoutDirection">
@@ -298,7 +297,7 @@ QLabel{
        <bool>false</bool>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: transparent;</string>
+       <string notr="true"/>
       </property>
       <property name="text">
        <string>Prácticas</string>
@@ -314,19 +313,21 @@ QLabel{
        </size>
       </property>
      </widget>
-     <widget class="QPushButton" name="button_menu_cerrar_sesion">
+     <widget class="QPushButton" name="button_menu_profesor">
       <property name="geometry">
        <rect>
-        <x>20</x>
-        <y>420</y>
-        <width>125</width>
-        <height>45</height>
+        <x>18</x>
+        <y>412</y>
+        <width>101</width>
+        <height>48</height>
        </rect>
       </property>
       <property name="font">
        <font>
-        <weight>75</weight>
-        <bold>true</bold>
+        <family>Inter</family>
+        <pointsize>10</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
        </font>
       </property>
       <property name="layoutDirection">
@@ -336,10 +337,50 @@ QLabel{
        <bool>false</bool>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: transparent;</string>
+       <string notr="true"/>
       </property>
       <property name="text">
-       <string>Salir</string>
+       <string>Profesor</string>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>../src/icons/icon_profesor.png</normaloff>../src/icons/icon_profesor.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>40</width>
+        <height>30</height>
+       </size>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="button_menu_cerrar_sesion">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>462</y>
+        <width>121</width>
+        <height>48</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Inter</family>
+        <pointsize>10</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="autoFillBackground">
+       <bool>false</bool>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
+      <property name="text">
+       <string>Cerrar Sesion</string>
       </property>
       <property name="icon">
        <iconset>
@@ -356,9 +397,9 @@ QLabel{
     <widget class="QWidget" name="verticalLayoutWidget">
      <property name="geometry">
       <rect>
-       <x>179</x>
+       <x>149</x>
        <y>9</y>
-       <width>991</width>
+       <width>1021</width>
        <height>681</height>
       </rect>
      </property>
@@ -391,7 +432,7 @@ QPushButton{
 }</string>
         </property>
         <property name="currentIndex">
-         <number>2</number>
+         <number>3</number>
         </property>
         <widget class="QWidget" name="page_home">
          <property name="styleSheet">
@@ -743,6 +784,9 @@ QPushButton{
             <property name="styleSheet">
              <string notr="true"/>
             </property>
+            <property name="currentIndex">
+             <number>5</number>
+            </property>
             <widget class="QWidget" name="materia_profesor">
              <widget class="QTableWidget" name="table_temas">
               <property name="geometry">
@@ -889,16 +933,6 @@ QPushButton{
                 <string>Ver</string>
                </property>
               </column>
-              <column>
-               <property name="text">
-                <string>Editar</string>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>Eliminar</string>
-               </property>
-              </column>
              </widget>
              <widget class="QPushButton" name="button_sesiones_regresar">
               <property name="geometry">
@@ -913,34 +947,384 @@ QPushButton{
                <string>Regresar</string>
               </property>
              </widget>
-             <widget class="QPushButton" name="button_sesiones_crear">
-              <property name="enabled">
-               <bool>false</bool>
-              </property>
+            </widget>
+            <widget class="QWidget" name="tipo_actividades_profesor">
+             <widget class="QFrame" name="frame_5">
               <property name="geometry">
                <rect>
-                <x>350</x>
-                <y>530</y>
-                <width>170</width>
-                <height>45</height>
+                <x>-50</x>
+                <y>-10</y>
+                <width>1001</width>
+                <height>661</height>
                </rect>
               </property>
-              <property name="text">
-               <string>Crear una nueva sesion</string>
+              <property name="styleSheet">
+               <string notr="true">QFrame{
+	background-color: transparent;
+}
+
+QLabel{
+	background-color: transparent;
+}
+
+QPushButton{
+	background-color: rgb(96, 189, 218);
+}</string>
               </property>
-              <property name="icon">
-               <iconset>
-                <normaloff>../src/icons/icon_agregar.png</normaloff>../src/icons/icon_agregar.png</iconset>
+              <property name="frameShape">
+               <enum>QFrame::StyledPanel</enum>
               </property>
-              <property name="iconSize">
-               <size>
-                <width>40</width>
-                <height>40</height>
-               </size>
+              <property name="frameShadow">
+               <enum>QFrame::Raised</enum>
               </property>
-              <property name="autoDefault">
-               <bool>false</bool>
-              </property>
+              <widget class="QLabel" name="label_home_title_2">
+               <property name="geometry">
+                <rect>
+                 <x>320</x>
+                 <y>10</y>
+                 <width>320</width>
+                 <height>21</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Inter</family>
+                 <pointsize>16</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>Selección del Tipo de Actividad</string>
+               </property>
+              </widget>
+              <widget class="QFrame" name="frame_6">
+               <property name="geometry">
+                <rect>
+                 <x>320</x>
+                 <y>160</y>
+                 <width>141</width>
+                 <height>261</height>
+                </rect>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QFrame{	
+	background-color: rgb(232, 232, 232);
+	border-radius: 15px;
+}</string>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
+               </property>
+               <widget class="QLabel" name="image_home_practicas_2">
+                <property name="geometry">
+                 <rect>
+                  <x>10</x>
+                  <y>50</y>
+                  <width>121</width>
+                  <height>131</height>
+                 </rect>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true"/>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="pixmap">
+                 <pixmap>../src/images/image_practic.jpg</pixmap>
+                </property>
+                <property name="scaledContents">
+                 <bool>true</bool>
+                </property>
+               </widget>
+               <widget class="QLabel" name="label_home_practicas_2">
+                <property name="geometry">
+                 <rect>
+                  <x>40</x>
+                  <y>10</y>
+                  <width>61</width>
+                  <height>30</height>
+                 </rect>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Inter</family>
+                  <pointsize>12</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Prácticas</string>
+                </property>
+               </widget>
+               <widget class="QPushButton" name="button_tipo_actividad_2">
+                <property name="geometry">
+                 <rect>
+                  <x>30</x>
+                  <y>220</y>
+                  <width>75</width>
+                  <height>23</height>
+                 </rect>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true"/>
+                </property>
+                <property name="text">
+                 <string>Ingresar</string>
+                </property>
+               </widget>
+              </widget>
+              <widget class="QFrame" name="frame_11">
+               <property name="geometry">
+                <rect>
+                 <x>100</x>
+                 <y>160</y>
+                 <width>141</width>
+                 <height>261</height>
+                </rect>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QFrame{	
+	background-color: rgb(232, 232, 232);
+	border-radius: 15px;
+}</string>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
+               </property>
+               <widget class="QLabel" name="image_home_teoria_2">
+                <property name="geometry">
+                 <rect>
+                  <x>10</x>
+                  <y>40</y>
+                  <width>121</width>
+                  <height>131</height>
+                 </rect>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true"/>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="pixmap">
+                 <pixmap>../src/images/image_teoria.jpg</pixmap>
+                </property>
+                <property name="scaledContents">
+                 <bool>false</bool>
+                </property>
+               </widget>
+               <widget class="QLabel" name="label_home_teoria_2">
+                <property name="geometry">
+                 <rect>
+                  <x>40</x>
+                  <y>10</y>
+                  <width>51</width>
+                  <height>30</height>
+                 </rect>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Inter</family>
+                  <pointsize>12</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Teoría</string>
+                </property>
+               </widget>
+               <widget class="QPushButton" name="button_tipo_actividad_1">
+                <property name="geometry">
+                 <rect>
+                  <x>30</x>
+                  <y>220</y>
+                  <width>75</width>
+                  <height>23</height>
+                 </rect>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true"/>
+                </property>
+                <property name="text">
+                 <string>Ingresar</string>
+                </property>
+               </widget>
+              </widget>
+              <widget class="QFrame" name="frame_12">
+               <property name="geometry">
+                <rect>
+                 <x>540</x>
+                 <y>160</y>
+                 <width>141</width>
+                 <height>261</height>
+                </rect>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QFrame{	
+	background-color: rgb(232, 232, 232);
+	border-radius: 15px;
+}</string>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
+               </property>
+               <widget class="QLabel" name="label_home_quiz_2">
+                <property name="geometry">
+                 <rect>
+                  <x>20</x>
+                  <y>10</y>
+                  <width>100</width>
+                  <height>30</height>
+                 </rect>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Inter</family>
+                  <pointsize>12</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Quiz Teorico</string>
+                </property>
+               </widget>
+               <widget class="QLabel" name="image_home_quiz_2">
+                <property name="geometry">
+                 <rect>
+                  <x>10</x>
+                  <y>50</y>
+                  <width>121</width>
+                  <height>131</height>
+                 </rect>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true"/>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="pixmap">
+                 <pixmap>../src/images/image_quiz.jpg</pixmap>
+                </property>
+                <property name="scaledContents">
+                 <bool>true</bool>
+                </property>
+               </widget>
+               <widget class="QPushButton" name="button_tipo_actividad_3">
+                <property name="geometry">
+                 <rect>
+                  <x>30</x>
+                  <y>220</y>
+                  <width>75</width>
+                  <height>23</height>
+                 </rect>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true"/>
+                </property>
+                <property name="text">
+                 <string>Ingresar</string>
+                </property>
+               </widget>
+              </widget>
+              <widget class="QFrame" name="frame_13">
+               <property name="geometry">
+                <rect>
+                 <x>760</x>
+                 <y>160</y>
+                 <width>141</width>
+                 <height>261</height>
+                </rect>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QFrame{	
+	background-color: rgb(232, 232, 232);
+	border-radius: 15px;
+}</string>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
+               </property>
+               <widget class="QLabel" name="label_home_quiz_4">
+                <property name="geometry">
+                 <rect>
+                  <x>20</x>
+                  <y>10</y>
+                  <width>100</width>
+                  <height>30</height>
+                 </rect>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Inter</family>
+                  <pointsize>12</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Quiz Solfeo</string>
+                </property>
+               </widget>
+               <widget class="QLabel" name="image_home_quiz_4">
+                <property name="geometry">
+                 <rect>
+                  <x>10</x>
+                  <y>50</y>
+                  <width>121</width>
+                  <height>131</height>
+                 </rect>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true"/>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="pixmap">
+                 <pixmap>../src/images/image_quiz.jpg</pixmap>
+                </property>
+                <property name="scaledContents">
+                 <bool>true</bool>
+                </property>
+               </widget>
+               <widget class="QPushButton" name="button_tipo_actividad_4">
+                <property name="geometry">
+                 <rect>
+                  <x>30</x>
+                  <y>220</y>
+                  <width>75</width>
+                  <height>23</height>
+                 </rect>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true"/>
+                </property>
+                <property name="text">
+                 <string>Ingresar</string>
+                </property>
+               </widget>
+              </widget>
+              <widget class="QPushButton" name="button_tipo_actividades_regresar">
+               <property name="geometry">
+                <rect>
+                 <x>50</x>
+                 <y>10</y>
+                 <width>75</width>
+                 <height>23</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>Regresar</string>
+               </property>
+              </widget>
              </widget>
             </widget>
             <widget class="QWidget" name="actividades_profesor">
@@ -998,16 +1382,6 @@ QPushButton{
                 <string>Ver</string>
                </property>
               </column>
-              <column>
-               <property name="text">
-                <string>Editar</string>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>Eliminar</string>
-               </property>
-              </column>
              </widget>
              <widget class="QLabel" name="label_materias_title_2">
               <property name="geometry">
@@ -1033,35 +1407,6 @@ QPushButton{
                <string>Gestión de Actividades</string>
               </property>
              </widget>
-             <widget class="QPushButton" name="button_actividades_crear">
-              <property name="enabled">
-               <bool>false</bool>
-              </property>
-              <property name="geometry">
-               <rect>
-                <x>350</x>
-                <y>530</y>
-                <width>181</width>
-                <height>45</height>
-               </rect>
-              </property>
-              <property name="text">
-               <string>Crear una nueva actividad</string>
-              </property>
-              <property name="icon">
-               <iconset>
-                <normaloff>../src/icons/icon_agregar.png</normaloff>../src/icons/icon_agregar.png</iconset>
-              </property>
-              <property name="iconSize">
-               <size>
-                <width>40</width>
-                <height>40</height>
-               </size>
-              </property>
-              <property name="autoDefault">
-               <bool>false</bool>
-              </property>
-             </widget>
             </widget>
             <widget class="QWidget" name="material_actividad_profesor">
              <property name="enabled">
@@ -1070,9 +1415,9 @@ QPushButton{
              <widget class="QLabel" name="label_teoria_title">
               <property name="geometry">
                <rect>
-                <x>320</x>
+                <x>280</x>
                 <y>10</y>
-                <width>75</width>
+                <width>300</width>
                 <height>32</height>
                </rect>
               </property>
@@ -1084,7 +1429,7 @@ QPushButton{
               </property>
               <property name="styleSheet">
                <string notr="true">QLabel{
-	qproperty-geometry: rect(320 10 75 32);
+	qproperty-geometry: rect(280 10 300 32);
 }</string>
               </property>
               <property name="text">
@@ -1139,8 +1484,8 @@ QPushButton{
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>651</width>
-                 <height>530</height>
+                 <width>164</width>
+                 <height>541</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout">
@@ -1327,32 +1672,6 @@ color: rgb(170, 0, 0);</string>
                 </item>
                </layout>
               </widget>
-             </widget>
-             <widget class="QPushButton" name="button_material_actividades_crear">
-              <property name="geometry">
-               <rect>
-                <x>300</x>
-                <y>610</y>
-                <width>251</width>
-                <height>45</height>
-               </rect>
-              </property>
-              <property name="text">
-               <string>Crear una nuevo material de actividad</string>
-              </property>
-              <property name="icon">
-               <iconset>
-                <normaloff>../src/icons/icon_agregar.png</normaloff>../src/icons/icon_agregar.png</iconset>
-              </property>
-              <property name="iconSize">
-               <size>
-                <width>40</width>
-                <height>40</height>
-               </size>
-              </property>
-              <property name="autoDefault">
-               <bool>false</bool>
-              </property>
              </widget>
             </widget>
             <widget class="QWidget" name="form_crear">
@@ -1767,181 +2086,6 @@ border-radius: 10px;</string>
          <zorder>label_practicas_descripcion</zorder>
          <zorder>label_practicas_tarea</zorder>
          <zorder>scrollArea_2</zorder>
-        </widget>
-        <widget class="QWidget" name="page_quiz">
-         <property name="styleSheet">
-          <string notr="true">QWidget{
-background-color: transparent;
-}
-
-QPushButton{
-	background-color: rgb(96, 189, 218);
-	border-radius: 5px;
-}</string>
-         </property>
-         <widget class="QLabel" name="label_quiz_title">
-          <property name="geometry">
-           <rect>
-            <x>440</x>
-            <y>10</y>
-            <width>51</width>
-            <height>31</height>
-           </rect>
-          </property>
-          <property name="font">
-           <font>
-            <family>Inter</family>
-            <pointsize>16</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>Quiz</string>
-          </property>
-         </widget>
-         <widget class="QFrame" name="frame_7">
-          <property name="geometry">
-           <rect>
-            <x>150</x>
-            <y>90</y>
-            <width>571</width>
-            <height>211</height>
-           </rect>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">background-color: rgb(232, 232, 232);
-border-radius: 10px;</string>
-          </property>
-          <property name="frameShape">
-           <enum>QFrame::StyledPanel</enum>
-          </property>
-          <property name="frameShadow">
-           <enum>QFrame::Raised</enum>
-          </property>
-          <widget class="QLabel" name="image_quiz_pentagrama">
-           <property name="geometry">
-            <rect>
-             <x>20</x>
-             <y>50</y>
-             <width>531</width>
-             <height>151</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-           <property name="pixmap">
-            <pixmap>../src/images/pentagrama-quiz-example.png</pixmap>
-           </property>
-           <property name="scaledContents">
-            <bool>true</bool>
-           </property>
-          </widget>
-          <widget class="QPushButton" name="button_quiz_play">
-           <property name="geometry">
-            <rect>
-             <x>524</x>
-             <y>10</y>
-             <width>41</width>
-             <height>41</height>
-            </rect>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">background-color: transparent;</string>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-           <property name="icon">
-            <iconset>
-             <normaloff>../src/icons/icon_play.png</normaloff>../src/icons/icon_play.png</iconset>
-           </property>
-           <property name="iconSize">
-            <size>
-             <width>40</width>
-             <height>40</height>
-            </size>
-           </property>
-          </widget>
-         </widget>
-         <widget class="QRadioButton" name="radioButton_quiz_opcion_1">
-          <property name="geometry">
-           <rect>
-            <x>160</x>
-            <y>390</y>
-            <width>82</width>
-            <height>17</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Opción A</string>
-          </property>
-         </widget>
-         <widget class="QRadioButton" name="radioButton_quiz_opcion_2">
-          <property name="geometry">
-           <rect>
-            <x>160</x>
-            <y>420</y>
-            <width>82</width>
-            <height>17</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Opción B</string>
-          </property>
-         </widget>
-         <widget class="QRadioButton" name="radioButton_quiz_opcion_3">
-          <property name="geometry">
-           <rect>
-            <x>160</x>
-            <y>450</y>
-            <width>82</width>
-            <height>17</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Opción C</string>
-          </property>
-         </widget>
-         <widget class="QRadioButton" name="radioButton_quiz_opcion_4">
-          <property name="geometry">
-           <rect>
-            <x>160</x>
-            <y>480</y>
-            <width>82</width>
-            <height>17</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Opción D</string>
-          </property>
-         </widget>
-         <widget class="QLabel" name="label_quiz_pregunta">
-          <property name="geometry">
-           <rect>
-            <x>160</x>
-            <y>330</y>
-            <width>561</width>
-            <height>51</height>
-           </rect>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>10</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>Seleccione la respuesta correcta</string>
-          </property>
-          <property name="scaledContents">
-           <bool>true</bool>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-          </property>
-          <property name="wordWrap">
-           <bool>true</bool>
-          </property>
-         </widget>
         </widget>
         <widget class="QWidget" name="page_profesor">
          <property name="styleSheet">

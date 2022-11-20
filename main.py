@@ -56,6 +56,7 @@ from conexion.material_actividad import insert as insertar_materialXactividad
 from conexion.preguntas import update as actualizar_preguntas
 from conexion.evidencia_estudiante import insert as insertar_evidencia
 from conexion.evidencia_estudiante import findByRuta as existeEvidencia
+from conexion.materia_estudiante import findByIdEstudiante as materiaEstudiante
 from conexion.notas import insert as insertarNota
 from partitureConversion.MIDIUtil.src.midiutil.MidiFile3 import MIDIFile
 from Comparacion.compare import comparacion_wav
@@ -103,18 +104,32 @@ class Ventana(QMainWindow):
         self.button_login.clicked.connect(lambda:self.logIn(self.input_login_correo.text(),self.input_login_contrasena.text()))
 
     def estudiante(self):
-        uic.loadUi("ui/diseno_estudiante.ui", self)  #P1: mostraba la GUI  disenofinal.ui
+        uic.loadUi("ui/diseno_profesor_copy.ui", self)  #P1: mostraba la GUI  disenofinal.ui
         self.stackedWidget.setCurrentWidget(self.page_home)
         self.label_userName.setText(self.v_usuarioN)
         self.label_userRole.setText(self.v_rolN)
-        self.button_menu_cerrar_sesion.clicked.connect(self.cerrarSesion)
-        self.button_practicas_record.clicked.connect(self.grabar_estudiante)
-        self.button_compare.clicked.connect(self.prueba_compare)
-        ##self.button_menu_teoria.clicked.connect(self.Abrir_Modulo_Teoria)
-
+        self.button_menu_home.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_home))
+        self.button_menu_teoria.clicked.connect(self.Abrir_Modulo_Teoria)
         self.button_menu_practicas.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_practicas))
-        self.button_home_teoria.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_teoria))
         self.button_menu_quiz.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_quiz))
+        self.button_menu_profesor.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_profesor))
+        self.button_menu_cerrar_sesion.clicked.connect(self.cerrarSesion)
+        
+        self.button_home_teoria.clicked.connect(self.Abrir_Modulo_Teoria)
+        self.button_home_practicas.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_practicas))
+        self.button_home_quiz.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_quiz))
+        
+        #-----------Grabar y reproducir audio-----------------------
+        #self.button_profesor_subir_audio.clicked.connect(self.iniciargrabar)
+        #-----------Especificar audio y ruta a reproductir
+        self.button_practicas_play.clicked.connect(self.Reproducir_Audio)
+
+        self.button_profesor_play.clicked.connect(self.Reproducir_Audio_partitura)
+        #----------- Carga PDF
+        self.button_profesor_subir_pdf.clicked.connect(self.Cargar_PDF)
+        #----------- comparar
+        self.button_compare.clicked.connect(self.prueba_compare)
+        self.id_ruta=0
 
     def profesor(self):
         uic.loadUi("ui/diseno_profesor.ui", self)  #P1: mostraba la GUI  disenofinal.ui
@@ -133,7 +148,7 @@ class Ventana(QMainWindow):
         self.button_home_quiz.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_quiz))
         
         #-----------Grabar y reproducir audio-----------------------
-        self.button_profesor_subir_audio.clicked.connect(self.grabar_profesor)
+        #self.button_profesor_subir_audio.clicked.connect(self.iniciargrabar)
         #-----------Especificar audio y ruta a reproductir
         self.button_practicas_play.clicked.connect(self.Reproducir_Audio)
 
@@ -141,14 +156,17 @@ class Ventana(QMainWindow):
         #----------- Carga PDF
         self.button_profesor_subir_pdf.clicked.connect(self.Cargar_PDF)
         #----------- comparar
-        self.button_compare.clicked.connect(self.prueba_compare)
+        #self.button_compare.clicked.connect(self.prueba_compare)
         self.id_ruta=0
     
     #----------- Modulos ---------------------------------
     def Abrir_Modulo_Teoria(self):
             self.stackedWidget.setCurrentWidget(self.page_teoria)
             self.stackedWidget_2.setCurrentWidget(self.materia_profesor)
-            materias = materiaFindAll(self.v_id_usuario)
+            if self.v_rolN == "Profesor":
+                materias = materiaFindAll(self.v_id_usuario)
+            elif self.v_rolN == "Estudiante":
+                materias = materiaEstudiante(self.v_id_usuario)
             self.v_table = self.table_temas
             self.v_table.clearContents()
             self.llenarDatosTable(materias)
@@ -175,7 +193,8 @@ class Ventana(QMainWindow):
                 self.llenarDatosTable(sesiones)
                 self.input_sesiones_search.setPlaceholderText("Buscar...")
                 self.input_sesiones_search.textChanged.connect(self.searchTable)
-                self.button_sesiones_crear.clicked.connect(functools.partial(self.crearForm))
+                if self.v_rolN == "Profesor":
+                    self.button_sesiones_crear.clicked.connect(functools.partial(self.crearForm))
                 self.button_sesiones_regresar.clicked.connect(functools.partial(self.Abrir_Modulo_Teoria))
             
             elif self.v_id_materia == -1:
@@ -235,7 +254,8 @@ class Ventana(QMainWindow):
                 self.llenarDatosTable(actividades)
                 self.input_actividades_search.setPlaceholderText("Buscar...")
                 self.input_actividades_search.textChanged.connect(self.searchTable)
-                self.button_actividades_crear.clicked.connect(functools.partial(self.crearForm))
+                if self.v_rolN == "Profesor":
+                    self.button_actividades_crear.clicked.connect(functools.partial(self.crearForm))
                 self.button_actividades_regresar.clicked.connect(functools.partial(self.Abrir_Modulo_Tipo_Actividades))
             
             elif self.v_id_sesion == -1:
@@ -256,34 +276,82 @@ class Ventana(QMainWindow):
         
             if self.v_id_actividad != 0 and self.v_id_actividad != -1:
                 self.stackedWidget_2.setCurrentWidget(self.material_actividad_profesor)
+                print("id_act",self.v_id_actividad)
                 material_actividades = materialByActividad(self.v_id_actividad)
+                print("aaa",material_actividades)
             elif self.v_id_actividad == -1:
                 #self.v_table.clearContents()
                 self.Abrir_Modulo_Actividades(self.v_id_sesion, self.v_tipo_actividad)
             
             if self.v_tipo_actividad == 3:
                 self.v_table = "table_material_actividad"
-                self.button_material_actividades_crear.clicked.connect(functools.partial(self.Cargar_materialxActividad))
+                #self.button_material_actividades_crear.clicked.connect(functools.partial(self.Cargar_materialxActividad))
             elif self.v_tipo_actividad == 4:
                 self.v_table = "table_quiz_teorico"
-                self.button_material_actividades_crear.clicked.connect(functools.partial(self.crearForm))
+                #self.button_material_actividades_crear.clicked.connect(functools.partial(self.crearForm))
+            elif self.v_tipo_actividad == 1:
+                self.v_table = "table_quiz_solfeo"
+                #self.button_material_actividades_crear.clicked.connect(functools.partial(self.crearForm))
+            elif self.v_tipo_actividad == 2:
+                print("material_actividades",material_actividades)
+                self.v_table = "table_practica"
+                ##self.button_material_actividades_crear.clicked.connect(functools.partial(self.crearForm))
             self.button_material_actividad_regresar.clicked.connect(lambda: self.Abrir_Modulo_Actividades(self.v_id_sesion, self.v_tipo_actividad))
             self.llenarMaterial(material_actividades)
 
     #----------- DISEÑAR MATERIAL ACTIVIDAD ---------------------------------
     def llenarMaterial(self, datos):
+        print("self.v_tipo_actividad",self.v_tipo_actividad)
         if self.v_tipo_actividad == 3:
             self.llenarMaterialTeoria(datos)
         elif self.v_tipo_actividad == 4:
             self.llenarMaterialQuiz(datos)
+        elif self.v_tipo_actividad == 2:
+            self.llenarMaterialTeoria(datos)
+        elif self.v_tipo_actividad == 1:
+            self.llenarMaterialTeoria(datos)
     
     def llenarMaterialTeoria(self, datos):
         print("llenar material",datos)
+        
+        datos_material = datos
         scroll = self.scrollArea_3
         widget = QWidget()
         vbox = QVBoxLayout()
         scroll.setGeometry(100,60,700,530)
         scroll.setWidgetResizable(True)
+        
+        grid_boton = QGridLayout()
+        grid_boton.setHorizontalSpacing(6)
+        btn = QPushButton("Crear una nueva actividad", self)
+        btn.setObjectName("Crear una nueva actividad")
+        btn.clicked.connect(functools.partial(self.crearForm))
+        btn.setStyleSheet("background-color: rgb(195, 44, 45); color: rgb(195, 44, 45); font-size: 1px; padding: 5px")
+        btn.setIcon(QIcon('src/icons/icon_home.png'))
+        btn.setIconSize(QSize(30, 30)) 
+
+        btn_grabar = QPushButton("Grabar audio", self)
+        btn_grabar.setObjectName("Grabar audio")
+        btn_grabar.clicked.connect(lambda: self.iniciargrabar())
+        btn_grabar.setStyleSheet("background-color: white; color: black; font-size: 8px;")
+        btn_grabar.setIcon(QIcon('src/icons/icon_agregar.png'))
+        btn_grabar.setIconSize(QSize(40, 40)) 
+        
+        btn_comparar = QPushButton("Comparar", self)
+        btn_comparar.setObjectName("Enviar")
+        btn_comparar.clicked.connect(lambda: self.prueba_compare())
+        btn_comparar.setStyleSheet("background-color: white; color: black; font-size: 8px;")
+        btn_comparar.setIcon(QIcon('src/icons/icon_agregar.png'))
+        btn_comparar.setIconSize(QSize(40, 40)) 
+        
+        if self.v_tipo_actividad == 3 or self.v_tipo_actividad == 4:
+            btn.show()
+            grid_boton.addWidget(btn, 0, 0)
+        elif self.v_tipo_actividad == 1 or self.v_tipo_actividad == 2:
+            btn_grabar.show()
+            if self.v_rolN=='Estudiante':
+               btn_comparar.show()
+            grid_boton.addWidget(btn_grabar, 0, 0)
 
         for row_number, row_data in enumerate(datos):            
             datos_material = datos
@@ -312,6 +380,8 @@ class Ventana(QMainWindow):
                 count_items = 0
                 c_items = 0
                 
+                if self.v_rolN == "Estudiante":
+                    Convertir_Audio_A_MIDI(datos[0][2],'Profesor')
                 if tipo_material != "" and self.v_rolN == "Profesor":
                     #boton eliminar
                     btn = QPushButton(str(datos_material[r][0]), self)
@@ -355,7 +425,7 @@ class Ventana(QMainWindow):
                         c_items += 1
                     grid_2.addItem(space, count_items, c_items)
                     c_items = 0
-                    grid_2.addItem(space, count_items, 2)
+                    count_items += 1
                 
                 if tipo_material != "" and tipo_material[0][1] == "PDF":
                     btn_audio = QPushButton(str(datos_material[r][0]), self)
@@ -373,10 +443,10 @@ class Ventana(QMainWindow):
                         c_items += 1
                     grid_2.addItem(space, count_items, c_items)
                     c_items = 0
-                    grid_2.addItem(space, count_items, 2)
+                    count_items += 1
             
                 vbox.addLayout(grid_2)
-
+        vbox.addLayout(grid_boton)
         widget.setLayout(vbox)
         #Scroll Area Properties
         scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
@@ -421,7 +491,6 @@ class Ventana(QMainWindow):
             btn.setStyleSheet("background-color: rgb(195, 44, 45); color: rgb(195, 44, 45); font-size: 1px; padding: 5px")
             btn.setIcon(QIcon('src/icons/icon_eliminar.png'))
             btn.setIconSize(QSize(30, 30)) 
-            btn.show()
 
             if row_data[3] != "":
                 pixmap = QPixmap(str(row_data[3]))
@@ -434,7 +503,7 @@ class Ventana(QMainWindow):
                 grid_2.addWidget(image, count_items, c_items)
                 c_items += 1
                 if self.v_rolN == "Profesor":
-                    #btn.show()
+                    btn.show()
                     grid_2.addWidget(btn, count_items, c_items)
                     c_items += 1
                 grid_2.addItem(space, count_items, c_items)
@@ -518,20 +587,22 @@ class Ventana(QMainWindow):
                 btn_ver.clicked.connect(functools.partial(self.Abrir_Modulo_Sesiones))
             elif tname == "table_sesiones":
                 btn_ver.clicked.connect(functools.partial(self.Abrir_Modulo_Tipo_Actividades))
-                btn_editar.clicked.connect(functools.partial(self.editarForm))
-                btn_eliminar.clicked.connect(functools.partial(self.eliminar))
+                if self.v_rolN == "Profesor":
+                    btn_editar.clicked.connect(functools.partial(self.editarForm))
+                    btn_eliminar.clicked.connect(functools.partial(self.eliminar))
             elif tname == "table_actividades":
                 n_act = str(row_number+1)
                 n_act = "Actividad "+n_act
                 self.v_table.setItem(row_number, 0, QtWidgets.QTableWidgetItem(n_act))
                 btn_ver.clicked.connect(functools.partial(self.Abrir_Modulo_Material_Actividad))
-                btn_editar.clicked.connect(functools.partial(self.editarForm))                
-                btn_eliminar.clicked.connect(functools.partial(self.eliminar))
+                if self.v_rolN == "Profesor":
+                    btn_editar.clicked.connect(functools.partial(self.editarForm))                
+                    btn_eliminar.clicked.connect(functools.partial(self.eliminar))
             
             btn_ver.show()
             self.v_table.setCellWidget(row_number, 1, btn_ver)
 
-            if tname != "table_temas":
+            if tname != "table_temas" and self.v_rolN == "Profesor":
                 btn_editar.show()
                 btn_eliminar.show()
                 self.v_table.setCellWidget(row_number, 2, btn_editar)
@@ -936,22 +1007,15 @@ class Ventana(QMainWindow):
     def prueba_compare(self):
         comparacion_practica(self)
 
-    def grabar_estudiante(self):
+     
+    def iniciargrabar(self):
         
-        if (self.v_rolN=='Estudiante'):
             termino=self.clic()
             if (termino==False):
                 self.id_ruta=self.Grabar_Audio()
-        else:
-            print("NO ES ESTUDIANTE ")
             
-    def grabar_profesor(self):
-        if (self.v_rolN=='Profesor'):
-            termino=self.clic()
-            if (termino==False):
-                self.id_ruta=self.Grabar_Audio()
-            else:
-                print("NO ES PROFESOR ")
+       
+         
     
     def actualizar_examen(self):
         #DEBE REBIRI ID EXAMEN
@@ -1192,6 +1256,7 @@ class Ventana(QMainWindow):
             if rta==False:
             #RUTA - ID DE USUARIO
                 id_ruta=insertar_evidencia(file_path+file_save,self.v_id_usuario)
+                
             
         elif (self.v_rolN == 'Profesor'):
             file_save='audio_profesor.wav' 
@@ -1208,14 +1273,16 @@ class Ventana(QMainWindow):
             print(rta)                               
             if rta==False:
             #RUTA - ID DE USUARIO
-                id_ruta=insertar_materialXactividad(3,file_path+file_save,11,self.v_id_usuario,27)
+                id_ruta=insertar_materialXactividad(3,file_path+file_save,self.v_id_sesion,self.v_id_usuario,self.v_id_actividad)
         print(file_path+file_save)
         wv.write(file_path+file_save, recording, frequency, sampwidth=2)
-        Convertir_Audio_A_MIDI(file_path+file_save,self.v_rolN)
+        if self.v_rolN=='Estudiante':
+           Convertir_Audio_A_MIDI(file_path+file_save,self.v_rolN)
         print('Finalizado con exito')  
         return id_ruta     
 
 def Convertir_Audio_A_MIDI(file_in,rol):
+        print("ruta",file_in)
         import librosa
         from sound_to_midi.monophonic import wave_to_midi
         print("Starting...")
@@ -1282,7 +1349,7 @@ def comparacion_practica(self):
         print(porcentaje)
 
         #Guardar calificación con evidencia a la actividad
-        insertarNota(self.v_id_usuario,27,porcentaje,1,self.id_ruta)
+        insertarNota(self.v_id_usuario,self.v_id_actividad,porcentaje,1,self.id_ruta)
     
 def Convertir_PDF_to_MIDI(partitura):
             filepath=partitureConversion.main.run(partitura)

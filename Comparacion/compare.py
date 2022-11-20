@@ -6,11 +6,11 @@ from numpy.linalg import norm
 
 def comparacion_wav(audio_prof,audio_est):
         #Loading audio files
-        Path_estudiante='src/audio/compare/estudiante/'
-        Path_profesor='src/audio/compare/profesor/'
-        y1, sr1 = librosa.load(Path_estudiante+audio_est) 
+        Path_estudiante='src/audio/compare/estudiante/output_estudiante.wav'
+        Path_profesor='src/audio/compare/profesor/output_profesor.wav'
+        y1, sr1 = librosa.load(Path_estudiante) 
 
-        y2, sr2 = librosa.load(Path_profesor+audio_prof) 
+        y2, sr2 = librosa.load(Path_profesor) 
 
         # y1, sr1 = librosa.load('src/audio/audio_piano.wav') 
 

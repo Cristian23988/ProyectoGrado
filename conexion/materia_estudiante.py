@@ -20,8 +20,8 @@ def findByIdEstudiante(id):
 
 #PRUEBASFunciona
 #findAll()
-findByIdEstudiante(12)
+#findByIdEstudiante(12)
 #deleteById(5)
 #update(1)
 ##insert('Clase2','Solfeo')
-print(v_lista_materias)
+#print(v_lista_materias)

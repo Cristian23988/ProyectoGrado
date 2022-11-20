@@ -26,7 +26,7 @@ def findById(id):
     return v_lista_material
 
 def findMaterialByActivity(id):
-
+    print(f"select * from {v_table} where {v_id_actividad}={id}")
     cursor1.execute(f"select * from {v_table} where {v_id_actividad}={id}")
     v_lista_material.clear()
     for fila in cursor1:
