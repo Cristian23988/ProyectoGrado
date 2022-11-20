@@ -122,7 +122,7 @@ def update(id_examen_rec,descripcion_examen,ruta,lista_preguntas_recep):
 def insertRespuestas(descripcion,id_examen,rta):
     cursor1.execute(f"insert into {v_table2} (respuesta,id_examen,rta)values('{descripcion}',{id_examen} ,{rta} )")
     connect.conexion1.commit()
-    
+
 def insert(id_actividad,id_sesion, descripcion_examen,ruta, lista_preguntas_recep):
     cursor1.execute(f"insert into {v_table} ({v_id_actividad},{v_descripcion},{v_ruta},{v_id_sesion},{v_tipo_material})values({id_actividad},'{descripcion_examen}','{ruta}',{id_sesion},1)")
     connect.conexion1.commit()
@@ -131,7 +131,14 @@ def insert(id_actividad,id_sesion, descripcion_examen,ruta, lista_preguntas_rece
         descripcion=fila[0];rta=fila[1]
         insertRespuestas(descripcion,id_examen,rta)
         
-
+def findByRuta(ruta_path):
+    cursor1.execute(f'select * from {v_table} where {v_ruta}="{ruta_path}"')
+    v_lista_preguntas.clear()
+    registro=cursor1.fetchall()
+    if registro:
+        return True  
+    else: 
+        return False
 
 # SELECT e.id,e.id_sesion,
 # e.texto_descripcion,

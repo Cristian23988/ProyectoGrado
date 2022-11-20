@@ -50,6 +50,7 @@ from conexion.material_actividad import findMaterialBySesion as findMaterialBySe
 from conexion.preguntas import update as actualizar_preguntas
 from conexion.preguntas import findByExameneXActividad as findExamenAct
 from conexion.preguntas import insert as insertExamen
+from conexion.preguntas import findByRuta as existerutaPregunta
 from conexion.tipo_archivo import findById as tipoArchivo
 from conexion.material_actividad import insert as insertar_materialXactividad
 from conexion.preguntas import update as actualizar_preguntas
@@ -1018,7 +1019,7 @@ class Ventana(QMainWindow):
         file_path='src/image_preguntas/'
         file_save=f'archivo_pregunta_'+id_act
 
-        eextension = ["*.pdf","*.wav","*.png","*.jpg"]
+        eextension = ["*.png","*.jpg"]
         
         archivo = eg.fileopenbox(msg="Abrir archivo",
                          title="Control: fileopenbox",
@@ -1028,30 +1029,26 @@ class Ventana(QMainWindow):
           
         id_extension=0
 
-        if extension == ".pdf": 
-            id_extension = 2
-            nameArchivo = "_pdf"
-        if extension == ".wav": 
-            id_extension = 3
-            nameArchivo = "_audio"
         if extension == ".png" or extension == ".jpg" : 
             id_extension = 1
             nameArchivo = "_imagen"
         file_save=f'{file_save}{nameArchivo}'
         
         #TIPO MATERIAL - RUTA - DESCRIPCION TXT - SESION - ID DE USUARIO - ACTIVIDAD
-        rta=existematerial(file_path+file_save+extension)
+        rta=existerutaPregunta(file_path+file_save+extension)
     
         i=0
         if rta==True:
             while rta==True:
                 separador = "_"
                 file_save=f'{file_save}{nameArchivo}{separador}{i}'
-                rta=existematerial(file_path+file_save+extension) 
+                rta=existerutaPregunta(file_path+file_save+extension) 
                 i=i+1
         
         self.v_ruta_examen = file_path+file_save+extension
-        shutil.copyfile(archivo, file_path+file_save+extension)
+        self.v_archivo_Origen=archivo
+        return file_path+file_save+extension
+        #shutil.copyfile(archivo, file_path+file_save+extension)
 
     def Cargar_materialxActividad(self):
         import easygui as eg
