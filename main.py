@@ -788,6 +788,7 @@ class Ventana(QMainWindow):
         
         if sender == "quiz_teorico":
             self.v_respuesta_correcta = -1
+            self.v_ruta_examen = ""
             scroll.setGeometry(230,80,400,450)
             datos = datos   #para evitar error de lista "datos" fuera de rango
             self.button_form_crear_regresar.clicked.connect(lambda: self.Abrir_Modulo_Actividades(self.v_id_sesion, self.v_tipo_actividad))
@@ -805,27 +806,33 @@ class Ventana(QMainWindow):
             self.title_2.setWordWrap(True)
             self.title_2.setFont(QFont('Anton', 10, QFont.Bold))
 
-            #label actividad
-            self.title_3 = QLabel("Respuesta 1")
+            #label descripcion
+            self.title_3 = QLabel("Cargar imagen")
             self.title_3.setScaledContents(True)
             self.title_3.setWordWrap(True)
             self.title_3.setFont(QFont('Anton', 10, QFont.Bold))
-            self.title_4 = QLabel("Respuesta 2")
+
+            #label actividad
+            self.title_4 = QLabel("Respuesta 1")
             self.title_4.setScaledContents(True)
             self.title_4.setWordWrap(True)
             self.title_4.setFont(QFont('Anton', 10, QFont.Bold))
-            self.title_5 = QLabel("Respuesta 3")
+            self.title_5 = QLabel("Respuesta 2")
             self.title_5.setScaledContents(True)
             self.title_5.setWordWrap(True)
             self.title_5.setFont(QFont('Anton', 10, QFont.Bold))
-            self.title_6 = QLabel("Respuesta 4")
+            self.title_6 = QLabel("Respuesta 3")
             self.title_6.setScaledContents(True)
             self.title_6.setWordWrap(True)
             self.title_6.setFont(QFont('Anton', 10, QFont.Bold))
-            self.title_7 = QLabel("Respuesta correcta:")
+            self.title_7 = QLabel("Respuesta 4")
             self.title_7.setScaledContents(True)
             self.title_7.setWordWrap(True)
             self.title_7.setFont(QFont('Anton', 10, QFont.Bold))
+            self.title_8 = QLabel("Respuesta correcta:")
+            self.title_8.setScaledContents(True)
+            self.title_8.setWordWrap(True)
+            self.title_8.setFont(QFont('Anton', 10, QFont.Bold))
 
             #Input descripcion
             self.input_1 = QPlainTextEdit(self)
@@ -845,11 +852,24 @@ class Ventana(QMainWindow):
             self.input_5 = QLineEdit(self)
             self.input_5.setObjectName("input_5")
             self.input_5.setGeometry(5,5,40,50)
+
+            #Horizontal spacer
+            space = QSpacerItem(40, 20, QSizePolicy.Expanding)
+
+            #imagen
+            #self.frame = QFrame(self)
+            #self.frame.resize(100,50)
+            grid_3 = QGridLayout()
+            grid_3.setHorizontalSpacing(6)
+            btn_imagen = QPushButton("imagen", self)
+            btn_imagen.clicked.connect(self.pathArchivo)
+            btn_imagen.setParent(self.frame)
+            btn_imagen.show()
+            grid_3.addWidget(btn_imagen, 0, 0)
+            grid_3.addItem(space,0,1)
             
             grid_2 = QGridLayout()
             grid_2.setHorizontalSpacing(6)
-            #Horizontal spacer
-            space = QSpacerItem(40, 20, QSizePolicy.Expanding)
 
             #checkbox
             x = range(0, 4)
@@ -859,29 +879,30 @@ class Ventana(QMainWindow):
                 b.toggled.connect(self.isChecked)
                 grid_2.addWidget(b, 0, n)
             
-            grid_2.addItem(space, 0, 5)
+            grid_2.addItem(space, 0, 5)  
 
             if tipo == "insert":
                 self.label_form_crear_title.setText("Formulario Crear Examen")
                 tabla = "insert_quiz_teorico"
 
                 #button guardar
-                btn_guardar.clicked.connect(lambda: self.guardarForm([tabla, self.v_id_actividad, self.v_id_sesion, self.input_1.toPlainText(), "", [[self.input_2.text() , 0] , [self.input_3.text(), 0] , [self.input_4.text(), 0] , [self.input_5.text(), 0]]]))
+                btn_guardar.clicked.connect(lambda: self.guardarForm([tabla, self.v_id_actividad, self.v_id_sesion, self.input_1.toPlainText(), self.v_ruta_examen, [[self.input_2.text() , 0] , [self.input_3.text(), 0] , [self.input_4.text(), 0] , [self.input_5.text(), 0]]]))
             
             grid.addWidget(self.title_1, 0, 0)
             grid.addWidget(self.input_1, 1, 0)
             grid.addWidget(self.title_2, 2, 0)
-            grid.addWidget(self.title_3, 3, 0)
+            grid.addWidget(self.title_4, 3, 0)
             grid.addWidget(self.input_2, 4, 0)
-            grid.addWidget(self.title_4, 5, 0)
+            grid.addWidget(self.title_5, 5, 0)
             grid.addWidget(self.input_3, 6, 0)
-            grid.addWidget(self.title_5, 7, 0)
+            grid.addWidget(self.title_6, 7, 0)
             grid.addWidget(self.input_4, 8, 0)
-            grid.addWidget(self.title_6, 9, 0)
+            grid.addWidget(self.title_7, 9, 0)
             grid.addWidget(self.input_5, 10, 0)
-            grid.addWidget(self.title_7, 11, 0)
+            grid.addWidget(self.title_8, 11, 0)
             grid.addItem(grid_2, 12, 0)
-
+            grid.addWidget(self.title_3, 13, 0)
+            grid.addItem(grid_3, 14, 0)
 
         btn_guardar.setGeometry(5,5,75,25)
         btn_guardar.setParent(self.frame_button_crear)
@@ -983,6 +1004,53 @@ class Ventana(QMainWindow):
         shutil.copyfile(partitura_Pdf, "src/pdf/pdf_profesor/partitura.pdf")
         rta=converter_pdf_to_png()
         print(rta)
+
+    def pathArchivo(self):
+        import easygui as eg
+        from PIL import Image
+        import shutil
+        import os.path
+
+        # Copia el archivo desde la ubicación actual a la
+        # carpeta "Documentos".
+        id_act = str(self.v_id_examen)
+        file_path='src/image_preguntas/'
+        file_save=f'archivo_pregunta_'+id_act
+
+        eextension = ["*.pdf","*.wav","*.png","*.jpg"]
+        
+        archivo = eg.fileopenbox(msg="Abrir archivo",
+                         title="Control: fileopenbox",
+                         default='',
+                         filetypes=eextension)
+        nombre, extension = os.path.splitext(archivo)         
+          
+        id_extension=0
+
+        if extension == ".pdf": 
+            id_extension = 2
+            nameArchivo = "_pdf"
+        if extension == ".wav": 
+            id_extension = 3
+            nameArchivo = "_audio"
+        if extension == ".png" or extension == ".jpg" : 
+            id_extension = 1
+            nameArchivo = "_imagen"
+        file_save=f'{file_save}{nameArchivo}'
+        
+        #TIPO MATERIAL - RUTA - DESCRIPCION TXT - SESION - ID DE USUARIO - ACTIVIDAD
+        rta=existematerial(file_path+file_save+extension)
+    
+        i=0
+        if rta==True:
+            while rta==True:
+                separador = "_"
+                file_save=f'{file_save}{nameArchivo}{separador}{i}'
+                rta=existematerial(file_path+file_save+extension) 
+                i=i+1
+        
+        self.v_ruta_examen = file_path+file_save+extension
+        shutil.copyfile(archivo, file_path+file_save+extension)
 
     def Cargar_materialxActividad(self):
         import easygui as eg
