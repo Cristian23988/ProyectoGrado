@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 20-11-2022 a las 05:49:23
+-- Tiempo de generación: 20-11-2022 a las 06:58:37
 -- Versión del servidor: 10.4.24-MariaDB
 -- Versión de PHP: 8.1.6
 
@@ -216,7 +216,7 @@ CREATE TABLE `respuestas` (
   `id` int(11) NOT NULL,
   `respuesta` text NOT NULL,
   `id_examen` int(11) NOT NULL,
-  `rta` tinyint(1) NOT NULL
+  `rta` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -224,15 +224,15 @@ CREATE TABLE `respuestas` (
 --
 
 INSERT INTO `respuestas` (`id`, `respuesta`, `id_examen`, `rta`) VALUES
-(7, 'Nota Si y Clave Fa', 8, 0),
-(8, 'Nota Sol y Clave Sol', 8, 1),
-(9, 'Nota Fa y Clave Sol', 8, 0),
-(10, 'Nota Re y Clave Fa', 8, 0),
-(11, '1/8 Tiempo', 9, 1),
-(12, '1/16', 9, 0),
-(13, '1 Tiempo', 9, 0),
-(14, '1/2 Tiempo', 9, 0),
-(15, '4 Tiempos', 9, 0);
+(7, 'Nota Si y Clave Fa', 8, 'False'),
+(8, 'Nota Sol y Clave Sol', 8, 'True'),
+(9, 'Nota Fa y Clave Sol', 8, 'False'),
+(10, 'Nota Re y Clave Fa', 8, 'False'),
+(11, '1/8 Tiempo', 9, 'True'),
+(12, '1/16', 9, 'False'),
+(13, '1 Tiempo', 9, 'False'),
+(14, '1/2 Tiempo', 9, 'False'),
+(15, '4 Tiempos', 9, 'False');
 
 -- --------------------------------------------------------
 
