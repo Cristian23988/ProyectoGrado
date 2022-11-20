@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 19-11-2022 a las 21:51:33
+-- Tiempo de generación: 20-11-2022 a las 02:15:30
 -- Versión del servidor: 10.4.24-MariaDB
 -- Versión de PHP: 8.1.6
 
@@ -128,7 +128,8 @@ CREATE TABLE `examen_multiple` (
 --
 
 INSERT INTO `examen_multiple` (`id`, `id_actividad`, `texto_descripcion`, `ruta_imagen_descripcion`, `id_sesion`) VALUES
-(8, 29, 'TAREAS 1\r\nRepresentadas por medio de unos signos que se escriben en las líneas y espacios del pentagrama. Cada nota representa un sonido musical.\r\n\r\nSeleccione la opción que coincide con la nota que está en color ROJO y la clave musical del pentagrama.', 'src/image_preguntas/pregunta1.png', 10);
+(8, 29, 'TAREAS 1\r\nRepresentadas por medio de unos signos que se escriben en las líneas y espacios del pentagrama. Cada nota representa un sonido musical.\r\n\r\nSeleccione la opción que coincide con la nota que está en color ROJO y la clave musical del pentagrama.', 'src/image_preguntas/pregunta1.png', 7),
+(9, 22, 'Seleccione la opción con el tiempo correspondiente a la figura musical y el silencio de la figura.', 'src/image_preguntas/pregunta2.png', 8);
 
 -- --------------------------------------------------------
 
@@ -229,7 +230,12 @@ INSERT INTO `respuestas` (`id`, `respuesta`, `id_examen`, `rta`) VALUES
 (7, 'Nota Si y Clave Fa', 8, 0),
 (8, 'Nota Sol y Clave Sol', 8, 1),
 (9, 'Nota Fa y Clave Sol', 8, 0),
-(10, 'Nota Re y Clave Fa', 8, 0);
+(10, 'Nota Re y Clave Fa', 8, 0),
+(11, '1/8 Tiempo', 9, 1),
+(12, '1/16', 9, 0),
+(13, '1 Tiempo', 9, 0),
+(14, '1/2 Tiempo', 9, 0),
+(15, '4 Tiempos', 9, 0);
 
 -- --------------------------------------------------------
 
@@ -480,7 +486,7 @@ ALTER TABLE `evidencia_estudiante`
 -- AUTO_INCREMENT de la tabla `examen_multiple`
 --
 ALTER TABLE `examen_multiple`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `materia`
@@ -504,7 +510,7 @@ ALTER TABLE `nota_quiz`
 -- AUTO_INCREMENT de la tabla `respuestas`
 --
 ALTER TABLE `respuestas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de la tabla `rol`
