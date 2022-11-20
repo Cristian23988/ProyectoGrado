@@ -49,6 +49,7 @@ from conexion.material_actividad import insert as guardarMateria_Actividad
 from conexion.material_actividad import findMaterialBySesion as findMaterialBySesion
 from conexion.preguntas import update as actualizar_preguntas
 from conexion.preguntas import findByExameneXActividad as findExamenAct
+from conexion.preguntas import insert as insertExamen
 from conexion.tipo_archivo import findById as tipoArchivo
 from conexion.material_actividad import insert as insertar_materialXactividad
 from conexion.preguntas import update as actualizar_preguntas
@@ -74,6 +75,7 @@ class Ventana(QMainWindow):
         v_id_sesion = 0
         v_tipo_actividad = 0
         v_id_actividad = 0
+        v_respuesta_correcta = -1
 
     def logIn(self,userName,password):
         if userName and password:
@@ -210,7 +212,6 @@ class Ventana(QMainWindow):
     
     def Abrir_Modulo_Actividades(self, id, tipo):
         if id != 0 and tipo != 0:
-            print("actividad", id,"tipo",tipo)
             self.v_tipo_actividad = tipo
             sender_button = id
         else:
@@ -228,7 +229,6 @@ class Ventana(QMainWindow):
 
             if self.v_id_sesion != 0 and self.v_id_sesion != -1:
                 self.stackedWidget_2.setCurrentWidget(self.actividades_profesor)
-                print(self.v_id_sesion, self.v_tipo_actividad)
                 actividades = findActividadSesionTipo(self.v_id_sesion, self.v_tipo_actividad)
                 self.v_table = self.table_actividades
                 self.llenarDatosTable(actividades)
@@ -255,13 +255,17 @@ class Ventana(QMainWindow):
         
             if self.v_id_actividad != 0 and self.v_id_actividad != -1:
                 self.stackedWidget_2.setCurrentWidget(self.material_actividad_profesor)
-                self.v_table = "table_material_actividad"
                 material_actividades = materialByActividad(self.v_id_actividad)
             elif self.v_id_actividad == -1:
                 #self.v_table.clearContents()
                 self.Abrir_Modulo_Actividades(self.v_id_sesion, self.v_tipo_actividad)
             
-            self.button_material_actividades_crear.clicked.connect(functools.partial(self.Cargar_materialxActividad))
+            if self.v_tipo_actividad == 3:
+                self.v_table = "table_material_actividad"
+                self.button_material_actividades_crear.clicked.connect(functools.partial(self.Cargar_materialxActividad))
+            elif self.v_tipo_actividad == 4:
+                self.v_table = "table_quiz_teorico"
+                self.button_material_actividades_crear.clicked.connect(functools.partial(self.crearForm))
             self.button_material_actividad_regresar.clicked.connect(lambda: self.Abrir_Modulo_Actividades(self.v_id_sesion, self.v_tipo_actividad))
             self.llenarMaterial(material_actividades)
 
@@ -390,7 +394,6 @@ class Ventana(QMainWindow):
         scroll.setWidgetResizable(True)
 
         for row_number, row_data in enumerate(datos):
-            print("kkkkkkkkkkkkkk",row_data[2])
             tit = str(row_number+1)
             title = QLabel("Material Quiz"+tit)
 
@@ -416,8 +419,8 @@ class Ventana(QMainWindow):
             btn.setStyleSheet("background-color: rgb(195, 44, 45); color: rgb(195, 44, 45); font-size: 1px; padding: 5px")
             btn.setIcon(QIcon('src/icons/icon_eliminar.png'))
             btn.setIconSize(QSize(30, 30)) 
+            btn.show()
 
-            print("inagegegeg",row_data[3])
             if row_data[3] != "":
                 pixmap = QPixmap(str(row_data[3]))
                 image = QLabel()
@@ -429,34 +432,33 @@ class Ventana(QMainWindow):
                 grid_2.addWidget(image, count_items, c_items)
                 c_items += 1
                 if self.v_rolN == "Profesor":
-                    btn.show()
+                    #btn.show()
                     grid_2.addWidget(btn, count_items, c_items)
                     c_items += 1
                 grid_2.addItem(space, count_items, c_items)
                 c_items = 0
                 count_items += 1
-
-            for r, r_data in enumerate(datos_exam):
-                #print("aaaaaaaaa", r_data)
-                btn.show()
-                grid_2.addWidget(btn, count_items, 0)
-                c_items += 1
-                count_items += 1
+            
+            for r, r_data in enumerate(datos_exam):             
                 b = QRadioButton(r_data[1], self)
                 b.toggled.connect(self.button)
-                #b.setMaximumHeight(20)
-                #b.setMaximumWidth(60)
 
-                #grid_2.addWidget(b, count_items, 0)
-                #count_items += 1
-                #c_items += 1
-                #if self.v_rolN == "Profesor":
-                #btn.show()
-                #grid_2.addWidget(btn, count_items, 0)
-                #c_items += 1
-                #grid_2.addItem(space, count_items, c_items)
-                #c_items = 0
-                #count_items += 1
+                grid_2.addWidget(b, count_items, 0)
+                c_items += 1
+                if self.v_rolN == "Profesor":
+                    #boton eliminar
+                    btn_2 = QPushButton(str(r_data[0]), self)
+                    btn_2.setObjectName(str(r_data[0]))
+                    btn_2.clicked.connect(functools.partial(self.eliminar))
+                    btn_2.setStyleSheet("background-color: rgb(195, 44, 45); color: rgb(195, 44, 45); font-size: 1px; padding: 5px")
+                    btn_2.setIcon(QIcon('src/icons/icon_eliminar.png'))
+                    btn_2.setIconSize(QSize(30, 30)) 
+                    btn_2.show()
+                    grid_2.addWidget(btn_2, count_items, c_items)
+                    c_items += 1
+                grid_2.addItem(space, count_items, c_items)
+                c_items = 0
+                count_items += 1
             vbox.addLayout(grid_2)
 
         widget.setLayout(vbox)
@@ -564,6 +566,16 @@ class Ventana(QMainWindow):
             print("Actualizada actividad")
             
         #datos = [] #vacias datos
+        if datos[0] == "insert_quiz_teorico":
+            if self.v_respuesta_correcta != -1:
+                datos[5][self.v_respuesta_correcta-1][1] = 1
+            
+            rta=self.mostrarAlertaSiNo(f"Insertar Examen","","Seguro que desea insertar examen?")
+            if rta==True:
+                insertExamen(datos[1],datos[2],datos[3],datos[4],datos[5])
+            elif rta==False:
+                print("No inserta")   
+
     
     def editarForm(self):
         id = int(self.sender().text())
@@ -635,9 +647,15 @@ class Ventana(QMainWindow):
             sender = "sesion"
         elif self.sender().text() == "Crear una nueva actividad":
             sender = "actividad"
-        
+        elif self.v_table == "table_quiz_teorico":
+            sender = "quiz_teorico"
+
         #self.sender() = ""
         self.form("insert", sender, 0)
+    
+    def isChecked(self):
+        print("is checked",self.sender().text())
+        self.v_respuesta_correcta = int(self.sender().text())
 
     #----------- DISEÑAR FORMULARIO ---------------------------------
     def form(self, tipo, sender, datos):
@@ -729,9 +747,8 @@ class Ventana(QMainWindow):
             #Input descripcion
             self.input_1 = QPlainTextEdit(self)
             self.input_1.setObjectName("input_1")
-            #self.input_1.resize(50,50)
             self.input_1.setGeometry(5,5,40,50)
-            print(tipo)
+
             if tipo == "insert":
                 
                 self.label_form_crear_title.setText("Formulario Crear Actividad")
@@ -759,7 +776,6 @@ class Ventana(QMainWindow):
                 
                 #Input descripcion
                 self.input_1.insertPlainText(datos[5])
-                
 
                 #button guardar
                 btn_guardar.clicked.connect(lambda: self.guardarForm([tabla, datos[0], self.comboBox.currentText(), self.input_1.toPlainText()]))
@@ -769,7 +785,104 @@ class Ventana(QMainWindow):
             grid.addWidget(self.comboBox, 1, 0)
             grid.addWidget(self.title_2, 2, 0)
             grid.addWidget(self.input_1, 3, 0)
+        
+        if sender == "quiz_teorico":
+            self.v_respuesta_correcta = -1
+            scroll.setGeometry(230,80,400,450)
+            datos = datos   #para evitar error de lista "datos" fuera de rango
+            self.button_form_crear_regresar.clicked.connect(lambda: self.Abrir_Modulo_Actividades(self.v_id_sesion, self.v_tipo_actividad))
+            tipoAct = findTipoActividad()
+
+            #label descripcion
+            self.title_1 = QLabel("Descripcion del examen")
+            self.title_1.setScaledContents(True)
+            self.title_1.setWordWrap(True)
+            self.title_1.setFont(QFont('Anton', 10, QFont.Bold))
+
+            #label descripcion
+            self.title_2 = QLabel("Respuestas")
+            self.title_2.setScaledContents(True)
+            self.title_2.setWordWrap(True)
+            self.title_2.setFont(QFont('Anton', 10, QFont.Bold))
+
+            #label actividad
+            self.title_3 = QLabel("Respuesta 1")
+            self.title_3.setScaledContents(True)
+            self.title_3.setWordWrap(True)
+            self.title_3.setFont(QFont('Anton', 10, QFont.Bold))
+            self.title_4 = QLabel("Respuesta 2")
+            self.title_4.setScaledContents(True)
+            self.title_4.setWordWrap(True)
+            self.title_4.setFont(QFont('Anton', 10, QFont.Bold))
+            self.title_5 = QLabel("Respuesta 3")
+            self.title_5.setScaledContents(True)
+            self.title_5.setWordWrap(True)
+            self.title_5.setFont(QFont('Anton', 10, QFont.Bold))
+            self.title_6 = QLabel("Respuesta 4")
+            self.title_6.setScaledContents(True)
+            self.title_6.setWordWrap(True)
+            self.title_6.setFont(QFont('Anton', 10, QFont.Bold))
+            self.title_7 = QLabel("Respuesta correcta:")
+            self.title_7.setScaledContents(True)
+            self.title_7.setWordWrap(True)
+            self.title_7.setFont(QFont('Anton', 10, QFont.Bold))
+
+            #Input descripcion
+            self.input_1 = QPlainTextEdit(self)
+            self.input_1.setObjectName("input_1")
+            self.input_1.setGeometry(5,5,40,50)
+
+            #Input preguntas
+            self.input_2 = QLineEdit(self)
+            self.input_2.setObjectName("input_2")
+            self.input_2.setGeometry(5,5,40,50)
+            self.input_3 = QLineEdit(self)
+            self.input_3.setObjectName("input_3")
+            self.input_3.setGeometry(5,5,40,50)
+            self.input_4 = QLineEdit(self)
+            self.input_4.setObjectName("input_4")
+            self.input_4.setGeometry(5,5,40,50)
+            self.input_5 = QLineEdit(self)
+            self.input_5.setObjectName("input_5")
+            self.input_5.setGeometry(5,5,40,50)
             
+            grid_2 = QGridLayout()
+            grid_2.setHorizontalSpacing(6)
+            #Horizontal spacer
+            space = QSpacerItem(40, 20, QSizePolicy.Expanding)
+
+            #checkbox
+            x = range(0, 4)
+            for n in x:
+                b = QRadioButton(str(n+1), self)
+                b.objectName()
+                b.toggled.connect(self.isChecked)
+                grid_2.addWidget(b, 0, n)
+            
+            grid_2.addItem(space, 0, 5)
+
+            if tipo == "insert":
+                self.label_form_crear_title.setText("Formulario Crear Examen")
+                tabla = "insert_quiz_teorico"
+
+                #button guardar
+                btn_guardar.clicked.connect(lambda: self.guardarForm([tabla, self.v_id_actividad, self.v_id_sesion, self.input_1.toPlainText(), "", [[self.input_2.text() , 0] , [self.input_3.text(), 0] , [self.input_4.text(), 0] , [self.input_5.text(), 0]]]))
+            
+            grid.addWidget(self.title_1, 0, 0)
+            grid.addWidget(self.input_1, 1, 0)
+            grid.addWidget(self.title_2, 2, 0)
+            grid.addWidget(self.title_3, 3, 0)
+            grid.addWidget(self.input_2, 4, 0)
+            grid.addWidget(self.title_4, 5, 0)
+            grid.addWidget(self.input_3, 6, 0)
+            grid.addWidget(self.title_5, 7, 0)
+            grid.addWidget(self.input_4, 8, 0)
+            grid.addWidget(self.title_6, 9, 0)
+            grid.addWidget(self.input_5, 10, 0)
+            grid.addWidget(self.title_7, 11, 0)
+            grid.addItem(grid_2, 12, 0)
+
+
         btn_guardar.setGeometry(5,5,75,25)
         btn_guardar.setParent(self.frame_button_crear)
         btn_guardar.show()
