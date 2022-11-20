@@ -7,8 +7,11 @@ v_table2='respuestas'
 v_id_exa='id'
 v_id_sesion='id_sesion'
 v_id_actividad='id_actividad'
+v_descripcion='texto_descripcion'
 v_id_examen='id_examen'
 v_id_usuario='id_Usuario'
+v_ruta='ruta_imagen_descripcion'
+v_tipo_material='id_tipo_material'
 v_lista_examen=[]
 v_lista_preguntas=[]
 
@@ -96,10 +99,17 @@ def update(id_examen_rec,descripcion_examen,ruta,lista_preguntas_recep):
         cursor2.execute(f"update {v_table2} set respuesta ='{desc}', rta='{rta}' where id={id_pr} AND {v_id_examen}={id}")
         connect.conexion1.commit()
         
-
-# def insert(usuario,passw,rol):
-#     cursor1.execute(f'insert into {v_table} ({v_username},{v_password},{v_rol}) values("{usuario}","{passw}", {rol}) ') 
-#     connect.conexion1.commit()
+def insertRespuestas(descripcion,id_examen,rta):
+    cursor1.execute(f"insert into {v_table2} (respuesta,id_examen,rta)values('{descripcion}',{id_examen} ,{rta} )")
+    connect.conexion1.commit()
+def insert(id_actividad,id_sesion, descripcion_examen,ruta, lista_preguntas_recep):
+    cursor1.execute(f"insert into {v_table} ({v_id_actividad},{v_descripcion},{v_ruta},{v_id_sesion},{v_tipo_material})values({id_actividad},'{descripcion_examen}','{ruta}',{id_sesion},1)")
+    connect.conexion1.commit()
+    id_examen= cursor1.lastrowid
+    for fila in lista_preguntas_recep:
+        descripcion=fila[0];rta=fila[1]
+        insertRespuestas(descripcion,id_examen,rta)
+        
 
 
 # SELECT e.id,e.id_sesion,
@@ -115,7 +125,9 @@ def update(id_examen_rec,descripcion_examen,ruta,lista_preguntas_recep):
 #findAll()
 ##findLogin('admin','admin1')
 #rta=findById(1)
-#deleteById(5)
+#deleteById(5)}
+#lista_preguntas=[('aqui',0),('aqui',1)]
+#insert(29,7,'Descripcion','src',lista_preguntas)
 
 #insert('prof','prof',2)
 #print(rta)a
