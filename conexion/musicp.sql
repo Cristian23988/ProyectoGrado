@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 20-11-2022 a las 19:32:08
+-- Tiempo de generación: 21-11-2022 a las 16:10:46
 -- Versión del servidor: 10.4.17-MariaDB
 -- Versión de PHP: 8.0.2
 
@@ -98,7 +98,13 @@ CREATE TABLE `estudiante_nota_clase` (
 --
 
 INSERT INTO `estudiante_nota_clase` (`id`, `id_estudiante`, `id_actividad`, `puntaje`, `intentos`, `id_evidencia`) VALUES
-(28, 12, 33, '92%', 1, 37);
+(28, 12, 33, '92%', 1, 37),
+(30, 12, 30, '17%', 1, 38),
+(31, 12, 30, '4%', 1, 39),
+(32, 12, 30, '98%', 1, 40),
+(33, 12, 30, '31%', 1, 41),
+(34, 12, 30, '31%', 1, 42),
+(35, 12, 30, '97%', 1, 43);
 
 -- --------------------------------------------------------
 
@@ -122,7 +128,13 @@ INSERT INTO `evidencia_estudiante` (`id`, `ruta`, `id_estudiante`) VALUES
 (34, 'src/audio/audio_de_estudiante/voz_solfeo1.wav', 12),
 (35, 'src/audio/audio_de_estudiante/voz_solfeo2.wav', 12),
 (36, 'src/audio/audio_de_estudiante/voz_solfeo3.wav', 12),
-(37, 'src/audio/audio_de_estudiante/voz_solfeo4.wav', 12);
+(37, 'src/audio/audio_de_estudiante/voz_solfeo4.wav', 12),
+(38, 'src/audio/audio_de_estudiante/voz_solfeo5.wav', 12),
+(39, 'src/audio/audio_de_estudiante/voz_solfeo6.wav', 12),
+(40, 'src/audio/audio_de_estudiante/voz_solfeo7.wav', 12),
+(41, 'src/audio/audio_de_estudiante/voz_solfeo8.wav', 12),
+(42, 'src/audio/audio_de_estudiante/voz_solfeo9.wav', 12),
+(43, 'src/audio/audio_de_estudiante/voz_solfeo10.wav', 12);
 
 -- --------------------------------------------------------
 
@@ -200,8 +212,8 @@ INSERT INTO `material` (`id`, `id_tipo_material`, `ruta`, `id_sesion`, `id_usuar
 (103, 1, 'src/material_actividad/archivo_actividad_3_imagen_2.png', 10, 2, 24),
 (104, 1, 'src/material_actividad/archivo_actividad_3_imagen_3.png', 10, 2, 25),
 (105, 1, 'src/material_actividad/archivo_actividad_3_imagen_4.png', 10, 2, 26),
-(120, 3, 'src/audio/audio_de_profesor/audio_profesor0.wav', 11, 2, 30),
-(123, 3, 'src/audio/audio_de_profesor/audio_profesor.wav', 11, 2, 33);
+(123, 3, 'src/audio/audio_de_profesor/audio_profesor.wav', 11, 2, 33),
+(124, 3, 'src/audio/audio_de_profesor/audio_profesor0.wav', 11, 2, 30);
 
 -- --------------------------------------------------------
 
@@ -485,13 +497,13 @@ ALTER TABLE `actividad`
 -- AUTO_INCREMENT de la tabla `estudiante_nota_clase`
 --
 ALTER TABLE `estudiante_nota_clase`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT de la tabla `evidencia_estudiante`
 --
 ALTER TABLE `evidencia_estudiante`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT de la tabla `examen_multiple`
@@ -509,7 +521,7 @@ ALTER TABLE `materia`
 -- AUTO_INCREMENT de la tabla `material`
 --
 ALTER TABLE `material`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=124;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=125;
 
 --
 -- AUTO_INCREMENT de la tabla `nota_quiz`
