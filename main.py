@@ -314,11 +314,28 @@ class Ventana(QMainWindow):
         print("llenar material",datos)
         
         datos_material = datos
+        desc = actividadFindId(datos[0][5]) 
+        desc = desc[0][5]
+        
         scroll = self.scrollArea_3
         widget = QWidget()
         vbox = QVBoxLayout()
         scroll.setGeometry(100,60,700,530)
         scroll.setWidgetResizable(True)
+        if self.v_rolN == 'Estudiante':
+            self.frame_material_porcentaje.show()
+
+        titulo = ""
+        if self.v_tipo_actividad == 1:
+            titulo = "Quiz de Solfeo"
+        elif self.v_tipo_actividad == 2:
+            titulo = "Prácticas"
+        elif self.v_tipo_actividad == 3:
+            titulo = "Material Teórico"
+            if self.v_rolN == 'Estudiante':
+                self.frame_material_porcentaje.hide()
+        
+        self.label_teoria_title.setText(titulo)
         
         grid_boton = QGridLayout()
         grid_boton.setHorizontalSpacing(6)
@@ -361,16 +378,19 @@ class Ventana(QMainWindow):
         for row_number, row_data in enumerate(datos):            
             datos_material = datos
             tit = str(row_number+1)
-            title = QLabel("Material "+tit)
+            if self.v_tipo_actividad == 1:
+                tit = "Pregunta "+tit
+            elif self.v_tipo_actividad == 2:
+                tit = "Práctica "+tit
+            elif self.v_tipo_actividad == 3:
+                tit = "Material teórico"+tit
+
+            title = QLabel(tit)
 
             title.setScaledContents(True)
             title.setWordWrap(True)
             vbox.addWidget(title)
 
-            desc = str(datos[0][5])
-            if(self.v_tipo_actividad != 3):
-                desc = actividadFindId(datos[0][5])
-                desc = desc[0][5]
             descripcion = QLabel(desc)
             descripcion.setScaledContents(True)
             descripcion.setWordWrap(True)

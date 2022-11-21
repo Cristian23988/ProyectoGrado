@@ -44,13 +44,13 @@ QPushButton{
       <rect>
        <x>9</x>
        <y>20</y>
-       <width>131</width>
+       <width>161</width>
        <height>671</height>
       </rect>
      </property>
      <property name="styleSheet">
       <string notr="true">#fondo_menu{
-	background-color: rgb(37, 161, 148);
+	background-color: rgb(63, 81, 86);
 	border-radius: 20px;
 }
 
@@ -82,7 +82,7 @@ QLabel{
      <widget class="QLabel" name="icon_user">
       <property name="geometry">
        <rect>
-        <x>30</x>
+        <x>40</x>
         <y>40</y>
         <width>71</width>
         <height>71</height>
@@ -104,7 +104,7 @@ QLabel{
      <widget class="QLabel" name="icon_unimayor">
       <property name="geometry">
        <rect>
-        <x>30</x>
+        <x>40</x>
         <y>560</y>
         <width>71</width>
         <height>71</height>
@@ -126,7 +126,7 @@ QLabel{
      <widget class="QLabel" name="label_userName">
       <property name="geometry">
        <rect>
-        <x>20</x>
+        <x>30</x>
         <y>130</y>
         <width>91</width>
         <height>16</height>
@@ -144,7 +144,7 @@ QLabel{
      <widget class="QLabel" name="label_userRole">
       <property name="geometry">
        <rect>
-        <x>30</x>
+        <x>40</x>
         <y>160</y>
         <width>71</width>
         <height>20</height>
@@ -197,50 +197,10 @@ QLabel{
        </size>
       </property>
      </widget>
-     <widget class="QPushButton" name="button_menu_quiz">
-      <property name="geometry">
-       <rect>
-        <x>18</x>
-        <y>363</y>
-        <width>101</width>
-        <height>48</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Inter</family>
-        <pointsize>10</pointsize>
-        <weight>50</weight>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="layoutDirection">
-       <enum>Qt::LeftToRight</enum>
-      </property>
-      <property name="autoFillBackground">
-       <bool>false</bool>
-      </property>
-      <property name="styleSheet">
-       <string notr="true"/>
-      </property>
-      <property name="text">
-       <string>Quiz</string>
-      </property>
-      <property name="icon">
-       <iconset>
-        <normaloff>../src/icons/icon_quiz.png</normaloff>../src/icons/icon_quiz.png</iconset>
-      </property>
-      <property name="iconSize">
-       <size>
-        <width>40</width>
-        <height>30</height>
-       </size>
-      </property>
-     </widget>
      <widget class="QPushButton" name="button_menu_home">
       <property name="geometry">
        <rect>
-        <x>10</x>
+        <x>20</x>
         <y>210</y>
         <width>109</width>
         <height>48</height>
@@ -259,7 +219,8 @@ QLabel{
        <bool>false</bool>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: transparent;</string>
+       <string notr="true">background-color: white;
+color: black;</string>
       </property>
       <property name="text">
        <string>Home</string>
@@ -275,89 +236,11 @@ QLabel{
        </size>
       </property>
      </widget>
-     <widget class="QPushButton" name="button_menu_practicas">
-      <property name="geometry">
-       <rect>
-        <x>18</x>
-        <y>312</y>
-        <width>101</width>
-        <height>48</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Inter</family>
-        <pointsize>10</pointsize>
-       </font>
-      </property>
-      <property name="layoutDirection">
-       <enum>Qt::LeftToRight</enum>
-      </property>
-      <property name="autoFillBackground">
-       <bool>false</bool>
-      </property>
-      <property name="styleSheet">
-       <string notr="true"/>
-      </property>
-      <property name="text">
-       <string>Prácticas</string>
-      </property>
-      <property name="icon">
-       <iconset>
-        <normaloff>../src/icons/icon_practicas.png</normaloff>../src/icons/icon_practicas.png</iconset>
-      </property>
-      <property name="iconSize">
-       <size>
-        <width>40</width>
-        <height>35</height>
-       </size>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="button_menu_profesor">
-      <property name="geometry">
-       <rect>
-        <x>18</x>
-        <y>412</y>
-        <width>101</width>
-        <height>48</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Inter</family>
-        <pointsize>10</pointsize>
-        <weight>50</weight>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="layoutDirection">
-       <enum>Qt::LeftToRight</enum>
-      </property>
-      <property name="autoFillBackground">
-       <bool>false</bool>
-      </property>
-      <property name="styleSheet">
-       <string notr="true"/>
-      </property>
-      <property name="text">
-       <string>Profesor</string>
-      </property>
-      <property name="icon">
-       <iconset>
-        <normaloff>../src/icons/icon_profesor.png</normaloff>../src/icons/icon_profesor.png</iconset>
-      </property>
-      <property name="iconSize">
-       <size>
-        <width>40</width>
-        <height>30</height>
-       </size>
-      </property>
-     </widget>
      <widget class="QPushButton" name="button_menu_cerrar_sesion">
       <property name="geometry">
        <rect>
-        <x>10</x>
-        <y>462</y>
+        <x>20</x>
+        <y>320</y>
         <width>121</width>
         <height>48</height>
        </rect>
@@ -397,9 +280,9 @@ QLabel{
     <widget class="QWidget" name="verticalLayoutWidget">
      <property name="geometry">
       <rect>
-       <x>149</x>
+       <x>179</x>
        <y>9</y>
-       <width>1021</width>
+       <width>991</width>
        <height>681</height>
       </rect>
      </property>
@@ -775,9 +658,9 @@ QPushButton{
            <widget class="QStackedWidget" name="stackedWidget_2">
             <property name="geometry">
              <rect>
-              <x>50</x>
+              <x>40</x>
               <y>10</y>
-              <width>991</width>
+              <width>1001</width>
               <height>661</height>
              </rect>
             </property>
@@ -847,7 +730,7 @@ QPushButton{
 }</string>
               </property>
               <property name="text">
-               <string>Gestión de Materias</string>
+               <string>Materias</string>
               </property>
              </widget>
              <widget class="QLineEdit" name="input_materias_search">
@@ -1673,7 +1556,7 @@ color: rgb(170, 0, 0);</string>
                </layout>
               </widget>
              </widget>
-             <widget class="QFrame" name="frame_14">
+             <widget class="QFrame" name="frame_material_porcentaje">
               <property name="geometry">
                <rect>
                 <x>290</x>
@@ -1810,8 +1693,8 @@ color: rgb(170, 0, 0);</string>
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>400</width>
-                 <height>500</height>
+                 <width>398</width>
+                 <height>498</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_3">
