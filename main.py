@@ -58,6 +58,7 @@ from conexion.evidencia_estudiante import insert as insertar_evidencia
 from conexion.evidencia_estudiante import findByRuta as existeEvidencia
 from conexion.materia_estudiante import findByIdEstudiante as materiaEstudiante
 from conexion.notas import insert as insertarNota
+from conexion.notas_quiz import insert as insertarNotaQuiz
 from partitureConversion.MIDIUtil.src.midiutil.MidiFile3 import MIDIFile
 from Comparacion.compare import comparacion_wav
 
@@ -111,14 +112,9 @@ class Ventana(QMainWindow):
         self.label_userRole.setText(self.v_rolN)
         self.button_menu_home.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_home))
         self.button_menu_teoria.clicked.connect(self.Abrir_Modulo_Teoria)
-        self.button_menu_practicas.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_practicas))
-        self.button_menu_quiz.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_quiz))
-        self.button_menu_profesor.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_profesor))
         self.button_menu_cerrar_sesion.clicked.connect(self.cerrarSesion)
         
         self.button_home_teoria.clicked.connect(self.Abrir_Modulo_Teoria)
-        self.button_home_practicas.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_practicas))
-        self.button_home_quiz.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_quiz))
         
         #-----------Grabar y reproducir audio-----------------------
         #self.button_profesor_subir_audio.clicked.connect(self.iniciargrabar)
@@ -423,7 +419,6 @@ class Ventana(QMainWindow):
                     btn.show()
 
                 if tipo_material != "" and tipo_material[0][1] == "Imagen":
-                    print("siii",datos_material[r][2], self.v_tipo_actividad)
                     if datos_material[r][2] == "" and self.v_tipo_actividad == 2:
                         datos_material[r][2] = "src/images/image_practic.jpg"
                     elif datos_material[r][2] == "":
@@ -514,8 +509,6 @@ class Ventana(QMainWindow):
     def llenarMaterialQuiz(self, datos):
         self.v_respuestas_exam = []
         datos, datos_exam = findExamenAct(self.v_id_actividad, self.v_id_sesion)
-        print("llenar material quiz",datos)
-        print("llenar material quiz",datos_exam)
         scroll = self.scrollArea_3
         widget = QWidget()
         vbox = QVBoxLayout()
@@ -715,18 +708,22 @@ class Ventana(QMainWindow):
         
         if datos[0] == "Guardar Examen":
             act,examenes = findExamenAct(self.v_id_actividad, self.v_id_sesion)
-            # print("countt")
-            # print(len(examenes))
-            # print(len(self.v_respuestas_exam))
-            # print("datttt")
-            # print(examenes)
-            # print(self.v_respuestas_exam)
-
-            #for r_n, r_d in enumerate():
+            c_i = 0
+            c_exa = len(examenes)
+            c_act = len(act)
+            c_res = len(self.v_respuestas_exam)
+            c_pre = 5 / c_act
+            res = 0
+            
+            for r_n, r_d in enumerate(examenes):
+                if r_d[3] == 1 and r_d[1] == self.v_respuestas_exam[c_i][0] and r_d[2] == self.v_respuestas_exam[c_i][1]:
+                    res += c_pre
+                    if c_i < c_res:
+                        c_i += 1            
 
             rta = self.mostrarAlertaSiNo(f"Insertar Examen","","Seguro que desea insertar examen?")
             if rta==True:
-                #insertarNota(datos[1],datos[2],datos[3],datos[4],datos[5])
+                insertarNotaQuiz(self.v_id_usuario,self.v_id_actividad,res,self.v_id_sesion)
                 pass
             elif rta==False:
                 print("No inserta")   
@@ -786,10 +783,6 @@ class Ventana(QMainWindow):
 
             elif rta==False:
                 print("No elimina")    
-            
-
-
-            print(datos_actividades)
 
         elif self.v_table.objectName() == "table_sesiones":
             rta=self.mostrarAlertaSiNo(f"Eliminar Sesión","","Seguro que desea eliminar esta sesión?")
@@ -827,10 +820,12 @@ class Ventana(QMainWindow):
     
     def button(self, h, t):
         sender_button = self.sender().text()
-        self.v_respuestas_exam.append([sender_button, t])
-        print("jakfjalsfj")
-        print(sender_button)
-        print(t)
+        if self.v_respuestas_exam == []:
+            self.v_respuestas_exam.append([sender_button, t])
+
+        for r, d in enumerate(self.v_respuestas_exam):
+            if d[1] != t:
+                self.v_respuestas_exam.append([sender_button, t])
 
     #----------- DISEÑAR FORMULARIO ---------------------------------
     def form(self, tipo, sender, datos):

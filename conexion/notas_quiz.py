@@ -86,9 +86,9 @@ def findBySesion(id_sesion):
     return v_lista_notas_quiz
 
 
-def insert(id_estudiante,id_actividad,puntaje,intentos,id_sesion):
+def insert(id_estudiante,id_actividad,puntaje,id_sesion):
     #id_evidencia=insertar_evidencia()
-    cursor1.execute(f'insert into {v_table} ({v_id_estudiante},{v_id_actividad},{v_puntaje},{v_id_sesion}) values({id_estudiante},{id_actividad},"{puntaje}",{intentos},{id_sesion})') 
+    cursor1.execute(f'insert into {v_table} ({v_id_estudiante},{v_id_actividad},{v_puntaje},{v_id_sesion}) values({id_estudiante},{id_actividad},"{puntaje}",{id_sesion})') 
     connect.conexion1.commit()
 
 #PRUEBASFunciona
