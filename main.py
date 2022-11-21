@@ -122,8 +122,6 @@ class Ventana(QMainWindow):
         self.button_practicas_play.clicked.connect(self.Reproducir_Audio)
 
         self.button_profesor_play.clicked.connect(self.Reproducir_Audio_partitura)
-        #----------- Carga PDF
-        self.button_profesor_subir_pdf.clicked.connect(self.Cargar_PDF)
         #----------- comparar
         self.button_compare.clicked.connect(self.prueba_compare)
         self.id_ruta=0
@@ -296,7 +294,6 @@ class Ventana(QMainWindow):
 
     #----------- DISEÑAR MATERIAL ACTIVIDAD ---------------------------------
     def llenarMaterial(self, datos):
-        print("self.v_tipo_actividad",self.v_tipo_actividad)
         if self.v_tipo_actividad == 3:
             self.llenarMaterialTeoria(datos)
         elif self.v_tipo_actividad == 4:
@@ -307,8 +304,6 @@ class Ventana(QMainWindow):
             self.llenarMaterialTeoria(datos)
     
     def llenarMaterialTeoria(self, datos):
-        print("llenar material",datos)
-        
         datos_material = datos
         desc = actividadFindId(datos[0][5]) 
         desc = desc[0][5]
@@ -441,7 +436,6 @@ class Ventana(QMainWindow):
                     count_items += 1
                 
                 else:
-                    #print("siii",datos_material[r][2], self.v_tipo_actividad)
                     if self.v_tipo_actividad == 2:
                         url_image = "src/images/image_practic.jpg"
                     else:
@@ -677,14 +671,21 @@ class Ventana(QMainWindow):
     #----------- FUNCIONES CRUD ---------------------------------
     def guardarForm(self, datos):
         import shutil
-        print(datos)
         if datos[0] == "insert_sesiones":
-            insertSesiones(datos[1],datos[2], datos[3])
-            print("insertadad sesion")
+            rta = self.mostrarAlertaSiNo(f"Insertar Sesion","","¿Seguro que desea insertar sesion?")
+            if rta==True:
+                insertSesiones(datos[1],datos[2], datos[3])
+                print("insertada sesion")
+            elif rta==False:
+                print("No inserta")
         
         if datos[0] == "update_sesiones":
-            updateSesiones(datos[1],datos[2], datos[3])
-            print("actualizada sesion")
+            rta = self.mostrarAlertaSiNo(f"Actualizar Examen","","¿Seguro que desea actualizar examen?")
+            if rta==True:
+                updateSesiones(datos[1],datos[2], datos[3])
+                print("actualizada sesion")
+            elif rta==False:
+                print("No inserta")
         
         if datos[0] == "insert_actividades":
             tipoAct = findTipoActividad()
@@ -693,8 +694,12 @@ class Ventana(QMainWindow):
                 if dat[1] == datos[2]:
                     datos[2] = dat[0]
             
-            insertar_actividad(datos[1], datos[2], datos[3], datos[4], datos[5])
-            print("insertada actividad")
+            rta = self.mostrarAlertaSiNo(f"Insertar actividad","","¿Seguro que desea insertar actividad?")
+            if rta==True:
+                insertar_actividad(datos[1], datos[2], datos[3], datos[4], datos[5])
+                print("insertada actividad")
+            elif rta==False:
+                print("No inserta")
         
         if datos[0] == "update_actividades":
             tipoAct = findTipoActividad()
@@ -703,8 +708,12 @@ class Ventana(QMainWindow):
                 if dat[1] == datos[2]:
                     datos[2] = dat[0]
 
-            actualizar_actividad(datos[1], datos[2], datos[3])
-            print("Actualizada actividad")
+            rta = self.mostrarAlertaSiNo(f"Actualizar actividad","","¿Seguro que desea actualizar actividad?")
+            if rta==True:
+                actualizar_actividad(datos[1], datos[2], datos[3])
+                print("Actualizada actividad")
+            elif rta==False:
+                print("No inserta")
         
         if datos[0] == "Guardar Examen":
             act,examenes = findExamenAct(self.v_id_actividad, self.v_id_sesion)
@@ -721,12 +730,12 @@ class Ventana(QMainWindow):
                     if c_i < c_res:
                         c_i += 1            
 
-            rta = self.mostrarAlertaSiNo(f"Insertar Examen","","Seguro que desea insertar examen?")
+            rta = self.mostrarAlertaSiNo(f"Enviar Examen","","¿Seguro que desea enviar el examen?")
             if rta==True:
                 insertarNotaQuiz(self.v_id_usuario,self.v_id_actividad,res,self.v_id_sesion)
                 pass
             elif rta==False:
-                print("No inserta")   
+                print("No inserta")
 
             
         #datos = [] #vacias datos
@@ -734,12 +743,12 @@ class Ventana(QMainWindow):
             if self.v_respuesta_correcta != -1:
                 datos[5][self.v_respuesta_correcta-1][1] = 1
             
-            rta=self.mostrarAlertaSiNo(f"Insertar Examen","","Seguro que desea insertar examen?")
+            rta=self.mostrarAlertaSiNo(f"Insertar Quiz","","¿Seguro que desea insertar quiz?")
             if rta==True:
                 shutil.copyfile(self.v_archivo_Origen, datos[4])
                 insertExamen(datos[1],datos[2],datos[3],datos[4],datos[5])
             elif rta==False:
-                print("No inserta")   
+                print("No inserta")
 
     
     def editarForm(self):
@@ -760,10 +769,7 @@ class Ventana(QMainWindow):
         datos_sesiones = []
         datos_actividades = []
         datos_material = []
-        print("id elim",id)
-         
-        #DATO CURIOSO NO DEJA BORRAR MATERIAL CON EL .OBJECTNAME PERO SI DATOS DE LAS LISTAS
-        #SIN EL OBJECTNAME SI BORRA LAS IMAGENES PERO SE DAÑA CON LOS ITEMS DE LA TABLA
+        
         if self.v_table == "table_material_actividad":
             datos_material = materialById(id)
         
@@ -773,7 +779,7 @@ class Ventana(QMainWindow):
         
         elif self.v_table.objectName() == "table_actividades":
             datos_actividades = actividadFindId(id)
-            rta=self.mostrarAlertaSiNo(f"Eliminar actividad","","Seguro que desea eliminar esta actividad?")
+            rta=self.mostrarAlertaSiNo(f"Eliminar actividad","","¿Seguro que desea eliminar esta actividad?")
             if rta==True:
                 datos_material = materialByActividad(id)
                 deleteActiById(id)
@@ -785,7 +791,7 @@ class Ventana(QMainWindow):
                 print("No elimina")    
 
         elif self.v_table.objectName() == "table_sesiones":
-            rta=self.mostrarAlertaSiNo(f"Eliminar Sesión","","Seguro que desea eliminar esta sesión?")
+            rta=self.mostrarAlertaSiNo(f"Eliminar Sesión","","¿Seguro que desea eliminar esta sesión?")
             if rta==True:           
                 datos_material = findMaterialBySesion(id) 
                 deleteSesionesId(id)
@@ -815,7 +821,7 @@ class Ventana(QMainWindow):
         self.form("insert", sender, 0)
     
     def isChecked(self):
-        print("is checked",self.sender().text())
+        
         self.v_respuesta_correcta = int(self.sender().text())
     
     def button(self, h, t):
@@ -829,7 +835,7 @@ class Ventana(QMainWindow):
 
     #----------- DISEÑAR FORMULARIO ---------------------------------
     def form(self, tipo, sender, datos):
-        #print("tipo form",tipo, "| datos", datos[1])
+        #
         self.stackedWidget_2.setCurrentWidget(self.form_crear)
         scroll = self.scrollArea_form_crear
         widget = QWidget()
@@ -880,7 +886,7 @@ class Ventana(QMainWindow):
                 #Input nombre sesion
                 self.input_1.setText(datos[1])
                 #ComboBox corte
-                print(datos)
+                
                 self.comboBox.addItem(str(datos[3]))
                 corte.remove(str(datos[3]))     #remueve el item de la bd para evitar duplicados
                 self.comboBox.addItems(corte)
@@ -1086,33 +1092,19 @@ class Ventana(QMainWindow):
         scroll.setWidget(widget)
         self.show()
 
-    
-        
-
-    def Abrir_Modulo_Practica(self):
-        print("practica")                    
-    def Abrir_Modulo_Quiz(self):
-        print("quiz") 
     def prueba_compare(self):
         comparacion_practica(self)
-
      
     def iniciargrabar(self):
-        
-            termino=self.clic()
-            if (termino==False):
-                self.id_ruta=self.Grabar_Audio()
-            
-       
-         
+        termino=self.clic()
+        if (termino==False):
+            self.id_ruta=self.Grabar_Audio()
     
     def actualizar_examen(self):
         #DEBE REBIRI ID EXAMEN
         #DEBE REcibir campo texto_descripcion y ruta_imagen descripcion de examen
         #DEBE REBIRI UNA LISTA CON LAS RESPUESTAS DE SELECCION MULTIPLE
         self.v_id_examen=1
-        print(self.v_id_sesion)
-        print(self.v_id_examen)
         id=1
         descripcion_examen='Representadas por medio de unos signos que se escriben en las líneas y espacios del pentagrama. Cada nota representa un sonido musical Marque la nota es la que se marca en color ROJO y la clave musical del pentagrama'
         ruta='src/image_preguntas/pregunta1.png'
@@ -1124,7 +1116,6 @@ class Ventana(QMainWindow):
     def actualizar_acti(self):
         actualizar_actividad(1)
         return "actualizado"
-        #src/audio/audio_de_profesor/audio_profesor.wav
     
     def mostrarAlerta(self, title, text, descripcion):
         msg = QMessageBox()
@@ -1137,14 +1128,15 @@ class Ventana(QMainWindow):
         msg.exec_()
 
     def mostrarAlertaSiNo(self, title, text, descripcion):
-            reply=QMessageBox.question(self, 'Quit', 'Are you sure you want to quit?',                                                           
+            reply = QMessageBox.question(self, title, descripcion,
             QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
             if reply == QMessageBox.Yes:
                 return True
             else:
                 return False
+    
     def comparar(self):
-        rta= self.mostrarAlertaSiNo("Enviar audio","","Seguro quiere enviar?")
+        rta= self.mostrarAlertaSiNo("Enviar audio","","¿Seguro quiere enviar?")
         if rta==True:
             self.prueba_compare()
         else:

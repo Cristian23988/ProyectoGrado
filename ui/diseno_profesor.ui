@@ -144,9 +144,9 @@ QLabel{
      <widget class="QLabel" name="label_userRole">
       <property name="geometry">
        <rect>
-        <x>30</x>
+        <x>20</x>
         <y>160</y>
-        <width>71</width>
+        <width>81</width>
         <height>20</height>
        </rect>
       </property>
@@ -432,7 +432,7 @@ QPushButton{
 }</string>
         </property>
         <property name="currentIndex">
-         <number>1</number>
+         <number>0</number>
         </property>
         <widget class="QWidget" name="page_home">
          <property name="styleSheet">
@@ -785,7 +785,7 @@ QPushButton{
              <string notr="true"/>
             </property>
             <property name="currentIndex">
-             <number>4</number>
+             <number>0</number>
             </property>
             <widget class="QWidget" name="materia_profesor">
              <widget class="QTableWidget" name="table_temas">
