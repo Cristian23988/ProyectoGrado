@@ -78,6 +78,7 @@ class Ventana(QMainWindow):
         v_tipo_actividad = 0
         v_id_actividad = 0
         v_respuesta_correcta = -1
+        v_respuestas_exam = []
 
     def logIn(self,userName,password):
         if userName and password:
@@ -276,9 +277,7 @@ class Ventana(QMainWindow):
         
             if self.v_id_actividad != 0 and self.v_id_actividad != -1:
                 self.stackedWidget_2.setCurrentWidget(self.material_actividad_profesor)
-                print("id_act",self.v_id_actividad)
                 material_actividades = materialByActividad(self.v_id_actividad)
-                print("aaa",material_actividades)
             elif self.v_id_actividad == -1:
                 #self.v_table.clearContents()
                 self.Abrir_Modulo_Actividades(self.v_id_sesion, self.v_tipo_actividad)
@@ -337,22 +336,27 @@ class Ventana(QMainWindow):
         btn_grabar.setIcon(QIcon('src/icons/icon_agregar.png'))
         btn_grabar.setIconSize(QSize(40, 40)) 
         
-        btn_comparar = QPushButton("Comparar", self)
-        btn_comparar.setObjectName("Enviar")
+        btn_comparar = QPushButton("Enviar Audio Grabado", self)
+        btn_comparar.setObjectName("Comparar")
         
         btn_comparar.clicked.connect(lambda: self.comparar())
         btn_comparar.setStyleSheet("background-color: white; color: black; font-size: 8px;")
         btn_comparar.setIcon(QIcon('src/icons/icon_agregar.png'))
         btn_comparar.setIconSize(QSize(40, 40)) 
         
-        if self.v_tipo_actividad == 3 or self.v_tipo_actividad == 4:
+        if (self.v_tipo_actividad == 3 or self.v_tipo_actividad == 4) and self.v_rolN != 'Estudiante':
             btn.show()
             grid_boton.addWidget(btn, 0, 0)
         elif self.v_tipo_actividad == 1 or self.v_tipo_actividad == 2:
             btn_grabar.show()
             if self.v_rolN=='Estudiante':
-               btn_comparar.show()
-            grid_boton.addWidget(btn_grabar, 0, 0)
+                space_button = QSpacerItem(40, 20, QSizePolicy.Expanding)
+                btn_comparar.show()
+                grid_boton.addWidget(btn_comparar, 0, 1)
+                grid_boton.addWidget(btn_grabar, 0, 0)
+                grid_boton.addItem(space_button, 0 ,2)
+            else:  
+                grid_boton.addWidget(btn_grabar, 0, 0)
 
         for row_number, row_data in enumerate(datos):            
             datos_material = datos
@@ -363,7 +367,11 @@ class Ventana(QMainWindow):
             title.setWordWrap(True)
             vbox.addWidget(title)
 
-            descripcion = QLabel(str(datos[0][5]))
+            desc = str(datos[0][5])
+            if(self.v_tipo_actividad != 3):
+                desc = actividadFindId(datos[0][5])
+                desc = desc[0][5]
+            descripcion = QLabel(desc)
             descripcion.setScaledContents(True)
             descripcion.setWordWrap(True)
             vbox.addWidget(descripcion)
@@ -381,8 +389,9 @@ class Ventana(QMainWindow):
                 count_items = 0
                 c_items = 0
                 
-                if self.v_rolN == "Estudiante":
+                if self.v_rolN == "Estudiante" and self.v_tipo_actividad != 3 and self.v_tipo_actividad != 4:
                     Convertir_Audio_A_MIDI(datos[0][2],'Profesor')
+
                 if tipo_material != "" and self.v_rolN == "Profesor":
                     #boton eliminar
                     btn = QPushButton(str(datos_material[r][0]), self)
@@ -394,6 +403,12 @@ class Ventana(QMainWindow):
                     btn.show()
 
                 if tipo_material != "" and tipo_material[0][1] == "Imagen":
+                    print("siii",datos_material[r][2], self.v_tipo_actividad)
+                    if datos_material[r][2] == "" and self.v_tipo_actividad == 2:
+                        datos_material[r][2] = "src/images/image_practic.jpg"
+                    elif datos_material[r][2] == "":
+                        datos_material[r][2] = "src/images/image_quiz.jpg"
+
                     pixmap = QPixmap(datos_material[r][2])
                     image = QLabel()
                     image.setPixmap(pixmap)
@@ -406,6 +421,26 @@ class Ventana(QMainWindow):
                     if self.v_rolN == "Profesor":
                         grid_2.addWidget(btn, count_items, c_items)
                         c_items += 1
+                    grid_2.addItem(space, count_items, c_items)
+                    c_items = 0
+                    count_items += 1
+                
+                else:
+                    #print("siii",datos_material[r][2], self.v_tipo_actividad)
+                    if self.v_tipo_actividad == 2:
+                        url_image = "src/images/image_practic.jpg"
+                    else:
+                        url_image = "src/images/image_quiz.jpg"
+
+                    pixmap = QPixmap(url_image)
+                    image = QLabel()
+                    image.setPixmap(pixmap)
+                    image.setMaximumHeight(200)
+                    image.setMaximumWidth(600)
+                    image.setScaledContents(True)
+
+                    grid_2.addWidget(image, count_items, c_items)
+                    c_items += 1
                     grid_2.addItem(space, count_items, c_items)
                     c_items = 0
                     count_items += 1
@@ -457,6 +492,7 @@ class Ventana(QMainWindow):
         self.show()
     
     def llenarMaterialQuiz(self, datos):
+        self.v_respuestas_exam = []
         datos, datos_exam = findExamenAct(self.v_id_actividad, self.v_id_sesion)
         print("llenar material quiz",datos)
         print("llenar material quiz",datos_exam)
@@ -465,6 +501,21 @@ class Ventana(QMainWindow):
         vbox = QVBoxLayout()
         scroll.setGeometry(100,60,700,530)
         scroll.setWidgetResizable(True)
+
+        grid_boton = QGridLayout()
+        grid_boton.setHorizontalSpacing(6)
+        btn = QPushButton("Guardar Examen", self)
+        btn.setObjectName("Guardar Examen")
+        if self.v_rolN == "Estudiante":
+            btn.clicked.connect(lambda: self.guardarForm(["Guardar Examen"]))
+        else:
+            btn.clicked.connect(functools.partial(self.crearForm))
+        btn.setStyleSheet("background-color: rgb(195, 44, 45); color: rgb(195, 44, 45); font-size: 1px; padding: 5px")
+        btn.setIcon(QIcon('src/icons/icon_home.png'))
+        btn.setIconSize(QSize(30, 30))
+        btn.show()
+        grid_boton.addWidget(btn, 0, 0)
+        
 
         for row_number, row_data in enumerate(datos):
             tit = str(row_number+1)
@@ -514,7 +565,7 @@ class Ventana(QMainWindow):
             for r, r_data in enumerate(datos_exam):
                 if datos[row_number][0] == r_data[2]:
                     b = QRadioButton(r_data[1], self)
-                    b.toggled.connect(self.button)
+                    b.toggled.connect(lambda: self.button(b, datos[row_number][0]))
 
                     grid_2.addWidget(b, count_items, 0)
                     c_items += 1
@@ -534,6 +585,7 @@ class Ventana(QMainWindow):
                     count_items += 1
             vbox.addLayout(grid_2)
 
+        vbox.addLayout(grid_boton)
         widget.setLayout(vbox)
         #Scroll Area Properties
         scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
@@ -640,6 +692,25 @@ class Ventana(QMainWindow):
 
             actualizar_actividad(datos[1], datos[2], datos[3])
             print("Actualizada actividad")
+        
+        if datos[0] == "Guardar Examen":
+            act,examenes = findExamenAct(self.v_id_actividad, self.v_id_sesion)
+            # print("countt")
+            # print(len(examenes))
+            # print(len(self.v_respuestas_exam))
+            # print("datttt")
+            # print(examenes)
+            # print(self.v_respuestas_exam)
+
+            #for r_n, r_d in enumerate():
+
+            rta = self.mostrarAlertaSiNo(f"Insertar Examen","","Seguro que desea insertar examen?")
+            if rta==True:
+                #insertarNota(datos[1],datos[2],datos[3],datos[4],datos[5])
+                pass
+            elif rta==False:
+                print("No inserta")   
+
             
         #datos = [] #vacias datos
         if datos[0] == "insert_quiz_teorico":
@@ -733,6 +804,13 @@ class Ventana(QMainWindow):
     def isChecked(self):
         print("is checked",self.sender().text())
         self.v_respuesta_correcta = int(self.sender().text())
+    
+    def button(self, h, t):
+        sender_button = self.sender().text()
+        self.v_respuestas_exam.append([sender_button, t])
+        print("jakfjalsfj")
+        print(sender_button)
+        print(t)
 
     #----------- DISEÑAR FORMULARIO ---------------------------------
     def form(self, tipo, sender, datos):
@@ -996,11 +1074,6 @@ class Ventana(QMainWindow):
     
         
 
-    def button(self, h):
-        sender_button = self.sender().text()
-        print(sender_button)
-        print(h)
-
     def Abrir_Modulo_Practica(self):
         print("practica")                    
     def Abrir_Modulo_Quiz(self):
@@ -1238,7 +1311,7 @@ class Ventana(QMainWindow):
         rol=self.v_rolN
         print('Grabando...')       
         frequency = 44400        
-        duration = 9 
+        duration = 5
         recording = sd.rec(int(duration * frequency), 
                         samplerate = frequency, channels = 1)         
         sd.wait()         
@@ -1353,7 +1426,7 @@ def comparacion_practica(self):
         else:
             porcentaje = str(porcentaje)
             porcentaje = porcentaje +'%'
-        self.porcentaje.setText(porcentaje)
+        self.porcentaje_audio.setText(porcentaje)
         print(porcentaje)
 
         #Guardar calificación con evidencia a la actividad

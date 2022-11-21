@@ -57,6 +57,7 @@ def findById(id):
 
 
 def findByExameneXActividad(id_actividad, id_sesion):
+    print(f"select * from {v_table}  where {v_id_sesion}={id_sesion} AND {v_id_actividad}={id_actividad}")
     cursor1.execute(f"select * from {v_table}  where {v_id_sesion}={id_sesion} AND {v_id_actividad}={id_actividad}")
     v_lista_examen.clear()
     for fila in cursor1:
