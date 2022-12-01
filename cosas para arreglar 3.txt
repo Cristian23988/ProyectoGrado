@@ -1,2 +1,0 @@
-cuando guarde la ruta ese id_evidencia debe ir cuando se guarda el procentaje de exactitud(NO SE COMO GUARDARLO)
-Cuando el profesor carga un archivo falta agregar los datos de la sesion, actividad y materia

@@ -45,7 +45,7 @@ def insert(ruta,id_estudiante):
     cursor1.execute(f'insert into {v_table} ({v_ruta},{v_id_estudiante}) values("{ruta}",{id_estudiante}) ') 
     connect.conexion1.commit()
     id = cursor1.lastrowid
-    print(id)
+    #print(id)
     return id
 
     
@@ -56,4 +56,4 @@ def insert(ruta,id_estudiante):
 #deleteById(5)
 #update(1)
 #insert('src/audioprueba.wav',10)
-#print(v_lista_usuario)
+##print(v_lista_usuario)

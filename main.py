@@ -272,6 +272,7 @@ class Ventana(QMainWindow):
             if self.v_id_actividad != 0 and self.v_id_actividad != -1:
                 self.stackedWidget_2.setCurrentWidget(self.material_actividad_profesor)
                 material_actividades = materialByActividad(self.v_id_actividad)
+                print(material_actividades)
             elif self.v_id_actividad == -1:
                 #self.v_table.clearContents()
                 self.Abrir_Modulo_Actividades(self.v_id_sesion, self.v_tipo_actividad)
@@ -286,7 +287,6 @@ class Ventana(QMainWindow):
                 self.v_table = "table_quiz_solfeo"
                 #self.button_material_actividades_crear.clicked.connect(functools.partial(self.crearForm))
             elif self.v_tipo_actividad == 2:
-                print("material_actividades",material_actividades)
                 self.v_table = "table_practica"
                 ##self.button_material_actividades_crear.clicked.connect(functools.partial(self.crearForm))
             self.button_material_actividad_regresar.clicked.connect(lambda: self.Abrir_Modulo_Actividades(self.v_id_sesion, self.v_tipo_actividad))
@@ -305,9 +305,13 @@ class Ventana(QMainWindow):
     
     def llenarMaterialTeoria(self, datos):
         datos_material = datos
-        desc = actividadFindId(datos[0][5]) 
-        desc = desc[0][5]
-        
+        desc = ""
+        try:
+            desc = actividadFindId(datos[0][5]) 
+            desc = desc[0][5]
+        except:
+            desc = ""
+
         scroll = self.scrollArea_3
         widget = QWidget()
         vbox = QVBoxLayout()
@@ -333,8 +337,8 @@ class Ventana(QMainWindow):
         btn = QPushButton("Crear una nueva actividad", self)
         btn.setObjectName("Crear una nueva actividad")
         btn.clicked.connect(functools.partial(self.crearForm))
-        btn.setStyleSheet("background-color: rgb(195, 44, 45); color: rgb(195, 44, 45); font-size: 1px; padding: 5px")
-        btn.setIcon(QIcon('src/icons/icon_home.png'))
+        btn.setStyleSheet("background-color: rgb(52, 162, 85); color: rgb(52, 162, 85); font-size: 1px; padding: 5px")
+        btn.setIcon(QIcon('src/icons/icon_agregar.png'))
         btn.setIconSize(QSize(30, 30)) 
 
         btn_grabar = QPushButton("Grabar audio", self)
@@ -365,132 +369,133 @@ class Ventana(QMainWindow):
                 grid_boton.addItem(space_button, 0 ,2)
             else:  
                 grid_boton.addWidget(btn_grabar, 0, 0)
+        
+        if datos != []:
+            for row_number, row_data in enumerate(datos):            
+                datos_material = datos
+                tit = str(row_number+1)
+                if self.v_tipo_actividad == 1:
+                    tit = "Pregunta "+tit
+                elif self.v_tipo_actividad == 2:
+                    tit = "Práctica "+tit
+                elif self.v_tipo_actividad == 3:
+                    tit = "Material teórico"+tit
 
-        for row_number, row_data in enumerate(datos):            
-            datos_material = datos
-            tit = str(row_number+1)
-            if self.v_tipo_actividad == 1:
-                tit = "Pregunta "+tit
-            elif self.v_tipo_actividad == 2:
-                tit = "Práctica "+tit
-            elif self.v_tipo_actividad == 3:
-                tit = "Material teórico"+tit
+                title = QLabel(tit)
 
-            title = QLabel(tit)
+                title.setScaledContents(True)
+                title.setWordWrap(True)
+                vbox.addWidget(title)
 
-            title.setScaledContents(True)
-            title.setWordWrap(True)
-            vbox.addWidget(title)
+                descripcion = QLabel(desc)
+                descripcion.setScaledContents(True)
+                descripcion.setWordWrap(True)
+                vbox.addWidget(descripcion)
 
-            descripcion = QLabel(desc)
-            descripcion.setScaledContents(True)
-            descripcion.setWordWrap(True)
-            vbox.addWidget(descripcion)
-
-            for r, r_data in enumerate(datos_material):
-                try:
-                    tipo_material = tipoArchivo(datos_material[r][1])
-                except:
-                    tipo_material = ""
-                
-                grid_2 = QGridLayout()
-                grid_2.setHorizontalSpacing(6)
-                #Horizontal spacer
-                space = QSpacerItem(40, 20, QSizePolicy.Expanding)
-                count_items = 0
-                c_items = 0
-                
-                if self.v_rolN == "Estudiante" and self.v_tipo_actividad != 3 and self.v_tipo_actividad != 4:
-                    Convertir_Audio_A_MIDI(datos[0][2],'Profesor')
-
-                if tipo_material != "" and self.v_rolN == "Profesor":
-                    #boton eliminar
-                    btn = QPushButton(str(datos_material[r][0]), self)
-                    btn.setObjectName(str(datos_material[r][0]))
-                    btn.clicked.connect(functools.partial(self.eliminar))
-                    btn.setStyleSheet("background-color: rgb(195, 44, 45); color: rgb(195, 44, 45); font-size: 1px; padding: 5px")
-                    btn.setIcon(QIcon('src/icons/icon_eliminar.png'))
-                    btn.setIconSize(QSize(30, 30)) 
-                    btn.show()
-
-                if tipo_material != "" and tipo_material[0][1] == "Imagen":
-                    if datos_material[r][2] == "" and self.v_tipo_actividad == 2:
-                        datos_material[r][2] = "src/images/image_practic.jpg"
-                    elif datos_material[r][2] == "":
-                        datos_material[r][2] = "src/images/image_quiz.jpg"
-
-                    pixmap = QPixmap(datos_material[r][2])
-                    image = QLabel()
-                    image.setPixmap(pixmap)
-                    image.setMaximumHeight(200)
-                    image.setMaximumWidth(600)
-                    image.setScaledContents(True)
-
-                    grid_2.addWidget(image, count_items, c_items)
-                    c_items += 1
-                    if self.v_rolN == "Profesor":
-                        grid_2.addWidget(btn, count_items, c_items)
-                        c_items += 1
-                    grid_2.addItem(space, count_items, c_items)
-                    c_items = 0
-                    count_items += 1
-                
-                else:
-                    if self.v_tipo_actividad == 2:
-                        url_image = "src/images/image_practic.jpg"
-                    else:
-                        url_image = "src/images/image_quiz.jpg"
-
-                    pixmap = QPixmap(url_image)
-                    image = QLabel()
-                    image.setPixmap(pixmap)
-                    image.setMaximumHeight(200)
-                    image.setMaximumWidth(600)
-                    image.setScaledContents(True)
-
-                    grid_2.addWidget(image, count_items, c_items)
-                    c_items += 1
-                    grid_2.addItem(space, count_items, c_items)
-                    c_items = 0
-                    count_items += 1
+                for r, r_data in enumerate(datos_material):
+                    try:
+                        tipo_material = tipoArchivo(datos_material[r][1])
+                    except:
+                        tipo_material = ""
                     
-                if tipo_material != "" and tipo_material[0][1] == "Audio":
-                    btn_audio = QPushButton(str(datos_material[r][0]), self)
-                    btn_audio.setObjectName(str(datos_material[r][0]))
-                    btn_audio.clicked.connect(lambda: self.Reproducir_Audio_Material())
-                    btn_audio.setStyleSheet("background-color: white; color: white; font-size: 1px;")
-                    btn_audio.setIcon(QIcon('src/icons/icon_play.png'))
-                    btn_audio.setIconSize(QSize(40, 40)) 
-                    btn_audio.show()
-
-                    grid_2.addWidget(btn_audio, count_items, 0)
-                    c_items += 1
-                    if self.v_rolN == "Profesor":
-                        grid_2.addWidget(btn, count_items, c_items)
-                        c_items += 1
-                    grid_2.addItem(space, count_items, c_items)
+                    grid_2 = QGridLayout()
+                    grid_2.setHorizontalSpacing(6)
+                    #Horizontal spacer
+                    space = QSpacerItem(40, 20, QSizePolicy.Expanding)
+                    count_items = 0
                     c_items = 0
-                    count_items += 1
+                    
+                    if self.v_rolN == "Estudiante" and self.v_tipo_actividad != 3 and self.v_tipo_actividad != 4:
+                        Convertir_Audio_A_MIDI(datos[0][2],'Profesor')
+
+                    if tipo_material != "" and self.v_rolN == "Profesor":
+                        #boton eliminar
+                        btn = QPushButton(str(datos_material[r][0]), self)
+                        btn.setObjectName(str(datos_material[r][0]))
+                        btn.clicked.connect(functools.partial(self.eliminar))
+                        btn.setStyleSheet("background-color: rgb(195, 44, 45); color: rgb(195, 44, 45); font-size: 1px; padding: 5px")
+                        btn.setIcon(QIcon('src/icons/icon_eliminar.png'))
+                        btn.setIconSize(QSize(30, 30)) 
+                        btn.show()
+
+                    if tipo_material != "" and tipo_material[0][1] == "Imagen":
+                        if datos_material[r][2] == "" and self.v_tipo_actividad == 2:
+                            datos_material[r][2] = "src/images/image_practic.jpg"
+                        elif datos_material[r][2] == "":
+                            datos_material[r][2] = "src/images/image_quiz.jpg"
+
+                        pixmap = QPixmap(datos_material[r][2])
+                        image = QLabel()
+                        image.setPixmap(pixmap)
+                        image.setMaximumHeight(200)
+                        image.setMaximumWidth(600)
+                        image.setScaledContents(True)
+
+                        grid_2.addWidget(image, count_items, c_items)
+                        c_items += 1
+                        if self.v_rolN == "Profesor":
+                            grid_2.addWidget(btn, count_items, c_items)
+                            c_items += 1
+                        grid_2.addItem(space, count_items, c_items)
+                        c_items = 0
+                        count_items += 1
+                    
+                    else:
+                        if self.v_tipo_actividad == 2:
+                            url_image = "src/images/image_practic.jpg"
+                        else:
+                            url_image = "src/images/image_quiz.jpg"
+
+                        pixmap = QPixmap(url_image)
+                        image = QLabel()
+                        image.setPixmap(pixmap)
+                        image.setMaximumHeight(200)
+                        image.setMaximumWidth(600)
+                        image.setScaledContents(True)
+
+                        grid_2.addWidget(image, count_items, c_items)
+                        c_items += 1
+                        grid_2.addItem(space, count_items, c_items)
+                        c_items = 0
+                        count_items += 1
+                        
+                    if tipo_material != "" and tipo_material[0][1] == "Audio":
+                        btn_audio = QPushButton(str(datos_material[r][0]), self)
+                        btn_audio.setObjectName(str(datos_material[r][0]))
+                        btn_audio.clicked.connect(lambda: self.Reproducir_Audio_Material())
+                        btn_audio.setStyleSheet("background-color: white; color: white; font-size: 1px;")
+                        btn_audio.setIcon(QIcon('src/icons/icon_play.png'))
+                        btn_audio.setIconSize(QSize(40, 40)) 
+                        btn_audio.show()
+
+                        grid_2.addWidget(btn_audio, count_items, 0)
+                        c_items += 1
+                        if self.v_rolN == "Profesor":
+                            grid_2.addWidget(btn, count_items, c_items)
+                            c_items += 1
+                        grid_2.addItem(space, count_items, c_items)
+                        c_items = 0
+                        count_items += 1
+                    
+                    if tipo_material != "" and tipo_material[0][1] == "PDF":
+                        btn_audio = QPushButton(str(datos_material[r][0]), self)
+                        btn_audio.setObjectName(str(datos_material[r][0]))
+                        btn_audio.clicked.connect(lambda: self.showPartitura(datos_material[r][2]))
+                        btn_audio.setStyleSheet("background-color: white; color: white; font-size: 1px;")
+                        btn_audio.setIcon(QIcon('src/icons/icon_play.png'))
+                        btn_audio.setIconSize(QSize(40, 40)) 
+                        btn_audio.show()
+
+                        grid_2.addWidget(btn_audio, count_items, 0)
+                        c_items += 1
+                        if self.v_rolN == "Profesor":
+                            grid_2.addWidget(btn, count_items, c_items)
+                            c_items += 1
+                        grid_2.addItem(space, count_items, c_items)
+                        c_items = 0
+                        count_items += 1
                 
-                if tipo_material != "" and tipo_material[0][1] == "PDF":
-                    btn_audio = QPushButton(str(datos_material[r][0]), self)
-                    btn_audio.setObjectName(str(datos_material[r][0]))
-                    btn_audio.clicked.connect(lambda: self.showPartitura(datos_material[r][2]))
-                    btn_audio.setStyleSheet("background-color: white; color: white; font-size: 1px;")
-                    btn_audio.setIcon(QIcon('src/icons/icon_play.png'))
-                    btn_audio.setIconSize(QSize(40, 40)) 
-                    btn_audio.show()
-
-                    grid_2.addWidget(btn_audio, count_items, 0)
-                    c_items += 1
-                    if self.v_rolN == "Profesor":
-                        grid_2.addWidget(btn, count_items, c_items)
-                        c_items += 1
-                    grid_2.addItem(space, count_items, c_items)
-                    c_items = 0
-                    count_items += 1
-            
-                vbox.addLayout(grid_2)
+                    vbox.addLayout(grid_2)
         vbox.addLayout(grid_boton)
         widget.setLayout(vbox)
         #Scroll Area Properties
@@ -518,79 +523,80 @@ class Ventana(QMainWindow):
         else:
             btn.clicked.connect(functools.partial(self.crearForm))
         btn.setStyleSheet("background-color: rgb(195, 44, 45); color: rgb(195, 44, 45); font-size: 1px; padding: 5px")
-        btn.setIcon(QIcon('src/icons/icon_home.png'))
+        btn.setIcon(QIcon('src/icons/icon_agregar.png'))
         btn.setIconSize(QSize(30, 30))
         btn.show()
         grid_boton.addWidget(btn, 0, 0)
         
+        if datos != []:
+            for row_number, row_data in enumerate(datos):
+                tit = str(row_number+1)
+                title = QLabel("Material Quiz"+tit)
 
-        for row_number, row_data in enumerate(datos):
-            tit = str(row_number+1)
-            title = QLabel("Material Quiz"+tit)
+                title.setScaledContents(True)
+                title.setWordWrap(True)
+                vbox.addWidget(title)
 
-            title.setScaledContents(True)
-            title.setWordWrap(True)
-            vbox.addWidget(title)
+                descripcion = QLabel(row_data[2])
+                descripcion.setScaledContents(True)
+                descripcion.setWordWrap(True)
+                vbox.addWidget(descripcion)
 
-            descripcion = QLabel(row_data[2])
-            descripcion.setScaledContents(True)
-            descripcion.setWordWrap(True)
-            vbox.addWidget(descripcion)
-
-            grid_2 = QGridLayout()
-            grid_2.setHorizontalSpacing(6)
-            #Horizontal spacer
-            space = QSpacerItem(40, 20, QSizePolicy.Expanding)
-            count_items = 0
-            c_items = 0
-            #boton eliminar
-            btn = QPushButton(str(row_data[0]), self)
-            btn.setObjectName(str(row_data[0]))
-            btn.clicked.connect(functools.partial(self.eliminar))
-            btn.setStyleSheet("background-color: rgb(195, 44, 45); color: rgb(195, 44, 45); font-size: 1px; padding: 5px")
-            btn.setIcon(QIcon('src/icons/icon_eliminar.png'))
-            btn.setIconSize(QSize(30, 30)) 
-
-            if row_data[3] != "":
-                pixmap = QPixmap(str(row_data[3]))
-                image = QLabel()
-                image.setPixmap(pixmap)
-                image.setMaximumHeight(200)
-                image.setMaximumWidth(600)
-                image.setScaledContents(True)
-
-                grid_2.addWidget(image, count_items, c_items)
-                c_items += 1
-                if self.v_rolN == "Profesor":
-                    btn.show()
-                    grid_2.addWidget(btn, count_items, c_items)
-                    c_items += 1
-                grid_2.addItem(space, count_items, c_items)
+                grid_2 = QGridLayout()
+                grid_2.setHorizontalSpacing(6)
+                #Horizontal spacer
+                space = QSpacerItem(40, 20, QSizePolicy.Expanding)
+                count_items = 0
                 c_items = 0
-                count_items += 1
-            
-            for r, r_data in enumerate(datos_exam):
-                if datos[row_number][0] == r_data[2]:
-                    b = QRadioButton(r_data[1], self)
-                    b.toggled.connect(lambda: self.button(b, datos[row_number][0]))
+                #boton eliminar
+                btn = QPushButton(str(row_data[0]), self)
+                btn.setObjectName(str(row_data[0]))
+                btn.clicked.connect(functools.partial(self.eliminar))
+                btn.setStyleSheet("background-color: rgb(195, 44, 45); color: rgb(195, 44, 45); font-size: 1px; padding: 5px")
+                btn.setIcon(QIcon('src/icons/icon_eliminar.png'))
+                btn.setIconSize(QSize(30, 30)) 
 
-                    grid_2.addWidget(b, count_items, 0)
+                if row_data[3] != "":
+                    pixmap = QPixmap(str(row_data[3]))
+                    image = QLabel()
+                    image.setPixmap(pixmap)
+                    image.setMaximumHeight(200)
+                    image.setMaximumWidth(600)
+                    image.setScaledContents(True)
+
+                    grid_2.addWidget(image, count_items, c_items)
                     c_items += 1
                     if self.v_rolN == "Profesor":
-                        #boton eliminar
-                        btn_2 = QPushButton(str(r_data[0]), self)
-                        btn_2.setObjectName(str(r_data[0]))
-                        btn_2.clicked.connect(functools.partial(self.eliminar))
-                        btn_2.setStyleSheet("background-color: rgb(195, 44, 45); color: rgb(195, 44, 45); font-size: 1px; padding: 5px")
-                        btn_2.setIcon(QIcon('src/icons/icon_eliminar.png'))
-                        btn_2.setIconSize(QSize(30, 30)) 
-                        btn_2.show()
-                        grid_2.addWidget(btn_2, count_items, c_items)
+                        btn.show()
+                        grid_2.addWidget(btn, count_items, c_items)
                         c_items += 1
                     grid_2.addItem(space, count_items, c_items)
                     c_items = 0
                     count_items += 1
-            vbox.addLayout(grid_2)
+                
+                if datos_exam != []:
+                    for r, r_data in enumerate(datos_exam):
+                        if datos[row_number][0] == r_data[2]:
+                            b = QRadioButton(r_data[1], self)
+                            b.toggled.connect(lambda: self.button(b, datos[row_number][0]))
+
+                            grid_2.addWidget(b, count_items, 0)
+                            c_items += 1
+                            if self.v_rolN == "Profesor":
+                                #boton eliminar
+                                btn_2 = QPushButton(str(r_data[0]), self)
+                                btn_2.setObjectName(str(r_data[0]))
+                                btn_2.clicked.connect(functools.partial(self.eliminar))
+                                btn_2.setStyleSheet("background-color: rgb(195, 44, 45); color: rgb(195, 44, 45); font-size: 1px; padding: 5px")
+                                btn_2.setIcon(QIcon('src/icons/icon_eliminar.png'))
+                                btn_2.setIconSize(QSize(30, 30)) 
+                                btn_2.show()
+                                grid_2.addWidget(btn_2, count_items, c_items)
+                                c_items += 1
+                            grid_2.addItem(space, count_items, c_items)
+                            c_items = 0
+                            count_items += 1
+                    vbox.addLayout(grid_2)
 
         vbox.addLayout(grid_boton)
         widget.setLayout(vbox)
@@ -817,7 +823,6 @@ class Ventana(QMainWindow):
         elif self.v_table == "table_quiz_teorico":
             sender = "quiz_teorico"
 
-        #self.sender() = ""
         self.form("insert", sender, 0)
     
     def isChecked(self):
@@ -1159,7 +1164,7 @@ class Ventana(QMainWindow):
         
         shutil.copyfile(partitura_Pdf, "src/pdf/pdf_profesor/partitura.pdf")
         rta=converter_pdf_to_png()
-        print(rta)
+        #print(rta)
 
     def pathArchivo(self):
         import easygui as eg
@@ -1332,14 +1337,14 @@ class Ventana(QMainWindow):
             file_save='voz_solfeo.wav' 
             file_path='src/audio/audio_de_estudiante/'
             rta=existeEvidencia(file_path+file_save)
-            print(rta)
+            #print(rta)
             i=0
             if rta==True:
                 while rta==True:
                     file_save=f'voz_solfeo{i}.wav' 
                     rta=existeEvidencia(file_path+file_save) 
                     i=i+1
-            print(rta)                               
+            ##print(rta)                               
             if rta==False:
             #RUTA - ID DE USUARIO
                 id_ruta=insertar_evidencia(file_path+file_save,self.v_id_usuario)
@@ -1350,18 +1355,18 @@ class Ventana(QMainWindow):
             file_path='src/audio/audio_de_profesor/'            
             #TIPO MATERIAL - RUTA - DESCRIPCION TXT - SESION - ID DE USUARIO - ACTIVIDAD
             rta=existematerial(file_path+file_save)
-            print(rta)
+            #print(rta)
             i=0
             if rta==True:
                 while rta==True:
                     file_save=f'audio_profesor{i}.wav' 
                     rta=existematerial(file_path+file_save) 
                     i=i+1
-            print(rta)                               
+            #print(rta)                               
             if rta==False:
             #RUTA - ID DE USUARIO
                 id_ruta=insertar_materialXactividad(3,file_path+file_save,self.v_id_sesion,self.v_id_usuario,self.v_id_actividad)
-        print(file_path+file_save)
+        #print(file_path+file_save)
         wv.write(file_path+file_save, recording, frequency, sampwidth=2)
         if self.v_rolN=='Estudiante':
            Convertir_Audio_A_MIDI(file_path+file_save,self.v_rolN)

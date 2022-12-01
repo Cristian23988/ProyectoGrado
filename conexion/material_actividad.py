@@ -26,7 +26,7 @@ def findById(id):
     return v_lista_material
 
 def findMaterialByActivity(id):
-    print(f"select * from {v_table} where {v_id_actividad}={id}")
+    #print(f"select * from {v_table} where {v_id_actividad}={id}")
     cursor1.execute(f"select * from {v_table} where {v_id_actividad}={id}")
     v_lista_material.clear()
     for fila in cursor1:
@@ -52,7 +52,7 @@ def deleteByIdXActividad(id):
 
 def update(id_actividad, material):
     #CAMBIAR SET para que sea dinamico en el update
-    print(material)
+    #print(material)
     for fila in material:
         id=fila[0];tipo_material=fila[2];ruta=fila[1]
         cursor1.execute(f"update {v_table} set {v_ruta} ='{ruta}', id_tipo_material = {tipo_material} where {v_id_material}={id} AND id_actividad={id_actividad}")
@@ -68,7 +68,7 @@ def insert(id_tipo_material,ruta,id_sesion,id_usuario,id_actividad):
 
     connect.conexion1.commit()
     id = cursor1.lastrowid
-    print("id del dato ingresado: ",id)
+    #print("id del dato ingresado: ",id)
     return id
 
 def findByRuta(ruta_path):
@@ -87,4 +87,4 @@ def findByRuta(ruta_path):
 #deleteById(5)
 #update(1)
 #insert(3,'src/audioprueba.wav','',2,2,1)
-#print(v_lista_material)
+##print(v_lista_material)

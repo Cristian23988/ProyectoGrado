@@ -57,7 +57,7 @@ def findById(id):
 
 
 def findByExameneXActividad(id_actividad, id_sesion):
-    print(f"select * from {v_table}  where {v_id_sesion}={id_sesion} AND {v_id_actividad}={id_actividad}")
+    #print(f"select * from {v_table}  where {v_id_sesion}={id_sesion} AND {v_id_actividad}={id_actividad}")
     cursor1.execute(f"select * from {v_table}  where {v_id_sesion}={id_sesion} AND {v_id_actividad}={id_actividad}")
     v_lista_examen.clear()
     for fila in cursor1:
@@ -159,8 +159,8 @@ def findByRuta(ruta_path):
 #insert(29,7,'Descripcion','src',lista_preguntas)
 
 #insert('prof','prof',2)
-#print(rta)a
+##print(rta)a
 #findById(8)
 
 #findByExameneXActividad(29,10)
-#print(v_lista_preguntas)
+##print(v_lista_preguntas)
